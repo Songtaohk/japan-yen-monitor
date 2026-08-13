@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-08-12T14:38:00+00:00",
-  "generated_at_jst": "2026-08-12T23:38:00+09:00",
+  "generated_at_utc": "2026-08-13T16:13:14+00:00",
+  "generated_at_jst": "2026-08-14T01:13:14+09:00",
   "baseline": {
-    "note": "报告 v4 发布时的基准值",
+    "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
     "usdjpy": 159.4,
     "jgb10": 2.834,
@@ -17,81 +17,103 @@
   },
   "fields": {
     "usdjpy": {
-      "value": 159.4,
-      "as_of": "2026-08-12",
-      "source": "seed (Trading Economics)",
+      "value": 157.54,
+      "as_of": "2026-08-07",
+      "source": "FRED:DEXJPUS",
       "status": "ok",
-      "note": "首次运行 Action 后由 FRED:DEXJPUS 覆盖"
-    },
-    "jgb10": {
-      "value": 2.834,
-      "as_of": "2026-08-12",
-      "source": "seed (Trading Economics)",
-      "status": "ok",
-      "note": "首次运行后由 MOF jgbcm.csv 覆盖"
-    },
-    "jgb2": {
-      "value": 1.635,
-      "as_of": "2026-08-12",
-      "source": "seed (Investing.com)",
-      "status": "ok",
-      "note": ""
+      "note": "USD/JPY spot"
     },
     "ust10": {
-      "value": 4.72,
-      "as_of": "2026-08-10",
-      "source": "seed (Fed H.15)",
+      "value": 4.7,
+      "as_of": "2026-08-11",
+      "source": "FRED:DGS10",
       "status": "ok",
-      "note": ""
+      "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
-      "value": 4.25,
-      "as_of": "2026-08-10",
-      "source": "seed (Fed H.15)",
+      "value": 4.22,
+      "as_of": "2026-08-11",
+      "source": "FRED:DGS2",
       "status": "ok",
-      "note": ""
+      "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
-      "value": 5.25,
-      "as_of": "2026-08-10",
-      "source": "seed (Fed H.15)",
+      "value": 5.24,
+      "as_of": "2026-08-11",
+      "source": "FRED:DGS30",
       "status": "ok",
-      "note": ""
+      "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
       "value": 3.63,
-      "as_of": "2026-08-10",
-      "source": "seed (Fed H.15)",
+      "as_of": "2026-08-11",
+      "source": "FRED:DFF",
       "status": "ok",
-      "note": ""
-    },
-    "boj_rate": {
-      "value": 1.0,
-      "as_of": "2026-06-16",
-      "source": "seed (BOJ)",
-      "status": "ok",
-      "note": "FRED 的 OECD 序列为月均，可能与政策利率本身有差异"
+      "note": "Fed funds effective, %"
     },
     "reer": {
       "value": 65.3,
       "as_of": "2026-06-01",
-      "source": "seed (BIS via FRED RBJPBIS)",
+      "source": "FRED:RBJPBIS",
       "status": "ok",
-      "note": ""
+      "note": "Japan BIS real broad EER, 2020=100"
+    },
+    "boj_rate": {
+      "value": 0.841,
+      "as_of": "2026-06-01",
+      "source": "FRED:IRSTCI01JPM156N",
+      "status": "ok",
+      "note": "Japan immediate rate / call rate, %"
+    },
+    "jp_cpi_yoy": {
+      "value": 101.298,
+      "as_of": "2021-06-01",
+      "source": "FRED:JPNCPIALLMINMEI",
+      "status": "ok",
+      "note": "Japan CPI index (all items)"
+    },
+    "jgb2": {
+      "value": 1.646,
+      "as_of": "R8.8.12",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb10": {
+      "value": 2.856,
+      "as_of": "R8.8.12",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb30": {
+      "value": 3.989,
+      "as_of": "R8.8.12",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb40": {
+      "value": 3.987,
+      "as_of": "R8.8.12",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
     }
   },
   "derived": {
-    "spread10_pp": 1.886,
-    "spread2_pp": 2.615,
-    "spread_policy_pp": 2.63,
-    "hedge_cost_pp": 2.83,
-    "hedged_ust10_pct": 1.89,
-    "jgb_advantage_bp": 94.4,
-    "_hedge_note": "对冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.20pp。基差为假设值。"
+    "spread10_pp": 1.844,
+    "spread_policy_pp": 2.789,
+    "spread2_pp": 2.574,
+    "hedge_cost_pp": 2.989,
+    "hedged_ust10_pct": 1.711,
+    "jgb_advantage_bp": 114.5,
+    "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
-  "jp_core_cpi_yoy": 1.63,
-  "errors": [],
-  "ok_count": 9,
-  "stale_count": 0,
-  "_readme": "这是种子数据。首次运行 GitHub Action 后会被真实抓取值覆盖。"
+  "errors": [
+    "bop_cy: MOF BOP failed: no numeric BOP rows",
+    "bop_fy: MOF BOP failed: no numeric BOP rows"
+  ],
+  "ok_count": 12,
+  "stale_count": 0
 }
