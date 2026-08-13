@@ -1,0 +1,48 @@
+name: Refresh market data
+
+on:
+  schedule:
+    # 平日 07:30 UTC = 16:30 JST（东京收盘后、纽约开盘前）
+    # Weekdays 07:30 UTC = 16:30 JST, after the Tokyo close.
+    - cron: "30 7 * * 1-5"
+    # 平日 21:30 UTC = 翌 06:30 JST（纽约收盘后，抓到当日美债/汇率终值）
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch:        # 手动触发 / manual "Run workflow" button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch latest data
+        run: python scripts/refresh.py
+
+      - name: Show result
+        run: |
+          echo "--- data/latest.json ---"
+          python -c "import json;d=json.load(open('data/latest.json'));print('ok',d['ok_count'],'stale',d['stale_count']);[print(' ',e) for e in d['errors']]"
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- data/latest.json; then
+            echo "No change."
+          else
+            git add data/latest.json
+            git commit -m "data: refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi

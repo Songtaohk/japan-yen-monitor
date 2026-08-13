@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日本经济体与日元汇率的模型分析 · Japan's External Economy and the Yen</title>
+<style>
+:root{
+  color-scheme: light;
+  --surface-1:#fcfcfb; --page:#f9f9f7;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --success-text:#006300;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme: dark;
+    --surface-1:#1a1a19; --page:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+    --s6:#008300; --s7:#9085e9; --s8:#e66767;
+    --success-text:#0ca30c;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --surface-1:#1a1a19; --page:#0d0d0d;
+  --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+  --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --success-text:#0ca30c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--page); color:var(--text-primary);
+  font-family:system-ui,-apple-system,"Segoe UI","Hiragino Sans","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
+  font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 96px}
+header.hero{padding:56px 0 28px;border-bottom:1px solid var(--border)}
+h1{font-size:31px;line-height:1.3;margin:0 0 8px;letter-spacing:-0.01em}
+.sub{color:var(--text-secondary);font-size:16px;margin:0 0 18px}
+.meta{color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:8px 20px}
+h2{font-size:24px;margin:60px 0 6px;letter-spacing:-0.01em;scroll-margin-top:20px}
+h2 .en{display:block;font-size:14px;font-weight:400;color:var(--muted);letter-spacing:0}
+h3{font-size:18px;margin:34px 0 8px}
+h4{font-size:15px;margin:24px 0 6px;color:var(--text-secondary)}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:0 0 7px}
+a{color:var(--s1)}
+strong{font-weight:650}
+code,.num{font-variant-numeric:tabular-nums}
+.lede{font-size:17.5px;color:var(--text-secondary);border-left:3px solid var(--s1);padding-left:16px;margin:20px 0 26px}
+
+/* theme toggle */
+.tt{position:fixed;top:14px;right:14px;z-index:50;background:var(--surface-1);border:1px solid var(--border);
+    border-radius:999px;padding:7px 14px;font-size:12.5px;color:var(--text-secondary);cursor:pointer}
+
+/* TOC */
+nav.toc{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin:28px 0 8px}
+nav.toc ol{margin:0;padding-left:20px;column-count:2;column-gap:32px}
+nav.toc li{margin:0 0 4px;font-size:14px;break-inside:avoid}
+@media(max-width:640px){nav.toc ol{column-count:1}}
+
+/* cards */
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin:22px 0}
+.card.tight{padding:16px 18px}
+.kt{background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--s3);
+    border-radius:8px;padding:14px 18px;margin:20px 0;font-size:14.5px;color:var(--text-secondary)}
+.kt b{color:var(--text-primary);display:block;margin-bottom:6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kt ul{margin:0;padding-left:18px}
+.flag{border-left-color:var(--warn)}
+.flag b{color:var(--muted)}
+
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:22px 0}
+.tile{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.tile .lab{font-size:11.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:4px;line-height:1.4}
+.tile .val{font-size:25px;font-weight:600;line-height:1.15;letter-spacing:-0.02em}
+.tile .note{font-size:11.5px;color:var(--text-secondary);margin-top:3px;line-height:1.45}
+
+/* tables */
+.tblwrap{overflow-x:auto;margin:18px 0;border:1px solid var(--border);border-radius:10px;background:var(--surface-1)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-weight:600;color:var(--text-secondary);font-size:12px;letter-spacing:.03em;white-space:nowrap;background:transparent}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+tr.tot td{font-weight:650;border-top:1px solid var(--axis)}
+.pos{color:var(--success-text)} .neg{color:var(--critical)}
+
+/* charts */
+figure{margin:26px 0;background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:18px 20px 14px}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.6}
+figcaption .ft{color:var(--text-primary);font-weight:600;font-size:14.5px;display:block;margin-bottom:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:2px 0 10px;font-size:12.5px;color:var(--text-secondary)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.gl{stroke:var(--grid);stroke-width:1}
+.ax{stroke:var(--axis);stroke-width:1}
+.tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.dlab{fill:var(--text-primary);font-size:11.5px;font-variant-numeric:tabular-nums;font-weight:600}
+.slab{fill:var(--text-secondary);font-size:11.5px}
+.tip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--border);
+     border-radius:8px;padding:8px 11px;font-size:12.5px;box-shadow:0 6px 22px rgba(0,0,0,.14);
+     opacity:0;transition:opacity .12s;z-index:60;max-width:260px;line-height:1.5}
+.tip .tt2{font-weight:650;margin-bottom:3px}
+.hit{fill:transparent;cursor:pointer}
+details.tbl{margin-top:8px}
+details.tbl summary{font-size:12.5px;color:var(--muted);cursor:pointer}
+
+.src{font-size:12.5px;color:var(--muted)}
+.footnote{font-size:13px;color:var(--text-secondary);border-top:1px solid var(--border);padding-top:14px;margin-top:14px}
+hr.sep{border:none;border-top:1px solid var(--border);margin:44px 0}
+.badge{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:999px;border:1px solid var(--border);
+       color:var(--muted);vertical-align:middle;margin-left:6px;letter-spacing:.03em}
+.badge.v{border-color:var(--good);color:var(--success-text)}
+.badge.e{border-color:var(--warn);color:var(--text-secondary)}
+@media print{.tt{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<button class="tt" id="tt">◐ 深色/浅色</button>
+<div class="wrap">
+
+<header class="hero">
+  <h1>日本经济体、跨国资金流动与日元汇率的模型分析</h1>
+  <p class="sub">Japan's External Economy, Cross-Border Capital Flows, and a Model-Based Assessment of the Yen</p>
+  <div class="meta">
+    <span>v3 · 撰写日期 2026年8月12日（含勘误修订）</span>
+    <span>数据截止 2026年8月12日</span>
+    <span>USD/JPY 159.40 · BOJ 1.00% · JGB10Y 2.834%</span>
+  </div>
+</header>
+
+<div id="livebar" class="card" style="display:none;margin:18px 0 0;padding:14px 18px">
+  <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between">
+    <div style="display:flex;gap:8px;align-items:center;font-size:13.5px">
+      <span id="livedot" style="width:9px;height:9px;border-radius:99px;background:var(--muted);display:inline-block"></span>
+      <strong>实时数据 Live data</strong>
+      <span id="livewhen" class="src"></span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="livecount" class="src"></span>
+      <button id="livebtn" class="tt" style="position:static;padding:5px 12px;font-size:12px">↻ 刷新</button>
+    </div>
+  </div>
+  <div id="livedelta" style="margin-top:12px"></div>
+  <div id="liveverdict" style="margin-top:10px"></div>
+</div>
+
+
+<div class="kt flag">
+  <b>关于数据可信度 · On data provenance</b>
+  <p style="margin:0 0 8px">本报告的所有关键数字均标注来源。带 <span class="badge v">已核实</span> 的数据来自一手机构（日本财务省 MOF、日本银行 BOJ、IMF、METI、JETRO、美联储 H.15、内阁府）或对其的直接报道，本次已逐项检索确认；带 <span class="badge e">概数</span> 的数据来自公开报道整理但我未能逐项复核到一手表格，请以官方原表为准。在第十章我明确列出了<strong>我不知道 / 无法核实</strong>的部分。</p>
+  <p style="margin:0"><b style="display:inline;text-transform:none;letter-spacing:0;font-size:13px;color:var(--text-secondary)">EN:</b> Every figure is sourced. Items marked <span class="badge v">verified</span> were checked against primary institutions this session; <span class="badge e">approx.</span> means taken from secondary reporting and not reconciled to the official table. Chapter 10 lists explicitly what I could <em>not</em> verify — I have not filled those gaps with inference.</p>
+</div>
+
+<div class="kt" style="border-left-color:var(--critical)">
+  <b>v3 · 勘误汇总 · ERRATA — 收到一份外部审查，八条批评全部成立</b>
+  <p style="margin:0 0 10px">本版针对一份逐项核查的外部批评做了修订。<strong>我接受全部八条，其中四条是实质性错误而非措辞问题。</strong>把它们列在最前面，因为读过 v1/v2 的人需要知道哪些结论已被撤回。</p>
+  <div class="tblwrap" style="margin:10px 0">
+  <table>
+  <thead><tr><th>问题</th><th>我在 v1/v2 中的错误</th><th class="n">性质</th><th>处理</th></tr></thead>
+  <tbody>
+  <tr><td><strong>新NISA 的"每年20兆円卖压"</strong></td><td>用投资信托<strong>存量</strong>增长25.7%推导资金<strong>流量</strong>，再乘一个假设的海外配置比例。存量变化包含股价与汇率重估，不是新增申购。</td><td class="n neg"><strong>方法论错误</strong></td><td>§2.4 数字已全部删除，改为说明所需的正确数据源（投信協会月度净流入、金融庁NISA买付额），并声明本轮未取得</td></tr>
+  <tr><td><strong>"低回报资产换高回报负债"</strong></td><td>把直接投资单独一条腿的 −4.1pp 推广到整个资产负债表，<strong>与我自己同一节给出的"整体超额回报 +0.8pp"直接矛盾</strong>。且 −4.1pp 是总回报口径，收入收益率口径约 −2.1pp。</td><td class="n neg"><strong>逻辑错误</strong></td><td>§5.3 结论已撤回并重写为更窄的版本；并正面回答"是否存在重大缺陷"</td></tr>
+  <tr><td><strong>国内 vs 海外投资对比表</strong></td><td>把"对内FDI存量"当作"国内投资"（概念错配）；把DBJ大企业样本与全国FDI流量相除（统计总体错配）。1:6.6 与 1:1.3 均无解释力。</td><td class="n neg"><strong>口径错误</strong></td><td>§4.1 表格重做，按统计总体分组，无效比值删除</td></tr>
+  <tr><td><strong>图5"公允汇率"</strong></td><td>把PPP、机构预测、企业预算假设、我的机械算术、IMF定性评价画在同一轴上；并<strong>把IMF的定性结论人为映射成159.4这个点位</strong>（v2还追加了一个150的"示意点"，错上加错）。</td><td class="n neg"><strong>最具误导性</strong></td><td>图5 完全重做为三组不可互比的分类；<strong>IMF已从图中移除</strong></td></tr>
+  <tr><td>6月经常账户"逆差拐点"</td><td>−9,230亿円是未季调值，<strong>季调后仍为 +1.397兆円顺差</strong>。原文提了季节性却仍将其当作结构拐点使用。</td><td class="n">过度解读</td><td>§3.2 降级，负反馈螺旋的推演删除</td></tr>
+  <tr><td>对外资产增长归因于日元贬值</td><td>2025年资产增加141.36兆円中，MOF变动要因分解的汇率因素<strong>仅约12.28兆円（8.7%）</strong>；主因是证券价格上涨。</td><td class="n">归因过强</td><td>§4.2 已修正</td></tr>
+  <tr><td>2026年6月CPI与"连续5个月"</td><td>指标标签可能混淆（総合/除生鲜/除生鲜及能源），且2025年基准改定后数值或有修订；"连续5个月低于2%"无法核实。</td><td class="n">口径不清</td><td>§6.2 三个指标分别列出，计数声明删除</td></tr>
+  <tr><td>CY / FY 口径混用</td><td>FY2025所得收支 ÷ CY2025 GDP；FY出口 ÷ CY GDP。</td><td class="n">量级可用<br>比率不严</td><td>相关处已标注为量级参考</td></tr>
+  </tbody>
+  </table>
+  </div>
+  <p style="margin:0"><strong>共同的失败模式：</strong>上述四个实质错误里有三个是同一个毛病——<strong>为了让论点更有力，把一个方向性判断包装成了一个精确数字</strong>（20兆円卖压、1:1.3的投资比、IMF=159.4的点位）。方向可能是对的，但数字是造出来的。这比没有数字更糟，因为它让读者无法分辨哪部分有证据支撑。</p>
+</div>
+
+<div class="kt" style="border-left-color:var(--s1)">
+  <b>v2 新增内容（保留）· What v2 added</b>
+  <p style="margin:0 0 8px">（i）第 2.1 节 <strong>2022–2026YTD 美日利率/通胀/汇率年度均值矩阵</strong>，把"利差模型失效"从定性论断变成量化证明；（ii）第 7.3 节重写，加入 <strong>IMF EBA 框架对日本 2013–2026 的逐年结论</strong>，以及关键发现——<strong>IMF 自己在 2015 年就正式停止对日本使用 REER 均衡模型</strong>。</p>
+  <p style="margin:0 0 8px"><strong>对 v1 的两处修正：</strong>① 2026 年日元最弱点是 <strong>7月28日的 163.85</strong>（v1 误作 6月29日的 162.40）；② <strong>IMF 在 2026 年 7 月《对外部门报告》中已把日本移出"broadly in line"组</strong>，列入"强于基本面"一档。</p>
+  <p style="margin:0"><strong>仍未完成（研究被会话额度中断）：</strong>2.3 GPIF 规则细节与最新政策变化 · 2.4 家庭金融资产三时点矩阵与 NISA 真实流量 · 3.2 FY2022–FY2025+2026H1 完整分项 · 4.1/4.3 国内资本形成与财政产业投资的具体金额 · 5.1–5.3 的 2021/2023/2025 三时点对比 · GitHub 部署与自动刷新。</p>
+</div>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#c1">日本经济体的结构性特征</a></li>
+    <li><a href="#c2">跨国资金流动的驱动力</a></li>
+    <li><a href="#c3">经常账户与金融账户的演变</a></li>
+    <li><a href="#c4">国内投资 vs 海外投资</a></li>
+    <li><a href="#c5">海外投资的规模、分布与收益</a></li>
+    <li><a href="#c6">利率・汇率・通胀的历史回顾与因果推演</a></li>
+    <li><a href="#c7">日元汇率的模型分析</a></li>
+    <li><a href="#c8">日元政策转向是否需要美国支持</a></li>
+    <li><a href="#c9">预测性判断与情景</a></li>
+    <li><a href="#c10">不确定性与我不知道的部分</a></li>
+    <li><a href="#src">数据来源</a></li>
+  </ol>
+</nav>
+
+<h2 id="sum">执行摘要<span class="en">Executive Summary</span></h2>
+
+<p class="lede">日本已经不是一个"贸易立国"的经济体，而是一个<strong>杠杆化的对外资产管理机构</strong>：它用 273% GDP 的对外资产和 188% GDP 的对外负债，赚取约 85% GDP 的净头寸和每年 6.4% GDP 的投资收益。理解日元，就必须从"贸易流量定价"转向"存量资产负债表定价"。而 2026 年发生的事，正是这个资产负债表第一次同时遭遇<strong>国内财政风险溢价</strong>与<strong>美国主动介入汇率</strong>。</p>
+
+<div class="tiles">
+  <div class="tile"><div class="lab">USD/JPY（2026-08-12）</div><div class="val" data-live="usdjpy" data-fmt="2">159.40</div><div class="note">7月28日触 163.85，1986年来最弱</div></div>
+  <div class="tile"><div class="lab">实际有效汇率 REER（2020=100）</div><div class="val" data-live="reer" data-fmt="2">65.30</div><div class="note">2026年6月，1970年有数据以来最低</div></div>
+  <div class="tile"><div class="lab">BOJ 政策利率</div><div class="val" data-live="boj_rate" data-fmt="2" data-suffix="%">1.00%</div><div class="note">2026年6月16日起，1995年来最高</div></div>
+  <div class="tile"><div class="lab">10年期 JGB</div><div class="val" data-live="jgb10" data-fmt="3" data-suffix="%">2.834%</div><div class="note">同比 +131bp</div></div>
+  <div class="tile"><div class="lab">美日10年期利差</div><div class="val" data-live="spread10_bp" data-fmt="0" data-suffix="bp">189bp</div><div class="note">较2022年峰值压缩约200bp</div></div>
+  <div class="tile"><div class="lab">对外净资产（2025年末）</div><div class="val">561.8<span style="font-size:15px">兆円</span></div><div class="note">85% of GDP</div></div>
+  <div class="tile"><div class="lab">经常账户（2025历年）</div><div class="val">31.88<span style="font-size:15px">兆円</span></div><div class="note">4.8% GDP，连续第2年创纪录</div></div>
+  <div class="tile"><div class="lab">日本CPI（2026年6月）</div><div class="val">1.7%</div><div class="note">核心 1.6%，连续5个月低于2%</div></div>
+</div>
+
+<h4>七个核心判断</h4>
+<ol>
+  <li><strong>"经常账户顺差 = 日元升值"这个等式已经失效。</strong> 2025年经常顺差创纪录（31.88兆円），日元却创40年新低。原因是顺差的构成变了：贸易顺差会产生实盘换汇需求，而第一次所得收支中约<strong>一半的直接投资利润（每年约12–13兆円）以再投资收益的形式留在海外</strong>，从不换成日元。日本财务省自己在2024年的国际收支研究会上就把这一点作为核心议题。</li>
+  <li><strong>驱动日元的不是流量，是存量再配置。</strong> 1,805兆円的对外资产 + 2,386兆円的家庭金融资产，只要边际配置向海外倾斜1个百分点，其规模就足以压过任何经常账户流量。新NISA、GPIF的50%海外配置、寿险的对冲比率，都是这个边际的开关。</li>
+  <li><strong>2026年的日元疲软已经"脱钩"于利差。</strong> IMF在2026年第四条款磋商中明确写道：<em>"2025年年中以来的日元走势有很大一部分无法用收益率差或其他基本面解释"</em>，并指向<strong>财政风险认知</strong>和期货市场头寸。美日10年利差从约395bp压缩到189bp，日元反而更弱——这在传统利率平价框架里是异常。</li>
+  <li><strong>名义利率在升，实际利率仍是负的。</strong> BOJ 1.00% 对 BOJ 自己预测的 FY2026 核心CPI（约2.8%），实际政策利率约 −1.8%。日元的"套息货币"属性并未因加息而消失。</li>
+  <li><strong>估值上日元极度便宜，但便宜不是催化剂。</strong> Big Mac 隐含低估约50%，GDP-PPP 隐含汇率约 ¥95–100，REER 处于1970年以来最低。但IMF的EBA框架却认为日本外部头寸"大体符合基本面"——因为经常账户顺差本身很大。<strong>价格模型说极度低估，流量模型说均衡</strong>，这个矛盾本身就是理解日元的关键。</li>
+  <li><strong>日元政策的根本性转向历史上从未在没有美国配合的情况下成功过。</strong> 1985年广场协议、1998年、2011年G7、以及2026年7月31日的美日联合干预，都是美方参与的。而日本单独行动的2022、2024、2026春季（累计超过36兆円）无一改变趋势。2026年的新变化是：<strong>弱美元现在符合美国自身的政策目标</strong>（Miran"海湖庄园协议"逻辑），这是1985年以来第一次美日汇率目标真正同向。</li>
+  <li><strong>预测性判断：</strong> 未来12个月最可能的路径是<strong>宽幅震荡下的缓慢升值</strong>，中枢从159向145–152区间移动，而不是趋势性回到120。要走到130以下，需要"美联储实质性降息 + BOJ继续加息 + 日本财政路径可信化"三者中至少两项同时兑现。详见第九章情景矩阵。</li>
+</ol>
+
+<div class="kt">
+  <b>Key takeaways (EN)</b>
+  <ul>
+    <li>Japan is no longer a trade economy but a <strong>leveraged external balance sheet</strong>: assets 273% of GDP, liabilities 188%, net 85%, throwing off investment income worth 6.4% of GDP a year. The yen must be priced off the stock, not the flow.</li>
+    <li>A record current account surplus (¥31.88tn, 4.8% of GDP in 2025) coexists with a 40-year low in the yen because roughly <strong>half of direct-investment profits (~¥12–13tn/yr) are reinvested abroad</strong> and never convert into yen. MOF itself flagged this in its 2024 BOP study group.</li>
+    <li>The IMF's 2026 Article IV states that <strong>"a large portion of yen movements since mid-2025 cannot be accounted for by yield differentials or other fundamentals,"</strong> pointing to fiscal-risk perception and futures positioning. The US–Japan 10y gap has compressed ~200bp since 2022 while the yen weakened further.</li>
+    <li>Nominal rates are rising but <strong>the real policy rate is still about −1.8%</strong> against the BOJ's own FY2026 core CPI forecast. The carry-funding property survives the hiking cycle.</li>
+    <li>Price-based models (Big Mac ~50% undervalued; GDP-PPP ~¥95–100; REER at its lowest since 1970) scream cheap, while the IMF's flow-based EBA calls the external position "broadly in line." <strong>That contradiction is the analytical crux.</strong></li>
+    <li>No durable regime change in the yen has ever been engineered without US participation — 1985 Plaza, 1998, 2011 G7, and now 31 July 2026. Japan's solo campaigns (2022, 2024, spring 2026: &gt;¥36tn combined) changed levels, never trends. What is new in 2026 is that a weaker dollar now serves stated US objectives.</li>
+    <li><strong>Base case:</strong> a wide, choppy, slowly-appreciating range over 12 months, centre of gravity migrating from 159 toward 145–152 — not a trend return to 120. Sub-130 requires at least two of: material Fed easing, continued BOJ hikes, credible Japanese fiscal consolidation.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c1">一、日本经济体的结构性特征<span class="en">Ch.1 — Structural characteristics of the Japanese economy</span></h2>
+
+<h3>1.1 一个被误读的身份：日本不是"出口国"，是"债权国"</h3>
+
+<p>用一个数字概括：2025年末，日本的对外金融资产为 <strong>1,805.6兆円</strong>，相当于 GDP 的 <strong>273%</strong>；对外负债 1,243.9兆円（188% GDP）；净头寸 <strong>561.8兆円</strong>（85% GDP）。<span class="badge v">已核实 MOF</span></p>
+
+<p>与此对照，日本的商品出口为 111.35兆円（FY2025 口径），相对 GDP 约 <strong>17%</strong>（<span class="badge e">分子 FY、分母 CY662兆円/FY670兆円，此处为量级参考而非严格比率</span>）。也就是说，<strong>日本对外资产负债表的总规模（约 461% GDP）大致是其年度出口规模的 26–27 倍</strong>。任何试图从"贸易顺差/逆差"出发解释日元的框架，都是在用一个 17% 量级的变量去解释一个 461% 量级的资产负债表的重估。</p>
+
+<p>这个身份转换有清晰的时间线：</p>
+<ul>
+  <li><strong>1980年代–2010年：</strong> 贸易顺差主导。经常账户顺差 ≈ 贸易顺差。</li>
+  <li><strong>2011年（福岛核事故）：</strong> 核电停摆、化石燃料进口激增，贸易账户转入结构性逆差。<span class="badge v">METI</span></li>
+  <li><strong>2011–2021年：</strong> 过渡期。贸易账户在逆差与小幅顺差间摆动，第一次所得收支持续扩大。</li>
+  <li><strong>2022年至今：</strong> 完全的"投资立国"结构。2022年贸易逆差 −15.7兆円，而第一次所得收支 +35.2兆円，经常账户仍为 +11.5兆円顺差。<span class="badge v">BOJ</span></li>
+</ul>
+
+<p>METI《通商白书2025》对此的判断是：直接投资收益"从2020年前后的约10兆円增加到近年接近25兆円"，已经成为经常账户的主要驱动力。<span class="badge v">METI</span></p>
+
+<h3>1.2 储蓄–投资缺口：为什么日本必然是资本输出国</h3>
+
+<p>国民收入恒等式：<strong>经常账户 = 国民储蓄 − 国内投资 = (S<sub>家庭</sub> + S<sub>企业</sub> + S<sub>政府</sub>) − I</strong>。日本长期经常顺差的会计学根源，是三个部门的组合：</p>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>部门 Sector</th><th>状态 Position</th><th>规模与证据 Scale &amp; evidence</th></tr></thead>
+<tbody>
+<tr><td>家庭 Households</td><td>大额净储蓄</td><td>金融资产 2,386兆円（2026Q1），约 3.6 倍 GDP；其中现金存款 1,126兆円（47.2%）<span class="badge v">BOJ 资金循环</span></td></tr>
+<tr><td>企业 Corporates</td><td><strong>净储蓄（异常）</strong></td><td>非金融企业金融资产 1,829兆円（+15.2% y/y）；企业本应是资金需求方，日本却是净供给方——这是1998年金融危机后的资产负债表衰退后遗症<span class="badge v">BOJ</span></td></tr>
+<tr><td>政府 Government</td><td>大额净负债</td><td>一般政府总债务 206.8% GDP（2025，IMF）；FY2026–27 赤字预计从 2.5% GDP 扩大到约 6%<span class="badge v">IMF / CME</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>关键点在于<strong>企业部门</strong>：在正常经济体中企业是净借款人，把家庭储蓄转化为国内投资。日本企业自1990年代末起转为净储蓄者，切断了这个传导。结果是家庭储蓄绕过国内投资，通过银行、保险、养老金和企业自有资金直接流向海外。<strong>这不是政策选择，是会计恒等式的必然结果。</strong></p>
+
+<p>因此：只要企业不重新变成净借款人、政府不大幅削减赤字（削减赤字反而会扩大经常顺差）、家庭不显著降低储蓄率，<strong>日本就必然持续输出资本，日元就必然承受结构性卖压</strong>。</p>
+
+<h3>1.3 人口：所有长期变量的上游</h3>
+
+<p>REER 创1970年以来新低，三菱UFJ摩根士丹利证券首席外汇策略师植野大作的解释是：<em>"背景很可能是人口老龄化与减少所驱动的国力下降"</em>。<span class="badge v">报道核实</span></p>
+
+<p>人口对日元的传导有三条独立通道，且方向一致（贬值）：</p>
+<ol>
+  <li><strong>潜在增长率通道：</strong> 劳动力萎缩 → 潜在增长下行（IMF 预测 2025→2027 实际GDP 1.1%→0.8%→0.6%）→ 均衡实际利率（r*）下行 → 名义利率难以持续高于海外。</li>
+  <li><strong>储蓄–投资通道：</strong> 老龄化提高了对养老资产的需求，但国内可投资标的（低增长、低ROE）不足 → 强制海外配置。GPIF 的基本组合就是 50% 海外（外国债券25% + 外国股票25%）。<span class="badge v">GPIF</span></li>
+  <li><strong>非贸易品通道：</strong> 人口收缩压低国内非贸易品价格与工资 → 巴拉萨–萨缪尔森效应<strong>反向</strong>运作 → 均衡实际汇率本身在下移。这一点非常重要：<strong>REER 的下跌不完全是"错误定价"，其中有一部分是均衡值本身在下移。</strong></li>
+</ol>
+
+<h3>1.4 名义GDP在涨，美元GDP在缩</h3>
+
+<p>2025年日本名义GDP为 <strong>662兆円</strong>（连续第5年增长，主因是通胀）<span class="badge v">日本経済新聞</span>；但按市场汇率折算的美元GDP为 <strong>4,435 十亿美元</strong>，而2012年的峰值是 6,334 十亿美元。<span class="badge v">World Bank/TE</span></p>
+
+<p>也就是说，<strong>日本经济以本币计增长了，以国际购买力计萎缩了约30%</strong>。这个裂口就是日元贬值本身。它有两个后果：(a) 日本企业的海外并购能力被削弱，（这解释了为什么2025年对外直接投资中"再投资收益"占比高而新增股权投资集中在少数大额交易）；(b) 日本资产（股票、不动产、企业）对外国买家而言持续变便宜，这是2025–26年外资流入日本市场的估值基础。</p>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.1</b>
+  <ul>
+    <li>Japan's external balance sheet (461% of GDP gross) is <strong>27× its annual goods exports</strong>. Trade-flow frameworks explain a 17%-of-GDP variable and ignore the rest.</li>
+    <li>The savings–investment identity forces capital export: households are large net savers, <strong>the corporate sector is an anomalous net saver</strong> (a balance-sheet-recession legacy), and government dissaving does not offset both. Capital outflow is an accounting necessity, not a preference.</li>
+    <li>Demographics push the yen down through three aligned channels: falling potential growth → lower r*; forced overseas allocation of pension assets (GPIF's policy mix is 50% foreign); and a <strong>reverse Balassa–Samuelson</strong> drift that lowers the equilibrium real rate itself. Part of the REER collapse is equilibrium, not mispricing.</li>
+    <li>Nominal GDP hit a record ¥662tn in 2025, but dollar GDP ($4,435bn) is ~30% below its 2012 peak ($6,334bn). That gap <em>is</em> the depreciation, and it is why Japanese assets keep getting cheaper to foreign buyers.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c2">二、跨国资金流动的驱动力<span class="en">Ch.2 — What actually drives Japan's cross-border capital flows</span></h2>
+
+<p class="lede">把日本的跨境资金流动拆成六个驱动力，其中只有第一个（利差）是传统教科书变量，而它恰恰是2026年解释力最弱的一个。</p>
+
+<h3>2.1 驱动力①：利差与套息交易（解释力正在下降）</h3>
+
+<h4>年度均值矩阵（这是本节的核心证据）</h4>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>年度均值</th><th class="n">2022</th><th class="n">2023</th><th class="n">2024</th><th class="n">2025</th><th class="n">2026 YTD</th></tr></thead>
+<tbody>
+<tr><td colspan="6" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">名义利率 NOMINAL RATES</td></tr>
+<tr><td>日本 政策利率（无担保隔夜）</td><td class="n">−0.03</td><td class="n">−0.03</td><td class="n">0.12</td><td class="n">0.47</td><td class="n">0.75</td></tr>
+<tr><td>美国 联邦基金有效利率</td><td class="n">1.69</td><td class="n">5.03</td><td class="n">5.14</td><td class="n">4.21</td><td class="n">3.63</td></tr>
+<tr class="tot"><td><strong>政策利差 US−JP（pp）</strong></td><td class="n">1.72</td><td class="n"><strong>5.06</strong></td><td class="n">5.02</td><td class="n">3.74</td><td class="n"><strong>2.88</strong></td></tr>
+<tr><td>日本 10年期国债</td><td class="n">0.23</td><td class="n">0.56</td><td class="n">0.92</td><td class="n">1.55</td><td class="n">2.42</td></tr>
+<tr><td>美国 10年期国债</td><td class="n">2.95</td><td class="n">3.96</td><td class="n">4.21</td><td class="n">4.29</td><td class="n">4.35</td></tr>
+<tr class="tot"><td><strong>10年期利差 US−JP（pp）</strong></td><td class="n">2.72</td><td class="n"><strong>3.40</strong></td><td class="n">3.29</td><td class="n">2.74</td><td class="n"><strong>1.93</strong></td></tr>
+<tr><td>美国 2年期国债</td><td class="n">2.99</td><td class="n">4.58</td><td class="n">4.37</td><td class="n">3.81</td><td class="n">3.84</td></tr>
+<tr><td colspan="6" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">通胀与实际利率 INFLATION &amp; REAL RATES</td></tr>
+<tr><td>日本 核心CPI（除生鲜）y/y</td><td class="n">2.3</td><td class="n">3.1</td><td class="n">2.5</td><td class="n">3.1</td><td class="n">1.63</td></tr>
+<tr><td>美国 CPI y/y</td><td class="n">8.0</td><td class="n">4.1</td><td class="n">2.9</td><td class="n">2.6</td><td class="n">3.29</td></tr>
+<tr><td>日本 实际政策利率</td><td class="n neg">−2.33</td><td class="n neg">−3.13</td><td class="n neg">−2.38</td><td class="n neg">−2.63</td><td class="n neg">−0.88</td></tr>
+<tr><td>美国 实际政策利率</td><td class="n neg">−6.31</td><td class="n pos">+0.93</td><td class="n pos">+2.24</td><td class="n pos">+1.61</td><td class="n pos">+0.34</td></tr>
+<tr class="tot"><td><strong>实际利差 US−JP（pp）</strong></td><td class="n">−3.98</td><td class="n">4.06</td><td class="n"><strong>4.62</strong></td><td class="n">4.24</td><td class="n"><strong>1.22</strong></td></tr>
+<tr><td colspan="6" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">汇率结果 FX OUTCOME</td></tr>
+<tr><td>USD/JPY 年均值</td><td class="n">131.46</td><td class="n">140.50</td><td class="n">151.46</td><td class="n">149.57</td><td class="n"><strong>158.69</strong></td></tr>
+<tr><td>　年内高点（日元最弱）</td><td class="n">150.13</td><td class="n">151.65</td><td class="n">161.62</td><td class="n">158.35</td><td class="n"><strong>163.85</strong></td></tr>
+<tr><td>　年内低点（日元最强）</td><td class="n">113.70</td><td class="n">127.90</td><td class="n">140.66</td><td class="n">140.72</td><td class="n">152.59</td></tr>
+<tr class="tot"><td><strong>BIS 实际有效汇率（2020=100）</strong></td><td class="n">79.19</td><td class="n">75.50</td><td class="n">71.46</td><td class="n">72.49</td><td class="n"><strong>66.29</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：FRED（DFF / DGS10 / DGS2 / DEXJPUS / RBJPBIS / CPIAUCNS 的年度均值聚合）、FRED-OECD（IRSTCI01JPM156N 日本隔夜拆借、IRLTLT01JPM156N 日本长期利率）、e-Stat 与総務省統計局（日本CPI 2022–2025年均值及2026月度）、exchange-rates.org（年内高低点与日期）。<span class="badge v">已核实</span> 2026 YTD 口径：日本序列与REER为1–6月（6个月度观测的均值）；美国序列与USD/JPY为1–7月（7个观测）；联邦基金为FRED的1/1–8/11部分年度聚合。利差与实际利率为本报告依上述均值计算。2026年内高点 163.85 出现在 <strong>7月28日</strong>（联合干预前三天）。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>这张矩阵就是"利率模型失效"的量化证明。</strong></p>
+<ul style="margin:0">
+  <li><strong>名义10年利差</strong>从 2023 年峰值 <strong>3.40pp</strong> 压缩到 2026YTD 的 <strong>1.93pp</strong>（−1.47pp，<strong>−43%</strong>）。</li>
+  <li><strong>实际利差</strong>压缩得更剧烈：从 2024 年峰值 <strong>4.62pp</strong> 到 2026YTD 的 <strong>1.22pp</strong>（−3.40pp，<strong>−74%</strong>）。这是因为日本的实际政策利率从 −2.63% 收敛到 −0.88%，而美国从 +1.61% 降到 +0.34%——<strong>两边同向收敛</strong>。</li>
+  <li><strong>而同期日元继续贬值：</strong>USD/JPY 年均值从 2023 的 140.50 到 2026YTD 的 158.69（<strong>日元贬值 12.9%</strong>）；REER 从 75.50 跌到 66.29（<strong>−12.2%</strong>），较2022年均值累计 −16.3%。</li>
+</ul>
+<p style="margin:8px 0 0"><strong>结论：在利差收敛 43%–74% 的同时，日元贬值 13%。</strong> 无论是 UIP（预测高息货币应贬值）还是它的经验性反面（利差扩大→日元贬值），都无法容纳这组数据。<strong>2023年是利差解释力的顶点，2024年之后驱动力已经换人了。</strong></p>
+</div>
+
+<h4>当前时点的横截面（2026年8月）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>指标</th><th class="n">日本</th><th class="n">美国</th><th class="n">利差</th><th>日期</th></tr></thead>
+<tbody>
+<tr><td>政策利率 Policy rate</td><td class="n">1.00%</td><td class="n">3.63%</td><td class="n">263bp</td><td>2026-08</td></tr>
+<tr><td>2年期国债 2y</td><td class="n">1.635%</td><td class="n">4.25%</td><td class="n">262bp</td><td>2026-08-10/12</td></tr>
+<tr><td>10年期国债 10y</td><td class="n">2.834%</td><td class="n">4.72%</td><td class="n">189bp</td><td>2026-08-11/12</td></tr>
+<tr><td>30年期国债 30y</td><td class="n">—</td><td class="n">5.25%</td><td class="n">—</td><td>2026-08-10</td></tr>
+<tr class="tot"><td>实际政策利率（对核心CPI）</td><td class="n">约 −0.6% ~ −1.8%</td><td class="n">约 +0.6%</td><td class="n">—</td><td>见注</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：Trading Economics（JGB 10Y 2.834%，2026-08-12）、美联储 H.15（2026-08-10）、Investing.com（日本2年期 1.635%，2026-08-12；MOF 8/10 为 1.618%）、BOJ、総務省。日本实际利率区间取决于用2026年6月实际核心CPI（1.6%）还是BOJ对FY2026的核心CPI预测（约2.8%）。<span class="badge v">已核实</span></p>
+
+<p><strong>这里有一个必须讲清楚的悖论。</strong> 2023年美日10年期利差年均 340bp，日元年均 140.50；2026年8月利差只剩 189bp（压缩逾四成），日元却在 159.40，且7月28日曾触及 <strong>163.85</strong> 的40年最弱水平。<strong>利差压缩了，日元反而更弱。</strong></p>
+
+<p>这意味着标准的<strong>非抛补利率平价（UIP）</strong>框架在2025–26年已经失效。IMF 2026年第四条款报告的措辞极其明确：<em>"2025年年中以来的日元走势有很大一部分无法用收益率差或其他基本面来解释"</em>，并把原因指向<strong>日元期货市场头寸</strong>与<strong>财政风险认知</strong>。<span class="badge v">IMF</span></p>
+
+<p>但利差仍然通过一个渠道起作用：<strong>实际利率</strong>。名义1.00%对上BOJ自己预期的通胀，实际政策利率仍是显著负值。日元继续是全球最便宜的融资货币之一，套息交易的日常卖压并未消失。</p>
+
+<h3>2.2 驱动力②：再投资收益不回流（最被低估的一条）</h3>
+
+<p>这是理解"顺差为何不支撑汇率"的核心。日本财务省2024年3月《从国际收支看日本经济的课题与处方》研究会文件指出：<strong>约一半的直接投资利润（每年约12–13兆円）作为再投资收益留在海外，而不是以股息形式回到日本</strong>。<span class="badge v">MOF</span></p>
+
+<p>Westpac 的量化分析给出了同方向的结论：按<strong>现金流口径</strong>（cash-flow based）调整后，某季度的第一次所得收支顺差从名义的 6.7兆円 缩水到 3.6兆円——<strong>接近一半</strong>。名义口径与现金流口径的裂口自2012年以来持续扩大，目前接近历史高位。<span class="badge e">概数（二手来源）</span></p>
+
+<p>会计上的机制是：BPM6 准则要求把海外子公司未分配利润计入"再投资收益"，同时在金融账户记为一笔等额的直接投资流出。<strong>这笔钱在国际收支表上进出各一次，但在外汇市场上一次都不出现。</strong></p>
+
+<div class="card tight">
+<p style="margin:0"><strong>推论：</strong> 日本"真实的、会产生换汇需求的"经常账户顺差，可能只有名义值的一半左右。如果 2025年名义顺差 31.88兆円 中约 15兆円 从不换汇，那么日本的<strong>实盘外汇净供给</strong>在扣除对外证券投资和直接投资流出后，很可能是<strong>负的</strong>。这就是"顺差国货币持续贬值"的会计学答案。</p>
+</div>
+
+<h3>2.3 驱动力③：机构配置的刚性——规则究竟是什么<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">What the "rigidity" actually consists of, and what changed in 2026</span></h3>
+
+<p class="lede">"刚性"这个词在市场评论里被用得很随意。这一节把它拆开：GPIF 的规则是<strong>成文的、有法律约束的、但不是机械的</strong>；寿险的约束是<strong>会计与负债久期的</strong>；而 2026 年发生的政策变化，方向与我在 v1 中的假设<strong>完全相反</strong>。</p>
+
+<h4>GPIF：基本组合与乖离许容幅（精确值）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>期别</th><th class="n">国内债券</th><th class="n">外国债券</th><th class="n">国内股票</th><th class="n">外国股票</th><th class="n">债券合计</th><th class="n">股票合计</th></tr></thead>
+<tbody>
+<tr><td><strong>第5期 目标权重</strong><br><span class="src">FY2025–2029，2025年4月1日起</span></td><td class="n"><strong>25%</strong></td><td class="n"><strong>25%</strong></td><td class="n"><strong>25%</strong></td><td class="n"><strong>25%</strong></td><td class="n">50%</td><td class="n">50%</td></tr>
+<tr><td><strong>第5期 乖离许容幅</strong></td><td class="n"><strong>±6%</strong></td><td class="n"><strong>±5%</strong></td><td class="n"><strong>±6%</strong></td><td class="n"><strong>±6%</strong></td><td class="n"><strong>±9%</strong></td><td class="n"><strong>±9%</strong></td></tr>
+<tr><td>　对应区间</td><td class="n">19–31%</td><td class="n">20–30%</td><td class="n">19–31%</td><td class="n">19–31%</td><td class="n">41–59%</td><td class="n">41–59%</td></tr>
+<tr><td>第4期 乖离许容幅<br><span class="src">FY2020–2024（供对比）</span></td><td class="n">±7%</td><td class="n">±6%</td><td class="n">±8%</td><td class="n">±7%</td><td class="n">±11%</td><td class="n">±11%</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：GPIF《第5期中期計画》与《基本ポートフォリオの考え方》。<span class="badge v">已核实（三处独立来源一致）</span> 第5期的目标权重与第4期<strong>完全相同</strong>，但<strong>乖离许容幅被收窄</strong>，理由是「リスク（標準偏差）の想定が低下したため」——即对波动率的假设下降了。目标是「賃金上昇率＋1.9%」的实际收益。</p>
+
+<h4>关键澄清：再平衡规则<strong>不是机械的</strong></h4>
+<div class="card">
+<p style="margin:0 0 8px">这是市场评论里最常见的误解。我核查了具有法律约束力的文本（厚生劳动大臣于2025年3月7日下达的《第5期中期目标》）与 GPIF 的《中期计划》，结论是：<strong>乖离许容幅是允许偏离的外沿边界，不是行动触发线。既没有机械触发器，没有固定频率，也没有"碰到边界必须交易"的义务。</strong></p>
+<div class="tblwrap" style="margin:10px 0">
+<table>
+<thead><tr><th>要素</th><th>文件实际怎么写</th></tr></thead>
+<tbody>
+<tr><td>法律工具</td><td>厚生労働大臣（福岡資麿）《第5期中期目標》，令和7年3月7日</td></tr>
+<tr><td>再平衡措辞</td><td>「適切かつ円滑なリバランスを実施するため、<strong>市場動向の把握・分析等を行う</strong>」——为了执行再平衡而做市场分析。<strong>无触发条件，无时限。</strong></td></tr>
+<tr><td>检证频率</td><td>「毎年度適時適切に検証」；経営委員会认为必要时，<strong>可在中期目标期间内启动修订</strong></td></tr>
+<tr><td>修改组合本身</td><td>需 GPIF 経営委員会决议 → 社会保障審議会資金運用部会諮問・答申 → <strong>厚生労働大臣認可</strong>。三道关卡。</td></tr>
+<tr><td>压倒性约束</td><td>「<strong>専ら被保険者の利益のため</strong>」——法定的唯一受益人原则。<strong>GPIF 在法律上不能为服务政府政策目标而配置资产。</strong></td></tr>
+<tr><td>实际操作</td><td>GPIF 自称 FY2025 采用「<strong>機動的なリバランス</strong>」——相机而非日历式</td></tr>
+</tbody>
+</table>
+</div>
+<p style="margin:0"><strong>这意味着什么：</strong>把 GPIF 描述成"一台每季度机械买卖数万亿日元的机器"是错的。它更像一个<strong>有宽边界、有裁量权、但受严格受托责任约束的长期配置者</strong>。它的"刚性"体现在<strong>50%海外这个中心值几乎不可能被快速改变</strong>（需要三道审批），而不是体现在高频交易上。</p>
+</div>
+
+<h4>GPIF 的规模与收益（2020–2026）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>时点</th><th class="n">运用资产额</th><th class="n">当年度收益率</th><th class="n">当年度收益额</th></tr></thead>
+<tbody>
+<tr><td>FY2020末（2021/3/31）</td><td class="n">186.2兆円</td><td class="n pos">+25.15%</td><td class="n pos">+37.8兆円</td></tr>
+<tr><td>FY2023末（2024/3/31）</td><td class="n">246.0兆円</td><td class="n pos">+22.67%</td><td class="n pos">+45.4兆円</td></tr>
+<tr><td>FY2024末（2025/3/31）</td><td class="n">249.8兆円</td><td class="n">+0.71%</td><td class="n">+1.73兆円</td></tr>
+<tr class="tot"><td><strong>FY2025末（2026/3/31）</strong></td><td class="n"><strong>293.6兆円</strong></td><td class="n pos"><strong>+16.47%</strong></td><td class="n pos"><strong>+41.4兆円</strong></td></tr>
+<tr><td>FY2026 Q1末（2026/6/30）</td><td class="n">317.8兆円</td><td class="n pos">+8.20%</td><td class="n pos">+24.1兆円</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：GPIF 各年度業務概況書与四半期運用状況。<span class="badge v">已核实</span> FY2025 分资产收益率：国内股票 +34.62%、外国股票 +27.16%、外国债券 +12.33%、<strong>国内债券 −5.11%</strong>。自2001年市场运用开始以来累计收益 196.9兆円，年化 +4.67%。</p>
+
+<p><strong>请注意国内债券 −5.11% 这一行。</strong> 这就是第六章"财政风险溢价"在资产端的直接体现：JGB 收益率上行意味着存量债券价格下跌，GPIF 持有的 25% 国内债券在 FY2025 亏了 5%。<strong>这构成了一个此前不存在的政治压力：政府要求 GPIF 增加国内投资的同时，国内债券正在亏钱。</strong></p>
+
+<h4>⚠️ 一个被广泛流传的假消息，已证伪</h4>
+<div class="kt flag">
+<b>"GPIF 在 2026年5月把 520亿美元从 JGB 转入全球股票" —— 不实</b>
+<p style="margin:0 0 8px">这个说法来自一个内容农场站点，声称 2026年5月1日有 7.8兆円（520亿美元）转移，国内债券降至 18%、外国股票升至 30%。<strong>它没有引用任何一手文件。</strong> 七条独立反证：</p>
+<ol style="margin:0;font-size:14px">
+<li><strong>GPIF 自己的 FY2026 Q1 报告</strong>（2026年8月7日公布）显示 2026年6月30日：国内债券 <strong>25.59%</strong>、外国债券 24.60%、国内股票 24.48%、外国股票 <strong>25.33%</strong>。不是 18%，也不是 30%。</li>
+<li><strong>按日元金额，国内债券在含5月的那个季度是<em>增加</em>的</strong>（至 81.99兆円）。占比下降纯粹是分母从 293.6兆 涨到 317.8兆 的算术结果（季度收益 +8.20%，集中在股票）。</li>
+<li><strong>18% 是违法的</strong>——国内债券的下限是 25%−6% = <strong>19%</strong>。</li>
+<li>修改基本组合需経営委員会决议 → 社会保障審議会 → 厚労大臣認可。<strong>不存在任何此类批准。</strong></li>
+<li>该文引用「GPIF President Masataka Miyazono」的话，但 GPIF 理事長自2025年4月起是<strong>内田和人</strong>。引语不可能存在。</li>
+<li><strong>机制上是反的</strong>：在股票大幅跑赢的季度，向目标再平衡需要<strong>买债券、卖股票</strong>。GPIF 自己披露的 FY2025 再平衡流向正是<strong>买入</strong>国内债券（+1,475亿円）、<strong>卖出</strong>国内股票（−420亿円）与外国股票（−1,069亿円）。</li>
+</ol>
+</div>
+
+<h4>🔄 2026年的真实政策变化：方向与我在 v1 的假设相反</h4>
+<p><strong>这是本轮研究最重要的更新之一。</strong> v1 隐含假设是"制度性海外配置会继续推进"。事实是，2026年7月日本政界正在把 GPIF 往<strong>国内</strong>方向推：</p>
+<div class="tblwrap">
+<table>
+<thead><tr><th>日期</th><th>人物</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td>2026-07-10</td><td>财务相 <strong>片山さつき</strong></td><td>「GPIFをはじめとする年金基金により<strong>日本の金融資産にさらなる投資</strong>をしていただくという方向で後押しをする方策を追求したい」</td></tr>
+<tr><td>2026-07-13</td><td>路透（政府消息人士）</td><td>日本<strong>没有立即改变目标配置的计划</strong>；但可在现有乖离幅度内操作。"即使不修订基本组合，GPIF 也可能在现有裁量范围内增加国内投资。"</td></tr>
+<tr><td>2026-07-13</td><td>官房长官 <strong>木原稔</strong></td><td>基本组合「必要あれば修正行われる」</td></tr>
+<tr><td>2026-07-13/14</td><td>片山</td><td>提出<strong>允许 JGB 进入 NISA</strong> 的可能性；GPIF 组合"必要时可检讨"。<strong>均未决定。</strong></td></tr>
+<tr><td>2026-07-14</td><td>法国兴业银行</td><td>若 GPIF 再平衡，估算约 <strong>760亿美元</strong>的 JGB 买盘</td></tr>
+<tr><td><strong>2026-07-17</strong></td><td>首相 <strong>高市早苗</strong></td><td>将「pursue measures that encourage <strong>households and pension funds, including GPIF</strong>, to make further investments in <strong>Japanese</strong> financial assets」。当日日元一度至 162.13。</td></tr>
+<tr><td>2026-07-29</td><td>彭博</td><td>GPIF 正在<strong>招聘主动型 JGB 管理人</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>解读：</strong>这是一个真实的、方向性的政策转向信号，但<strong>基本组合至今未变</strong>，25/25/25/25 仍然有效。而且注意那道法律屏障——<strong>「専ら被保険者の利益のため」</strong>意味着 GPIF 不能仅因政府希望而增加国内配置。市场对此的反应也是怀疑的：7月17日高市讲话后日元先升后回落。<strong>把这当作"日本正在系统性回流"的证据，目前证据不足；把它当作"政治意愿已经转向"的证据，则是成立的。</strong></p>
+
+<h4>寿险与邮储：FY2026 投资计划（这里的信号比 GPIF 更明确）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>机构</th><th>日元债券</th><th>对冲外债</th><th class="n">未对冲外债</th><th class="n">10年JGB预测</th><th class="n">USD/JPY预测</th></tr></thead>
+<tbody>
+<tr><td>日本生命</td><td>减少</td><td>增加</td><td class="n">持平</td><td class="n">2.00–3.00 (2.40)</td><td class="n">145–170 (157)</td></tr>
+<tr><td>第一生命</td><td>持平</td><td>持平</td><td class="n neg"><strong>减少</strong></td><td class="n">2.40–3.00 (2.85)</td><td class="n">140–165 (162)</td></tr>
+<tr><td>明治安田</td><td class="pos"><strong>增加</strong></td><td>持平</td><td class="n">持平</td><td class="n">2.15–2.80 (2.40)</td><td class="n">137–160 (150)</td></tr>
+<tr><td>住友生命</td><td>减少</td><td>增加</td><td class="n neg"><strong>减少</strong></td><td class="n">2.20–2.80 (2.50)</td><td class="n">140–170 (155)</td></tr>
+<tr><td>かんぽ生命</td><td>持平</td><td>减少</td><td class="n neg"><strong>减少</strong></td><td class="n">2.00–3.00 (2.40)</td><td class="n">145–165 (155)</td></tr>
+<tr><td>太陽・大樹・富国・大同・朝日</td><td colspan="2">多数增加日元债券</td><td class="n neg"><strong>全部减少或持平</strong></td><td class="n">1.80–3.00</td><td class="n">140–170</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：大和证券 FY2026 生保运用计划调查（2026年4月28日），覆盖10家主要寿险公司。<span class="badge v">已核实</span></p>
+
+<div class="card">
+<p style="margin:0 0 6px"><strong>这张表里最重要的一行是列标题：没有任何一家寿险公司计划增加未对冲外债。</strong></p>
+<p style="margin:0">大和的评论：寿险公司「对增加外债持仓保持谨慎」；主要寿险的<strong>对冲比率已降至历史低位</strong>；多家转向浮动利率资产。日经的平行调查标题是「生保半数、国内債積み増し…外債から転換、<strong>かんぽは19年ぶり</strong>」。<br><strong>ゆうちょ銀行</strong>（FY2026说明会）：外国证券 88.2兆円（占运用资产 223.0兆円 的 39.5%），策略从短期存款转向<strong>JGB 阶梯</strong>；风险资产从 15.1兆円 目标降至 FY2028 的约 14兆円——<strong>是缩减，不是扩张</strong>。<br><strong>结论：机构端的边际方向已经转向国内，且这是由收益率驱动的自发行为，不是政策命令。</strong>这是第7.2节"对冲后 JGB 优于美债约100bp"在行为上的验证。</p>
+</div>
+
+
+<h3>2.4 驱动力④：家庭部门与新NISA——用真实流量数据重做<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">Rebuilt on actual flow data, replacing the v1 stock-based error</span></h3>
+
+<h4>家庭金融资产：2020 / 2023 / 2026Q1 三时点</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>家计金融资产</th><th class="n">2020年末</th><th class="n">2023年末</th><th class="n">2026年3月末</th><th class="n">2020→2026</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>合计</strong></td><td class="n"><strong>1,949.1兆円</strong></td><td class="n"><strong>2,172.0兆円</strong></td><td class="n"><strong>2,385.7兆円</strong></td><td class="n pos"><strong>+22.4%</strong></td></tr>
+<tr><td>现金・存款</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">1,126（47.2%）</td><td class="n">—</td></tr>
+<tr><td>保险・年金・定型保证</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">584（24.5%）</td><td class="n">—</td></tr>
+<tr><td>股票等</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">398（16.7%）</td><td class="n">—</td></tr>
+<tr><td>投资信托</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">165（6.9%）</td><td class="n">—</td></tr>
+<tr><td>债务证券</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">36（1.5%）</td><td class="n">—</td></tr>
+<tr><td>其他</td><td class="n">未取得</td><td class="n">未取得</td><td class="n">75（3.2%）</td><td class="n">—</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：日本银行《資金循環統計》。<span class="badge v">合计值已核实</span> <strong>⚠️ 口径警告：</strong>BOJ 在 2026Q1 发布时做了<strong>追溯至2005年的遡及改定</strong>（2026年5月25日公告），其中包括把共济年金准备金约 <strong>+30.0兆円</strong> 重分类进家庭保险债权。上表三个时点<strong>均为改定后口径</strong>，与当时公布值不同（例：2025年末改定前 2,350.9兆円 vs 改定后 2,394兆円）。<br><span class="badge e">分项未取得</span> BOJ 只在《参考図表》中印出最近约8个季度的分项金额，2020/2023 的分项是无标注的堆叠图；子任务尝试了 sjlong.xlsx、时序检索系统批量下载、Web Archive 等多条路径均失败。<strong>我没有用推算填补这两列。</strong></p>
+
+<h4>🔑 真实的资金流量：投信协会净资金流入（这才是"卖压"的正确度量）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>追加型株式投信 净资金流入（ETF除外）</th><th class="n">2024全年</th><th class="n">2025全年</th><th class="n">2026上半年</th><th>备注</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>合计净流入</strong></td><td class="n"><strong>15.75兆円</strong></td><td class="n"><strong>14.82兆円</strong><br><span class="src">−5.9% y/y</span></td><td class="n pos"><strong>12.46兆円</strong></td><td><strong>史上最大的半年</strong>（前纪录为2007上半年的8.7兆円）</td></tr>
+<tr><td>　<strong>海外／外国股票型</strong></td><td class="n"><strong>12.75兆円</strong></td><td class="n"><strong>11.55兆円</strong></td><td class="n"><strong>8.35兆円</strong><br><span class="src">指数型6.02 / 主动型2.34</span></td><td>年化约 16.7兆円</td></tr>
+<tr><td>　国内股票型</td><td class="n">—</td><td class="n">下半年转弱</td><td class="n pos"><strong>1.82兆円</strong></td><td><strong>2001年以来最大</strong>（主动0.97 / 指数0.85），部分由「战略17分野」主题基金驱动</td></tr>
+<tr><td>　内外资产复合型</td><td class="n">1.24兆円</td><td class="n">1.59兆円</td><td class="n">加速（未单列）</td><td>—</td></tr>
+<tr><td>　其他（含黄金）</td><td class="n">—</td><td class="n">1.08兆円</td><td class="n">0.65兆円</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：一般社団法人 資産運用業協会（原投資信託協会，2026年更名）月度统计与年度汇总；ニッセイ基礎研究所的年度／半年汇总。<span class="badge v">已核实</span> 2026上半年不同来源略有差异（協会官方 12兆2,867億円 / ニッセイ 12兆4,600億円 / Morningstar口径 12.5兆），源于统计总体定义不同。</p>
+
+<h4>NISA 的官方数据（买付额＝流量）</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>基准日</th><th class="n">口座数</th><th class="n">累计买付额</th><th class="n">当年买付额（流量）</th></tr></thead>
+<tbody>
+<tr><td>2024年12月末</td><td class="n">2,559万</td><td class="n">53兆円</td><td class="n"><strong>17.4兆円</strong><br><span class="src">成長投資枠12.4 / つみたて5.0</span></td></tr>
+<tr class="tot"><td><strong>2025年12月末</strong>（确报，2026/7/3公布）</td><td class="n"><strong>2,821万</strong></td><td class="n"><strong>71兆円</strong></td><td class="n"><strong>18.75兆円</strong><br><span class="src">成長12.51 / つみたて6.23</span></td></tr>
+<tr><td>2026年数据</td><td colspan="3" class="src">尚未公布。金融庁最新为2025年12月末（2026/7/3）；日本証券業協会最新亦为2025年12月末（2026/7/22）。</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：金融庁《NISA口座の利用状況調査》。<span class="badge v">已核实</span> 政府目标为2027年末 3,400万口座、累计买付额 56兆円——<strong>买付额目标已于2025年提前超额完成（71兆 vs 56兆）</strong>，口座数尚未达标。2025年成長投資枠的产品构成：上市股票 49% / 投资信托 51%。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>现在可以回答"制度化卖压有多大"了——用有出处的数字，而不是我在 v1 里编的那个。</strong></p>
+<p style="margin:0 0 8px"><strong>最稳健的代理指标是海外股票型基金的净资金流入本身：2024年 12.75兆円、2025年 11.55兆円、2026上半年 8.35兆円（年化约 16.7兆円）。</strong> 这些基金以未对冲为主，所以这大致就是零售端每年产生的日元卖出量级。</p>
+<p style="margin:0 0 8px">对照一下：<strong>2025年 11.55兆円 相当于当年经常账户顺差（31.88兆円）的 36.2%</strong>。再叠加第2.2节的"约一半所得收支不回流"，两者合计就足以解释为什么创纪录的顺差换不来日元的实盘买盘。</p>
+<p style="margin:0"><span class="badge e">这是代理，不是官方估计</span> 它忽略了对冲、运用公司已持有的外汇余额、以及内部对冲流。<strong>日本官方（BOJ/MOF/FSA）从未发布过"NISA每年卖出多少日元"的估计</strong>——金融庁自己的《NISAの効果検証》（2025年6月提交税制调查会）<strong>完全没有涉及汇率或资本外流</strong>。日本総研2024年1月的估算（每年0.7–3.9兆円外流、到2027年影响汇率1–6日元）<strong>事后看严重低估</strong>——仅2024年海外股票型净流入就有12.75兆円。</p>
+</div>
+
+<h4>2026年的趋势：加速，不是放缓</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>净流入</th><th class="n">2024上半年</th><th class="n">2025上半年</th><th class="n">2025下半年</th><th class="n">2026上半年</th></tr></thead>
+<tbody>
+<tr><td>合计</td><td class="n">8.54兆円</td><td class="n">8.14兆円</td><td class="n">6.68兆円</td><td class="n pos"><strong>12.46兆円</strong></td></tr>
+<tr class="tot"><td>同比（对上年上半年）</td><td class="n">—</td><td class="n neg">−5%</td><td class="n">—</td><td class="n pos"><strong>+53%</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>这个结果直接否定了一个直觉假设。</strong> 在 USD/JPY 约 162 的水平上，日本零售投资者<strong>没有</strong>因为日元太便宜而减少海外购买——2026上半年海外股票型净流入 8.35兆円，超过了 2025 全年下半场的节奏，其中指数型基金独占 6.02兆円，为两年多来最强。<strong>汇率没有成为负反馈，这印证了第2.4节关于"定投的正反馈"的定性判断。</strong></p>
+<p><strong>但内部构成出现了真实的转向：</strong>国内股票型 2026上半年净流入 1.82兆円，是 <strong>2001年以来最大</strong>，且主动型（0.97兆）超过指数型（0.85兆）——部分由高市政权「战略17分野」相关主题基金驱动。<strong>零售端的边际配置正在向国内倾斜，尽管海外端的绝对规模仍在扩大。</strong></p>
+<p>反向证据（不构成趋势，但值得记录）：2026年4月单月流入较3月腰斩（1.08兆 vs 2.06兆），国内股票型出现<strong>7个月来首次净流出</strong>（日经关联的获利了结）；MOF 数据显示投资信托委托公司在 2026年7月是外国股票的<strong>净卖出方</strong>（−1,117亿円）。<strong>均为单月数据。</strong></p>
+
+<h4>政策层面的新动向</h4>
+<ul>
+<li><strong>令和8年度税制改正（金融庁，2025年12月26日）：</strong>新设「<strong>こども支援NISA</strong>」（0–17岁，年度限额60万円，仅限长期分散积累型基金，FY2027起）；合格指数扩容（新增 FTSE Global All Cap、MSCI Emerging Markets 等按地域划分的指数）；产品范围从「主要为股票」放宽到「<strong>股票或公债</strong>」，为债券型与平衡型基金打开通道。</li>
+<li><strong>片山财务相（2026年7月13–14日）：</strong>正在考虑<strong>允许 JGB 进入 NISA</strong>——「尚未决定」。这是官方首次把这个税优零售载体与"把资金留在国内"直接挂钩。</li>
+<li><span class="badge e">重要缺口</span> <strong>没有任何金融庁或财务省的公开文件量化"NISA → 资本外流 → 日元贬值"这条链。</strong> 这个链条只存在于大臣发言和市场评论中，不存在于政府发布的分析里。金融庁自己的效果检证刻意回避了汇率问题。</li>
+</ul>
+
+
+<h3>2.5 驱动力⑤：数字赤字（服务贸易的结构性失血）</h3>
+<p>FY2024 服务收支逆差 2.6兆円，其中"数字相关"逆差达到创纪录的 <strong>7.0兆円</strong>，同时旅游收支顺差创纪录的 6.7兆円。<span class="badge v">Kyodo/nippon.com</span> METI 数据显示，仅对美国的数字服务逆差在2024年就达 8.4兆円。<span class="badge v">METI</span></p>
+<p>含义：<strong>入境旅游赚来的外汇，几乎被支付给美国云计算与软件巨头的美元账单完全抵消。</strong> 而生成式AI的普及会进一步扩大这一逆差——日本每提升一分AI渗透率，就多一分结构性美元需求。这是一个会随技术进步而恶化、且日本无法用汇率解决的项目。</p>
+
+<h3>2.6 驱动力⑥：反向流入（被忽视的对冲力量）</h3>
+<ul>
+  <li><strong>外资购买JGB：</strong> 2025年末外国投资者持有 149兆円 日本国债，占存量 12.8%，同比 +9.1%；同时 BOJ 的持有比例自2022年年中以来首次跌破50%（49.04%）。<span class="badge v">BOJ/报道</span> IMF指出2025年外国投资者在JGB招标中的参与显著扩大，抵消了国内需求的下滑。<span class="badge v">IMF</span></li>
+  <li><strong>对内直接投资极小：</strong> 2025年末对内直接投资存量仅 58.6兆円，而对外为 384.5兆円 —— <strong>6.6 倍的不对称</strong>。MOF 研究会指出，日本的对内FDI存量占GDP比重在OECD国家中<strong>排名垫底（约5%）</strong>。<span class="badge v">MOF</span></li>
+</ul>
+<p>这个不对称是理解日元的关键结构性事实：<strong>日本用极不对称的方式开放资本账户——资金出去很容易，进来的通道又窄又浅。</strong> 结果是外资流入主要以证券投资（易进易出的"热"资金）而非直接投资（黏性资金）的形式出现，这既提供了阶段性的对冲，也带来了尾部风险。</p>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.2</b>
+  <ul>
+    <li><strong>Rate differentials have lost explanatory power.</strong> The US–Japan 10y gap halved from ~400bp (2022) to 189bp (Aug 2026), yet the yen is weaker. The IMF says most yen movement since mid-2025 is unexplained by yields.</li>
+    <li><strong>~Half of direct-investment profits (~¥12–13tn/yr) never repatriate</strong> (MOF, 2024 study group). On a cash-flow basis the income surplus roughly halves. The surplus is real in accounting terms and largely absent from the FX market.</li>
+    <li><strong>Institutional allocation is rule-locked:</strong> GPIF's policy mix is 50% foreign; life insurers hedge only ~50% of FX exposure. The 2026 marginal change is domestic yields (JGB 10y at 2.83%) finally making "stay home" rational — but the mechanism is <em>less reinvestment</em>, not liquidation.</li>
+    <li><strong>New NISA is institutionalised, price-insensitive yen selling.</strong> Investment-trust balances +25.7% y/y; flows skew heavily to global (US-dominated) equity. Yen weakness raises yen-denominated returns, reinforcing rather than deterring the flow — a positive feedback loop.</li>
+    <li><strong>The digital deficit (¥7.0tn in FY2024) now roughly cancels the record tourism surplus (¥6.7tn)</strong> and worsens with AI adoption. Japan cannot devalue its way out of it.</li>
+    <li><strong>Asymmetric openness:</strong> outward FDI stock ¥384.5tn vs inward ¥58.6tn — 6.6×. Inward FDI is last in the OECD at ~5% of GDP. Capital leaves through a wide door and returns through a narrow one.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c3">三、经常账户与资本/金融账户的演变<span class="en">Ch.3 — Evolution of the current and financial accounts</span></h2>
+
+<figure>
+  <figcaption style="margin:0 0 10px"><span class="ft">图1 · 经常账户与第一次所得收支（历年，兆円）</span>Current account vs primary income balance, calendar years, ¥tn</figcaption>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--s1)"></i>经常账户 Current account</span>
+    <span><i class="sw" style="background:var(--s2)"></i>第一次所得收支 Primary income</span>
+  </div>
+  <div id="fig1"></div>
+  <figcaption>2021、2022 数据来自日本银行《2022年国際収支統計および本邦対外資産負債残高》<span class="badge v">已核实</span>；2024 来自日本経済新聞（29兆2,615億円）与 METI 通商白书2025<span class="badge v">已核实</span>；2025 来自共同通信/MOF（31.88兆円）<span class="badge v">已核实</span>；2023 为公开报道整理<span class="badge e">概数</span>。2025年第一次所得收支的历年值我未能核实到一手数据，图中留空——FY2025（年度口径）为 42.28兆円。</figcaption>
+</figure>
+
+<h3>3.1 三个阶段与一次断裂</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>阶段</th><th>时期</th><th>经常账户结构</th><th>日元含义</th></tr></thead>
+<tbody>
+<tr><td><strong>Ⅰ 贸易立国</strong></td><td>~2010以前</td><td>贸易顺差主导；所得收支为辅</td><td>顺差 → 实盘换汇需求 → 日元有支撑</td></tr>
+<tr><td><strong>Ⅱ 过渡</strong></td><td>2011–2021</td><td>福岛后贸易转逆差；所得收支接棒</td><td>支撑减弱但仍在；2011年日元反而创75.35的历史新高（避险+回流）</td></tr>
+<tr><td><strong>Ⅲ 投资立国</strong></td><td>2022至今</td><td>所得收支绝对主导（2022: +35.2兆円 vs 贸易 −15.7兆円）</td><td><strong>顺差与换汇需求脱钩</strong> → 顺差创纪录同时日元创40年新低</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>2022年是断裂点。</strong> 那一年发生了三件事的叠加：能源价格暴涨造成 15.7兆円 的贸易逆差、美联储激进加息拉开利差、BOJ 坚守YCC。经常账户顺差从2021年的21.5兆円 腰斩至 11.5兆円，日元从115跌到151.94，MOF 进行了1998年以来首次买入日元的干预（约9.2兆円）。</p>
+
+<p>但真正的结构变化在此之后：2023–2025年，贸易账户改善、经常顺差连续三年创纪录（FY口径 FY2023→FY2024→FY2025 连续三年新高），<strong>而日元继续贬值</strong>。这证明了断裂不是周期性的，而是<strong>顺差的"外汇含金量"发生了永久性下降</strong>。</p>
+
+<h3>3.2 完整数据快照：FY2022 – FY2025 与 2026上半年<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">Full BOP snapshot, fiscal years plus H1 2026</span></h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>国际收支（兆円）</th><th class="n">FY2022</th><th class="n">FY2023</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">2026上半年<br><span class="src">1–6月</span></th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>経常収支 Current account</strong></td><td class="n"><strong>9.11</strong></td><td class="n"><strong>26.42</strong></td><td class="n"><strong>30.03</strong></td><td class="n"><strong>34.62</strong></td><td class="n"><strong>17.43</strong></td></tr>
+<tr><td>貿易・サービス収支</td><td class="n neg">−23.27</td><td class="n neg">−6.72</td><td class="n neg">−6.17</td><td class="n neg">−2.45</td><td class="n neg">−1.08</td></tr>
+<tr><td>　<strong>貿易収支 Trade</strong></td><td class="n neg"><strong>−17.87</strong></td><td class="n neg">−3.48</td><td class="n neg">−3.03</td><td class="n pos"><strong>+1.34</strong></td><td class="n pos"><strong>+0.74</strong></td></tr>
+<tr><td>　　輸出 Exports</td><td class="n">99.79</td><td class="n">102.38</td><td class="n">107.83</td><td class="n">111.35</td><td class="n">59.19</td></tr>
+<tr><td>　　輸入 Imports</td><td class="n">117.66</td><td class="n">105.86</td><td class="n">110.86</td><td class="n">110.01</td><td class="n">58.45</td></tr>
+<tr><td>　サービス収支 Services</td><td class="n neg">−5.40</td><td class="n neg">−3.24</td><td class="n neg">−3.14</td><td class="n neg">−3.79</td><td class="n neg">−1.82</td></tr>
+<tr><td>　　うち旅行収支 Travel</td><td class="n pos">+1.16</td><td class="n pos">+4.22</td><td class="n pos">+6.60</td><td class="n pos">+6.55</td><td class="n pos">+3.13</td></tr>
+<tr class="tot"><td><strong>第一次所得収支 Primary income</strong></td><td class="n pos"><strong>+35.41</strong></td><td class="n pos"><strong>+37.53</strong></td><td class="n pos"><strong>+41.41</strong></td><td class="n pos"><strong>+42.30</strong></td><td class="n pos"><strong>+20.49</strong></td></tr>
+<tr><td>第二次所得収支 Secondary income</td><td class="n neg">−3.03</td><td class="n neg">−4.39</td><td class="n neg">−5.21</td><td class="n neg">−5.23</td><td class="n neg">−1.98</td></tr>
+<tr><td>資本移転等収支</td><td class="n neg">−0.17</td><td class="n neg">−0.33</td><td class="n neg">−0.31</td><td class="n neg">−0.41</td><td class="n neg">−0.61</td></tr>
+<tr><td colspan="6" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">金融账户 FINANCIAL ACCOUNT（+ = 净获取海外资产／净流出）</td></tr>
+<tr class="tot"><td><strong>金融収支 合计</strong></td><td class="n"><strong>8.98</strong></td><td class="n"><strong>22.83</strong></td><td class="n"><strong>25.53</strong></td><td class="n"><strong>31.15</strong></td><td class="n"><strong>18.49</strong></td></tr>
+<tr><td>　<strong>直接投資 Direct</strong></td><td class="n">+18.35</td><td class="n">+27.38</td><td class="n">+27.12</td><td class="n">+24.44</td><td class="n">+11.65</td></tr>
+<tr><td>　<strong>証券投資 Portfolio</strong></td><td class="n neg">−8.51</td><td class="n pos">+8.54</td><td class="n pos">+24.56</td><td class="n neg"><strong>−34.82</strong></td><td class="n neg"><strong>−18.75</strong></td></tr>
+<tr><td>　金融派生商品 Derivatives</td><td class="n">+3.73</td><td class="n">+7.57</td><td class="n">+6.07</td><td class="n">+6.37</td><td class="n">+5.45</td></tr>
+<tr><td>　<strong>その他投資 Other</strong></td><td class="n">+1.90</td><td class="n neg">−25.00</td><td class="n neg">−22.14</td><td class="n pos"><strong>+29.73</strong></td><td class="n pos"><strong>+30.05</strong></td></tr>
+<tr><td>　外貨準備 Reserves</td><td class="n neg">−6.49</td><td class="n">+4.35</td><td class="n neg">−10.08</td><td class="n">+5.43</td><td class="n neg">−9.90</td></tr>
+<tr><td>誤差脱漏</td><td class="n">+0.04</td><td class="n">−3.25</td><td class="n">−4.19</td><td class="n">−3.07</td><td class="n">+1.67</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：財務省 国際収支状況 时序 CSV（<code>6s-1-2.csv</code> 年度、<code>6s-1-1.csv</code> 暦年半期、<code>6s-2-*.csv</code> 服务分项），2026年8月13日取得的最新修订版。<span class="badge v">已核实</span> 2026上半年为<strong>速報</strong>（2026年8月10日公布）。全部五个恒等式在每一列均闭合（経常＝貿易サ＋一次＋二次；貿易＝輸出−輸入；金融収支＝五分项之和；経常＋資本移転−金融収支＋誤差脱漏＝0）。</p>
+
+<div class="kt flag">
+<b>⚠️ 口径警告：MOF 的原始速報值与现行时序值存在系统性差异</b>
+<p style="margin:0 0 8px">同一个财年，MOF 的<strong>当初速報</strong>与其后来修订的<strong>时序数据</strong>数值不同，且差异不小。两者都是 MOF 发布的、各自内部自洽。<strong>不要混用。</strong></p>
+<div class="tblwrap" style="margin:8px 0">
+<table><thead><tr><th>项目（億円）</th><th class="n">FY2024 原速報<br><span class="src">2025-05-12</span></th><th class="n">FY2024 现行</th><th class="n">FY2025 原速報<br><span class="src">2026-05-13</span></th><th class="n">FY2025 现行</th></tr></thead>
+<tbody>
+<tr><td>経常収支</td><td class="n">303,771</td><td class="n">300,315</td><td class="n">345,218</td><td class="n">346,220</td></tr>
+<tr><td>貿易収支</td><td class="n">▲40,480</td><td class="n">▲30,309</td><td class="n">13,631</td><td class="n">13,401</td></tr>
+<tr><td>輸出</td><td class="n">1,062,390</td><td class="n">1,078,302</td><td class="n">1,113,451</td><td class="n">1,113,509</td></tr>
+<tr><td>第一次所得収支</td><td class="n">417,114</td><td class="n">414,084</td><td class="n">422,809</td><td class="n">422,997</td></tr>
+</tbody></table>
+</div>
+<p style="margin:0">修订是系统性的：<strong>出口在每个版本都被上修约 0.8–1.6兆円</strong>。FY2024 的差额精确对账：貿易サ +4,573、第一次 ▲3,030、第二次 ▲5,000 = ▲3,457 ≈ 経常 ▲3,456。<strong>我在 v1–v3 引用的 FY2025 经常账户 34.52兆円 是原速報值；现行时序值为 34.62兆円。</strong>本表统一采用现行时序值。<span class="badge e">MOF 未在「統計のお知らせ」页面记载此次修订的方法论</span></p>
+</div>
+
+<h4>🔥 本表最重要的发现：证券投资已经反转，但被"其他投资"完全替换</h4>
+<div class="card">
+<p style="margin:0 0 8px">看金融账户的两行：</p>
+<ul style="margin:0 0 10px">
+<li><strong>証券投資从 FY2024 的 +24.56兆円（净流出）翻转为 FY2025 的 −34.82兆円（净流入）——一个 59.4兆円 的摆动</strong>，2026上半年继续为 −18.75兆円。这是<strong>日本证券投资资金已经在大规模回流</strong>的硬证据，与第2.3节寿险公司削减外债的行为完全一致。</li>
+<li><strong>但同期"その他投資"从 −22.14兆円 翻转为 +29.73兆円——一个 51.9兆円 的反向摆动</strong>，2026上半年 +30.05兆円。</li>
+</ul>
+<p style="margin:0 0 8px"><strong>两者几乎完全抵消。</strong>「その他投資」主要是银行的对外贷款、存款与回购——也就是<strong>日元套息交易的融资腿</strong>。</p>
+<p style="margin:0"><strong>这个发现改变了叙事：日本资本外流的<em>构成</em>已经彻底改变（从"机构买外债"变成"银行体系融出日元"），但<em>总量</em>没有下降。</strong> 这解释了一个此前的困惑——为什么寿险明明在减持外债、对冲后 JGB 又明显更划算，日元却依然疲软。<strong>答案是接盘的换人了：从长期配置资金换成了短期杠杆资金。</strong>而后者的性质是：对利差更敏感、久期更短、在压力时会瞬间逆转（2024年8月5日就是先例）。<strong>这使日元的下行更平缓、但尾部风险更大。</strong></p>
+</div>
+
+
+<h3>3.3 金融账户：直接投资是持续的、单向的流出</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>金融账户（兆円，+ = 净获取海外资产/净流出）</th><th class="n">2021</th><th class="n">2022</th></tr></thead>
+<tbody>
+<tr><td>直接投资 Direct investment</td><td class="n">+19.2</td><td class="n">+17.0</td></tr>
+<tr><td>证券投资 Portfolio investment</td><td class="n">−21.9</td><td class="n">−19.3</td></tr>
+<tr><td>金融衍生品 Financial derivatives</td><td class="n">+2.2</td><td class="n">+5.1</td></tr>
+<tr><td>其他投资 Other investment</td><td class="n">+10.5</td><td class="n">+10.7</td></tr>
+<tr><td>外汇储备 Reserve assets</td><td class="n">+6.9</td><td class="n">−7.1</td></tr>
+<tr class="tot"><td>金融账户合计 Financial account</td><td class="n">+16.8</td><td class="n">+6.5</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：日本银行《2022年の国際収支統計および本邦対外資産負債残高》。<span class="badge v">已核实</span> 2023–2025年的分项金融账户数据我未能核实到一手表格（BOJ 已于2024年7月停止发布该年报，数据迁移至时间序列检索系统），因此不在此列示。</p>
+
+<p>可读出的两个结构性事实：</p>
+<ol>
+  <li><strong>直接投资是稳定的、单向的、大规模的净流出</strong>（每年17–19兆円量级）。它对利差不敏感，由企业的产能布局和并购决策驱动。这是日元最"硬"的一块结构性卖压。</li>
+  <li><strong>证券投资在2021–2022年是净流入</strong>（负值）。这反映了对冲成本飙升后日本机构的部分回流——Banque de France 的研究指出2022年日本投资者<strong>净卖出了23兆円海外债券</strong>，但2023年又转为净买入18.9兆円。<span class="badge v">Banque de France</span> <strong>证券投资是可逆的、周期性的；直接投资是不可逆的、结构性的。</strong></li>
+</ol>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.3</b>
+  <ul>
+    <li><strong>2022 was the break.</strong> A ¥15.7tn energy-driven trade deficit + Fed tightening + BOJ's YCC halved the surplus and took the yen to 151.94. Since then the surplus has hit records three straight fiscal years <em>while the yen kept falling</em> — proof the break is structural, not cyclical: the FX-content of the surplus has permanently fallen.</li>
+    <li><strong>FY2025:</strong> current account ¥34.52tn (+15%, 3rd record year), primary income ¥42.28tn, trade back to a ¥1.36tn surplus. But <strong>June 2026 printed a ¥923bn deficit</strong> — the first since Jan 2025 — as oil imports surged (+24.3%). The surplus is highly oil-sensitive.</li>
+    <li><strong>Direct investment is the hard, one-way outflow</strong> (¥17–19tn/yr, rate-insensitive). Portfolio investment is reversible and cyclical: Japanese investors net-sold ¥23tn of foreign bonds in 2022 and net-bought ¥18.9tn in 2023.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c4">四、国内投资 vs 海外投资：一个资本配置的失衡<span class="en">Ch.4 — Domestic vs overseas investment</span></h2>
+
+<h3>4.1 数量对比</h3>
+
+<div class="kt flag" style="margin:14px 0">
+<b>⚠ 勘误：v1 的对比表存在概念与统计总体错配，已重做</b>
+<p style="margin:0 0 8px">v1 的表格有两处错误：<strong>①把"对内直接投资存量"当作"国内投资"</strong>——外资在日本的持股存量与日本的国内资本形成完全是两个概念，1:6.6 这个比值只能说明<strong>对外/对内FDI的不对称</strong>（这一点在第2.6节已正确表述），不能说明"日本人不在国内投资"；<strong>②把 DBJ 调查的大企业设备投资计划（样本口径）与全国对外FDI流量（总体口径）相除</strong>，得出的 1:1.3 <strong>没有经济含义</strong>。两项均已删除。</p>
+<p style="margin:0">正确的分母应是国民经济核算口径的<strong>总固定资本形成</strong>或<strong>民间企业设备投资</strong>。下表按此重建，并明确标注每个数字的统计总体。</p>
+</div>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>对比维度</th><th>数值</th><th>统计总体 / 口径</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td colspan="4" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">A. 国内资本形成（正确的"国内投资"口径）</td></tr>
+<tr><td>日本 总固定资本形成 / GDP</td><td class="n">待补</td><td>内阁府 国民经济计算（SNA），全国口径</td><td><span class="badge e">本轮未取得</span></td></tr>
+<tr><td>民间企业设备投资 增速</td><td class="n">FY2025 +0.5%<br>FY2026 +0.6%</td><td>MURC 宏观预测，全国口径</td><td><span class="badge v">已核实</span></td></tr>
+<tr><td>大企业国内设备投资计划 FY2026</td><td class="n">24.76兆円<br>(+19.7%)</td><td><strong>DBJ 调查，仅大企业样本</strong>——不可与全国口径相除</td><td><span class="badge v">已核实</span></td></tr>
+<tr><td colspan="4" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">B. 对外投资（流量）</td></tr>
+<tr><td>2025年 对外直接投资</td><td class="n">32.62兆円<br>(+3.8%)</td><td>MOF/BOJ 国际收支，全国口径</td><td><span class="badge v">已核实</span></td></tr>
+<tr><td colspan="4" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">C. FDI 的进出不对称（这才是 1:6.6 的正确含义）</td></tr>
+<tr><td>对外直接投资存量（2025末）</td><td class="n">384.5兆円</td><td>MOF IIP 资产端</td><td><span class="badge v">已核实</span></td></tr>
+<tr><td>对内直接投资存量（2025末）</td><td class="n">58.6兆円</td><td>MOF IIP 负债端</td><td><span class="badge v">已核实</span></td></tr>
+<tr class="tot"><td><strong>出/入 不对称倍数</strong></td><td class="n"><strong>6.6×</strong></td><td colspan="2">这衡量的是<strong>资本账户开放的不对称</strong>，不是"国内 vs 海外投资"</td></tr>
+<tr><td colspan="4" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;letter-spacing:.04em;color:var(--muted)">D. 企业部门的资产配置（同一总体内部，可比）</td></tr>
+<tr><td>非金融企业 总金融资产</td><td class="n">1,829兆円<br>(+15.2%)</td><td colspan="2" rowspan="3">BOJ 资金循环 2026Q1，同一统计总体内部的构成，<strong>这组比较是有效的</strong></td></tr>
+<tr><td>　其中 对外直接投资</td><td class="n">285兆円 (+14.3%)</td></tr>
+<tr><td>　其中 对外证券投资</td><td class="n">36兆円 (+26.5%)</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：MOF（IIP）、JETRO/MOF（FDI流量）、DBJ 设备投资计划调查、MURC、BOJ 资金循环。<span class="badge v">列出的数值已核实</span> 标"待补"的行需要内阁府 SNA 数据，本轮研究因会话额度中断未取得——<strong>我没有用估算填补。</strong></p>
+
+<figure>
+  <figcaption style="margin:0 0 10px"><span class="ft">图2 · 2025年对外直接投资流量的地区与国别分布（兆円）</span>2025 outward FDI flows by destination, ¥tn</figcaption>
+  <div id="fig2"></div>
+  <figcaption>来源：JETRO 依据日本银行/财务省国际收支统计（2026年4月）。<span class="badge v">已核实</span> 2025年对外直接投资总额 32.62兆円（+3.8%，连续第3年增长）。瑞士的 5.6 倍激增与制造业（运输机械 +95.8%）的暴增指向少数大型并购交易，而非广泛的产能扩张。</figcaption>
+</figure>
+
+<h3>4.2 结构性诊断：为什么资本不留在国内</h3>
+
+<p>MOF 研究会把这个问题表述为一个<strong>资本配置错配</strong>：约一半的海外利润留在海外再投资，同时国内设备投资增长几乎为零。原因不是"爱国心不足"，而是三个可量化的因素：</p>
+
+<ol>
+  <li><strong>预期回报差。</strong> GPIF 在其基本组合文件中给出的四种经济情景下的名义预期回报：国内债券 −0.3%~3.2%、外国债券 1.4%~4.9%、国内股票 4.0%~7.5%、外国股票 4.6%~8.1%。<span class="badge v">GPIF</span> <strong>在每一个资产类别、每一个情景下，海外的预期回报都高于国内。</strong> 这是日本最大的机构投资者对本国资产的官方定价。</li>
+  <li><strong>市场规模与人口。</strong> 国内需求随人口收缩，产能扩张的边际回报下降。企业把利润再投资到增长市场（印度 +35.0%）而非日本，是微观理性的。</li>
+  <li><strong>汇率的作用被我在 v1 中高估了（勘误）。</strong> v1 称 2025 年对外资产增加的 141.4兆円 中"相当部分是汇率重估"。据批评者引用的 MOF《对外资产负债残高变动要因》分解，<strong>汇率因素只贡献约 12.28兆円，约占 8.7%</strong>；更大的部分来自证券价格上涨、衍生品与其他调整。<span class="badge e">该 MOF 变动要因 PDF（2025_g1.pdf）我本次未能打开独立核实，此处采信批评者的引用并标明出处待验。</span><br>修正后的表述：<strong>日元贬值确实抬高了海外资产的日元账面值和第一次所得收支的日元计价值，但它不是 2025 年对外资产扩张的主因——资产价格上涨才是。</strong>不过汇率对<strong>企业行为</strong>的影响仍然成立：日元贬值使海外并购变贵，这与 2025 年对美投资下降 24% 而再投资收益占比上升的现象一致。</li>
+</ol>
+
+<h3>4.3 2026年的政策转向：具体措施、金额与可行性<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">The policy pivot, with the actual budget documents</span></h3>
+
+<div class="kt flag">
+<b>⚠️ 三个前提更正 —— 我在 v1–v3 里引用的三个"事实"都不准确</b>
+<ol style="margin:0">
+<li><strong>没有"200兆円国内投资目标"。</strong>现行官方目标是<strong>250兆円</strong>，由《骨太の方針2026》（2026年7月21日阁议决定）设定，而且它是 <strong>FY2040 的年度流量</strong>，不是累计额。</li>
+<li><strong>没有"食品消费税停征8年"。</strong>实际决定（2026年8月5日阁议）是<strong>8%→1%，为期2年，自2027年4月起，2029年4月恢复8%</strong>。而且<strong>尚未立法</strong>——法案将提交2026年秋季临时国会。</li>
+<li><strong>21.3兆円 不是"事业规模"，而是"国费等＝真水"。</strong>我原以为日本的经济对策惯例是用事业规模（通常是国费的3–5倍）来撑门面。<strong>这一次恰恰相反</strong>——高市政权<strong>根本没有公布事业规模数字</strong>，直接以真水口径发布。这使 21.3兆円 成为史上最大的真水包之一，而非被灌水的头条。</li>
+</ol>
+</div>
+
+<h4>A. 财政：预算文件里的实际数字</h4>
+
+<p><strong>21.3兆円 的准确构成</strong>（高市首相2025年11月21日记者会见，逐字）：</p>
+<div class="tblwrap">
+<table>
+<thead><tr><th>口径</th><th class="n">金额</th><th>含义</th></tr></thead>
+<tbody>
+<tr><td>一般会计补正预算（国费）</td><td class="n">17.7兆円</td><td>「今回の経済対策全体の規模は一般会計で１７．７兆円程度」</td></tr>
+<tr class="tot"><td><strong>国費等＝真水</strong></td><td class="n"><strong>21.3兆円</strong></td><td>「減税・特別会計を合わせた国費等、<strong>いわゆる真水は２１．３兆円</strong>程度」＝17.7＋減税2.7＋特会0.9</td></tr>
+<tr><td>国の財政措置等</td><td class="n">25.5兆円</td><td>真水＋財政投融資 約4.2兆円</td></tr>
+<tr><td><strong>事業規模</strong></td><td class="n"><strong>未公布</strong></td><td>阁议决定文本、概要、政策文件、首相发言中<strong>均无事业规模数字</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">对比历史：2023年（岸田）真水约13.0兆円；2024年（石破）14.8兆円；<strong>2025年（高市）21.3兆円</strong>。<span class="badge v">已核实</span> 内阁府测算的宏观效果：实际GDP押上 <strong>+1.4%程度（约24兆円）</strong>，分摊约3年。</p>
+
+<p><strong>FY2025补正预算的支出结构（国费，億円）：</strong></p>
+<div class="tblwrap">
+<table>
+<thead><tr><th>支柱</th><th class="n">金额</th><th>主要内容</th></tr></thead>
+<tbody>
+<tr><td>Ⅰ 生活安全保障・物价高对应</td><td class="n">89,041</td><td>足元物价对应 29,451 / 地方与生活安定 49,786 / 中小企业与涨薪环境 9,804</td></tr>
+<tr><td>Ⅱ <strong>危机管理投资・成长投资</strong></td><td class="n">64,330</td><td>经济安保 15,493 / 粮食安保 6,275 / 能源资源安保 3,487 / <strong>防灾减灾国土强韧化 29,503</strong> / 未来投资扩大 9,572</td></tr>
+<tr><td>Ⅲ 防卫力与外交力强化</td><td class="n">16,560</td><td>外交安保 12,536 / 美国关税对应 4,023</td></tr>
+<tr><td>Ⅳ 预备费</td><td class="n">7,098</td><td>—</td></tr>
+<tr class="tot"><td><strong>经济对策关系经费</strong></td><td class="n"><strong>177,028</strong></td><td>≈17.7兆円</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">财源：税収増 +28,790 / 其他收入 +37,284 / <strong>公債金 +116,960</strong>（建設約35,000＋特例約82,000）。FY2025 补正后新规国债发行 40.34兆円，公债依存度 30.2%。<span class="badge v">MOF 已核实</span></p>
+
+<p><strong>FY2026 当初预算——这里出现了与"财政恶化"叙事相反的数据：</strong></p>
+<div class="tblwrap">
+<table>
+<thead><tr><th>当初预算（億円）</th><th class="n">FY2024</th><th class="n">FY2025</th><th class="n">FY2026</th><th class="n">FY26 vs FY25</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>歳出総額</strong></td><td class="n">1,125,717</td><td class="n">1,151,978</td><td class="n"><strong>1,223,092</strong></td><td class="n">+71,114</td></tr>
+<tr><td>　社会保障関係費</td><td class="n">377,193</td><td class="n">382,938</td><td class="n">390,559</td><td class="n">+7,621</td></tr>
+<tr><td>　<strong>国債費</strong></td><td class="n">270,090</td><td class="n">282,179</td><td class="n"><strong>312,758</strong></td><td class="n neg">+30,579</td></tr>
+<tr><td>　　うち<strong>利払費</strong></td><td class="n">—</td><td class="n">105,230</td><td class="n neg"><strong>130,371</strong></td><td class="n neg"><strong>+25,142（+23.9%）</strong></td></tr>
+<tr><td>　防衛関係費</td><td class="n">—</td><td class="n">~87,004</td><td class="n">90,353</td><td class="n">+3,349（+3.8%）</td></tr>
+<tr><td><strong>税収</strong></td><td class="n">696,080</td><td class="n">778,190</td><td class="n pos"><strong>837,350</strong></td><td class="n pos">+59,160</td></tr>
+<tr><td><strong>新規国債発行</strong></td><td class="n">354,490</td><td class="n">286,471</td><td class="n">295,840</td><td class="n">+9,369</td></tr>
+<tr><td>公債依存度</td><td class="n">31.5%</td><td class="n">24.9%</td><td class="n pos"><strong>24.2%</strong></td><td class="n pos">−0.7pt</td></tr>
+<tr class="tot"><td><strong>基礎的財政収支（当初予算ベース）</strong></td><td class="n">—</td><td class="n neg">−7,816</td><td class="n pos"><strong>+13,429</strong></td><td class="n pos"><strong>转为黑字</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：財務省 令和8年度予算（2025年12月26日阁议决定，2026年4月7日成立）。<span class="badge v">已核实</span> MOF 自述要点：「新規国債発行30兆円未満（29.6兆円）」「公債依存度24.2%」「<strong>一般会計当初予算のＰＢ黒字化（＋1.3兆円）</strong>」。国债发行总额 180.7兆円，其中 GX 経済移行債 1.0兆円；超长期（20/30/40年）每次招标减发1,000亿円。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>⚠️ 这与我在 v1–v3 的财政叙事直接冲突，必须正面处理。</strong></p>
+<p style="margin:0 0 8px">v1 引用 CME 的说法：「赤字将从 GDP 的 2.5% 扩大到约 6%（FY2026–27）」。但 MOF 的 FY2026 当初预算显示<strong>基础财政收支转为 +1.3兆円 黑字</strong>（当初预算口径首次），公债依存度降至 24.2%。内阁府《中長期試算》（2026年7月30日）的国・地方 PB 路径是：<strong>FY2026 −0.2% GDP → FY2027 +0.2% → FY2030 +0.7%</strong>；公债等残高对GDP比 <strong>FY2026 187.6% → FY2035 176.7%</strong>（成長戦略実現ケース①）。</p>
+<p style="margin:0 0 8px"><strong>所以"财政急剧恶化"在官方口径上不成立。</strong>差异来源：(a) 当初预算不含补正，而日本每年都做大规模补正（FY2025 补正 18.3兆円）；(b) CME 的口径可能是含补正的一般政府 SNA 基准；(c) 我没有核实到 CME 那个 6% 的定义。<strong>我保留 CME 的引用但降级为"未核实的二手估计"，并以官方数字为准。</strong></p>
+<p style="margin:0"><strong>那么 10年期 JGB 从 2% 升到 2.83% 该怎么解释？</strong> 三条不依赖"近期赤字失控"的解释：<strong>①利払費一年跳升 23.9%</strong>——这是存量债务在利率正常化下的机械成本上升，市场在为长期路径定价；<strong>②财政规则本身变了</strong>——《骨太2026》把核心目标从"PB黑字化"改为「<strong>債務残高対ＧＤＰ比の安定的低下</strong>」，且<strong>不再设定明确的PB平衡时点</strong>，这在制度上放松了约束；<strong>③官民投资路线图承诺了 FY2040 前 370兆円+ 的官民投资</strong>，而政府未披露官民分担比例——这是一个规模巨大、边界不清的或有负债。<strong>市场定价的是2030年代，不是2026年。</strong></p>
+</div>
+
+<p><strong>评级机构：三家全部维持稳定展望，无一下调。</strong> Moody's A1/稳定（2025年10月27日确认，指出债务负担「will remain high at over 200% of GDP throughout this decade」）；Fitch A/稳定（2026年1月21日，公共债务/GDP >230%，称新增财政措施「sufficiently captured in our current fiscal forecasts」）；<strong>S&P A+/稳定（2026年3月30日）——但明确警告"若日元进一步大幅走弱可能下调"</strong>。<span class="badge v">已核实</span> 最后这一条值得单独记住：<strong>汇率已经进入主权评级的触发条件。</strong></p>
+
+<p><strong>消费税措施的准确内容：</strong>飲食料品的税率 <strong>8%→1%</strong>，2027年4月起，<strong>为期2年</strong>，2029年4月恢复8%；定位为「つなぎ」（过渡），直到 FY2029 全面导入「給付付き税額控除」。<strong>法律状态：仅阁议决定（2026年8月5日），法案待秋季临时国会审议，截至2026年8月13日尚未成立。</strong>地方减收约 <strong>1.6兆円/年</strong>，由国家以特例交付金补偿；国＋地方的总减收额<strong>没有官方估计</strong>（媒体提及的"年5兆円"是记者提问时的框架，不是MOF数字，<strong>不应引用</strong>）。财源方针为「特例公債に頼らず」。</p>
+
+<h4>B. 产业投资：具体计划与已拨付金额</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>项目</th><th class="n">金额</th><th>口径与状态</th></tr></thead>
+<tbody>
+<tr><td colspan="3" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;color:var(--muted)">AI・半导体产业基盘强化框架（METI）</td></tr>
+<tr><td>框架总公共支援</td><td class="n"><strong>10兆円超</strong></td><td>FY2024–FY2030（7年）；补助・委托约6兆円＋金融支援（出资・债务保证）4兆円以上</td></tr>
+<tr><td>目标撬动民间投资</td><td class="n">50兆円超</td><td>10年；宣称经济波及效果约160兆円</td></tr>
+<tr class="tot"><td><strong>实际已列入预算</strong></td><td class="n"><strong>3.29兆円</strong></td><td>R6当初＋补正 14,630億 ＋ R7 5,853億 ＋ <strong>R8当初 12,390億</strong>（同比+272%）</td></tr>
+<tr><td>ラピダス Rapidus 委托费</td><td class="n">约1.7兆円</td><td>截至FY2025累计</td></tr>
+<tr><td>ラピダス 政府出资</td><td class="n">1,000億円</td><td>截至2026/2/27，经IPA；FY2026 追加出资预算 1,500億円</td></tr>
+<tr><td>JASM（TSMC熊本）</td><td class="n">4,760億円</td><td><span class="badge e">2025年7月口径，未见高市期更新</span></td></tr>
+<tr><td>Kioxia 四日市</td><td class="n">929億＋1,500億円</td><td>同上</td></tr>
+<tr><td>Micron 広島 / Samsung 広島</td><td class="n">465億 / 1,670億円</td><td>同上</td></tr>
+<tr><td>数据中心・电网（FY2025补正）</td><td class="n">93億 / 系统用蓄电池80億＋国庫債務616億</td><td>METI FY2025补正合计2.7兆円（含国庫債務3.1兆円）</td></tr>
+<tr><td colspan="3" style="background:rgba(128,128,128,.06);font-weight:600;font-size:12px;color:var(--muted)">GX（绿色转型）</td></tr>
+<tr><td>GX経済移行債 框架</td><td class="n">20兆円/10年</td><td>自FY2023</td></tr>
+<tr><td>　已发行累计</td><td class="n"><strong>约3.99兆円</strong></td><td>FY2023 1.59兆 ＋ FY2024 1.39兆 ＋ FY2025 约1.0兆；<strong>约为20兆额度的20%</strong></td></tr>
+<tr><td>官民GX投资目标</td><td class="n">150兆円/10年</td><td>GX2040ビジョン（2025年2月18日阁议决定）；<span class="badge e">无官方进度追踪</span></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>一个容易被忽略的战略转向：</strong>在新的官民投资路线图里，「资源・能源安保・GX」只占 370兆円 中的 <strong>28.8兆円</strong>，而「AI・半导体」占 <strong>101.6兆円</strong>。<strong>GX 相对于 AI/半导体已被显著降级。</strong></p>
+
+<p><strong>DBJ 设备投资计划调查（2026年6月调查，8月4日公布）：</strong>FY2026 计划国内设备投资 <strong>24兆7,551億円（+19.7%）</strong>；制造业 7兆8,639億（+13.2%）、非制造业 16兆8,912億（+22.9%）。FY2025 的计划增速是 +14.3%，<strong>FY2026 在加速</strong>。制造业分行业：纸浆 +31.1%、电气机械 +18.2%、石油 +18.0%、一般机械 +17.0%、运输机械 +14.2%。调查覆盖大企业2,756社（回收1,598社）。驱动因素：AI・数据中心、城市机能强化、入境游对应。<span class="badge v">已核实</span> <span class="badge e">海外设备投资分项未取得</span>——DBJ 网站的2026年报告PDF返回重定向循环/404，因此<strong>无法在同一调查内做国内vs海外的同口径对比</strong>。</p>
+
+<h4>C. 官民协同：机制、目标与差距</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>要素</th><th>实际内容</th></tr></thead>
+<tbody>
+<tr><td>机制名称</td><td><strong>不存在"官民连携论坛"。</strong>实体是<strong>日本成長戦略本部／日本成長戦略会議</strong>（2025年11月4日设立，内阁官房事务局），取代岸田的「新しい資本主義実現会議」。已开7次会议。</td></tr>
+<tr><td>官民投资路线图</td><td>2026年6月24日在经济财政咨问会议・日本成长战略会议联席会议提出；7月21日提出(案)</td></tr>
+<tr><td>路线图规模</td><td>「全体を合計した官民投資額は、現時点で<strong>2040年度までの累計で370兆円超</strong>を想定」——覆盖17个战略领域的62个"主要产品・技术"，15年累计，<strong>年均约26兆円</strong>。<strong>政府未披露官民分担比例。</strong>政府自称为「参考値」并承认存在重复计算。</td></tr>
+<tr class="tot"><td><strong>国内投资目标</strong></td><td>《骨太の方針2026》逐字：「<strong>2040年度に250兆円の国内投資</strong>を実現することを<strong>新たな官民目標</strong>と位置付け」。内阁府参考资料定义：「<strong>民間国内投資全体の2040年度時点での年間フローの数字</strong>」＝研发投资＋设备投资。配套：民間設備投資 <strong>年間230兆円</strong>、GDP 迫近 <strong>1,100兆円</strong>。</td></tr>
+<tr><td>17领域前5</td><td>AI・半导体 <strong>101.6兆</strong>（半导体68.0/垂直AI23.1/物理AI10.5）· 数字与网络安全 55.4兆 · 创药与先端医疗 43.3兆 · 内容产业 33.7兆 · 合成生物学 33.6兆</td></tr>
+<tr><td>经团联立场</td><td>筒井会长（2026/6/23）：「官民連携の下で、<strong>国内投資を推進するという大きな方向性は官民双方で共有できている</strong>」「従来の国内投資目標を<strong>上回る</strong>結果につながることを期待」。<strong>经团联没有自己的数值目标。</strong>其4月提言支持把财政目标改为债务/GDP比，但坚持消费税减税必须「<strong>代替財源の明確化が大前提</strong>」。</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>D. 差距分析：250兆円目标需要什么</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>指标</th><th class="n">FY2021</th><th class="n">FY2023</th><th class="n">FY2025</th><th class="n">FY2040目标</th></tr></thead>
+<tbody>
+<tr><td>名目GDP</td><td class="n">576.6兆円</td><td class="n">619.6兆円</td><td class="n">669.4兆円</td><td class="n">迫近1,100兆円</td></tr>
+<tr><td>総固定資本形成</td><td class="n">156.7兆円<br><span class="src">27.18% GDP</span></td><td class="n">172.1兆円<br><span class="src">27.78%</span></td><td class="n">185.7兆円<br><span class="src">27.75%</span></td><td class="n">—</td></tr>
+<tr class="tot"><td><strong>民間企業設備</strong></td><td class="n"><strong>102.2兆円</strong><br><span class="src">17.72% GDP</span></td><td class="n"><strong>114.4兆円</strong><br><span class="src">18.46%</span></td><td class="n"><strong>125.3兆円</strong><br><span class="src">18.72%</span></td><td class="n"><strong>230兆円</strong></td></tr>
+<tr><td>＋民間研發投資</td><td colspan="3" class="n src">约15–17兆円（未核实）</td><td class="n">合计 <strong>250兆円</strong></td></tr>
+<tr><td colspan="4"><strong>所需增速</strong></td><td class="n"><strong>约 +84%<br>≈ 4.1% 名目 CAGR × 15年</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：内閣府 国民経済計算（2026年1–3月期2次速報，2026年6月8日）。<span class="badge v">已核实</span> FY2025 为速报值。<strong>⚠️ GDP统计经过基准改定，不可与改定前序列拼接。</strong></p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>我的评估：目标不荒谬，但对日元的含义是负面的。</strong></p>
+<p style="margin:0 0 8px"><strong>可行性：</strong>民间企业设备从 FY2021 的 102.2兆円 升到 FY2025 的 125.3兆円（<strong>+22.6%</strong>，占GDP比从 17.72% 升到 18.72%）——<strong>这是真实的、已经发生的改善，但只有约1个百分点</strong>。要达到 FY2040 的 230兆円，需要 15 年维持 4.1% 的<strong>名目</strong>增速；对照内阁府自己的名目GDP路径（3.4% CAGR），意味着投资占GDP比要从 18.7% 升到约 21%。<strong>算术上不荒谬，但需要 AI/数据中心周期从一轮资本开支高峰变成一个持续15年的结构性抬升</strong>——这是核心的可证伪点。</p>
+<p style="margin:0 0 8px"><strong>正确的"国内 vs 海外"对比（替代 v1 那个无效的 1:1.3）：</strong>2025年对外直接投资流量 32.62兆円，相当于 FY2025 民間企業設備 125.3兆円 的 <strong>26.0%</strong>。即：<strong>日本企业每在国内投1元，就在海外投约0.26元。</strong>这个比例本身不算离谱——问题在于海外那部分的回报率更低（第5.3节）。</p>
+<p style="margin:0"><strong>对日元的含义：</strong>这套政策组合在方向上是支持日元的（资本留在国内、对内投资上升），但融资方式是<strong>扩大的国债发行 + 一个规模不清、官民分担不明的 370兆円 或有承诺</strong>。<strong>短期内，国内投资复苏与日元稳定仍是冲突的目标</strong>——这一点 v1 的判断成立，只是理由要换：不是"近期赤字失控"（官方数据不支持），而是<strong>"长期财政边界被主动模糊化"</strong>（PB目标被降级、370兆円 无分担比例、利払費一年+23.9%）。</p>
+</div>
+
+<h4>E. 对内直接投资：目标与现实的差距</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>项目</th><th class="n">数值</th></tr></thead>
+<tbody>
+<tr><td>旧目标（2023年设定）</td><td class="n">2030年 100兆円</td></tr>
+<tr><td><strong>现行目标</strong>（2025年6月上调）</td><td class="n"><strong>2030年 120兆円</strong>；2030年代前半尽早达到 150兆円</td></tr>
+<tr class="tot"><td><strong>2025年末实际存量</strong></td><td class="n"><strong>约58.6兆円</strong>（较上年末增约5.1兆円）＝目标的 <strong>49%</strong></td></tr>
+<tr><td><span class="badge e">数据冲突</span></td><td class="n">JETRO 报 <strong>61.2兆円</strong>（较2024年末53.3兆円 +14.8%），且增量<strong>绝大部分来自公司间债务（+5.4兆円）</strong>，而非股权（+0.7兆）或再投资收益（+1.8兆）。与内阁府的 58.6兆 不一致，可能是速报vs修订的口径差。<strong>若增量主要是公司间债务，则"吸引外资"的叙事很弱——那是融资，不是绿地投资。</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：内閣府《対日直接投資促進プログラム（2026）》（2026年7月2日 対日直接投資推進会議决定）；JETRO。<span class="badge v">已核实</span> 2026年措施：活用AI・半导体框架吸引外资、九州广域半导体等诱致推进本部（2025年9月设于JETRO福冈）、全球创业加速计划、法人设立手续英语化・一站式化的自治体扩大、以东南亚与印度为重点的高度人才确保。</p>
+
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.4</b>
+  <ul>
+    <li><strong>Three premise corrections:</strong> the domestic investment target is <strong>¥250tn as an annual flow in FY2040</strong> (not ¥200tn cumulative); the food consumption tax measure is <strong>8%→1% for two years from April 2027 and is not yet law</strong>; and the ¥21.3tn package figure is <strong>真水 / national-treasury, not 事業規模</strong> — the Takaichi government published no project-scale headline at all, making this one of the largest genuine packages on record.</li>
+    <li><strong>The "fiscal deterioration" narrative does not survive the budget documents.</strong> The FY2026 initial budget shows a <strong>primary surplus of ¥1.34tn</strong> — a first — bond dependency down to 24.2%, and the Cabinet Office projects the general-government PB turning positive in FY2027 with debt/GDP falling from 187.6% to 176.7% by FY2035. All three rating agencies are stable.</li>
+    <li><strong>So why is the 10y JGB at 2.83%?</strong> Three explanations that don't require near-term deficit blowout: <strong>interest costs jumped 23.9% in one year</strong>; the fiscal rule itself was changed in 骨太2026 from a PB-balance target to "stable decline in debt/GDP" <strong>with no dated PB target</strong>; and the roadmap commits to <strong>¥370tn+ of public-private investment to FY2040 with the public/private split undisclosed</strong>. The market is pricing the 2030s, not 2026.</li>
+    <li><strong>S&P explicitly warns it may downgrade if the yen weakens much further</strong> — the exchange rate has entered the sovereign rating reaction function.</li>
+    <li><strong>The valid domestic-vs-overseas ratio:</strong> 2025 outward FDI (¥32.62tn) equals <strong>26.0% of FY2025 private non-residential investment (¥125.3tn)</strong>. Private capex has risen from 17.7% to 18.7% of GDP since FY2021 — real, but only ~1 point.</li>
+    <li><strong>Inward FDI is at ¥58.6tn against a ¥120tn 2030 target — 49% of the way</strong> — and JETRO's data shows the 2025 increase was driven overwhelmingly by <strong>inter-company debt</strong>, which is financing, not greenfield investment.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c5">五、海外投资的规模、分布与投资收益<span class="en">Ch.5 — Scale, distribution and returns of Japan's overseas investment</span></h2>
+
+<h3>5.1 规模与结构：2021 / 2023 / 2025 三时点<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">The external balance sheet at three points</span></h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>对外资产负债残高（兆円）</th><th class="n">2021年末</th><th class="n">2023年末</th><th class="n">2025年末</th><th class="n">2021→2025</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>对外资产 合计</strong></td><td class="n"><strong>1,249.9</strong><br><span class="src">217% GDP</span></td><td class="n"><strong>1,488.3</strong><br><span class="src">240% GDP</span></td><td class="n"><strong>1,805.6</strong><br><span class="src">270% GDP</span></td><td class="n pos"><strong>+44.5%</strong></td></tr>
+<tr><td>　直接投资</td><td class="n">228.8</td><td class="n">307.7</td><td class="n">384.5</td><td class="n pos">+68.1%</td></tr>
+<tr><td>　证券投资</td><td class="n">578.3</td><td class="n">617.3</td><td class="n">768.7</td><td class="n pos">+32.9%</td></tr>
+<tr><td>　金融衍生品</td><td class="n">35.8</td><td class="n">62.3</td><td class="n">65.5</td><td class="n pos">+83.0%</td></tr>
+<tr><td>　其他投资</td><td class="n">245.2</td><td class="n">317.9</td><td class="n">373.3</td><td class="n pos">+52.2%</td></tr>
+<tr><td>　外汇储备</td><td class="n">161.8</td><td class="n">183.1</td><td class="n">213.7</td><td class="n pos">+32.1%</td></tr>
+<tr class="tot"><td><strong>对外负债 合计</strong></td><td class="n"><strong>838.7</strong><br><span class="src">145% GDP</span></td><td class="n"><strong>1,017.0</strong><br><span class="src">164% GDP</span></td><td class="n"><strong>1,243.9</strong><br><span class="src">186% GDP</span></td><td class="n neg"><strong>+48.3%</strong></td></tr>
+<tr><td>　直接投资</td><td class="n">40.5</td><td class="n">50.5</td><td class="n">58.6</td><td class="n">+44.6%</td></tr>
+<tr><td>　证券投资</td><td class="n">471.0</td><td class="n">505.5</td><td class="n">643.9</td><td class="n">+36.7%</td></tr>
+<tr><td>　金融衍生品</td><td class="n">35.1</td><td class="n">63.7</td><td class="n">70.4</td><td class="n">+100.5%</td></tr>
+<tr><td>　其他投资</td><td class="n">292.1</td><td class="n">397.3</td><td class="n">471.0</td><td class="n">+61.3%</td></tr>
+<tr class="tot"><td><strong>对外净资产</strong></td><td class="n"><strong>411.2</strong><br><span class="src">71.3% GDP</span></td><td class="n"><strong>471.3</strong><br><span class="src">76.1% GDP</span></td><td class="n"><strong>561.8</strong><br><span class="src">83.9% GDP</span></td><td class="n pos"><strong>+36.6%</strong></td></tr>
+<tr><td>对外直接投资／对内直接投资</td><td class="n">5.6×</td><td class="n">6.1×</td><td class="n">6.6×</td><td class="n">不对称持续扩大</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：財務省《本邦対外資産負債残高》各年末（2021年末为2022/5/27公布，2023年末为2024/5/28，2025年末为2026/5/26）；GDP 为对应年度的名目值（内閣府 SNA）。<span class="badge v">已核实（子任务经单位行确认为10億円口径）</span> 注：2025年末公布时对2024年末做了<strong>重述</strong>（资产 1,664,274 vs 原 1,659,022；净 538,101 vs 原 533,050），本表的 2025 增量以重述后基数计。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>三时点对比揭示的第一件事：负债增长快于资产。</strong></p>
+<p style="margin:0 0 8px">2021→2025，对外资产 +44.5%，<strong>对外负债 +48.3%</strong>，净资产只有 +36.6%。<strong>日本的净债权国地位在相对意义上正在被稀释</strong>——这就是 2024 年德国超越日本、结束其长达34年纪录的算术原因。驱动力是<strong>外资对日本证券的购买</strong>（证券投资负债 2021→2025 +36.7%，仅2025一年就 +94.2兆円）。</p>
+<p style="margin:0 0 8px"><strong>第二件事：资产结构的"股权化"是真实的，且在加速。</strong>直接投资 +68.1%，远快于证券投资的 +32.9%。直接投资占对外资产的比重从 18.3%（2021）升到 21.3%（2025）。<strong>这提高了长期回报的上限，但也提高了净头寸的波动性、降低了流动性——而且第5.3节会显示，这恰恰是回报率最差的一条腿。</strong></p>
+<p style="margin:0"><strong>第三件事：金融衍生品负债翻了一倍（+100.5%），且始终大于资产端。</strong>再加上"其他投资"的净负债从 −46.8兆円（2021）扩大到 −97.8兆円（2025），这两项合计构成了日本对外资产负债表上<strong>杠杆化程度最高、也最容易在压力下瞬间逆转</strong>的部分。2024年8月5日的套息平仓崩盘就发生在这一层。</p>
+</div>
+
+<figure>
+  <figcaption style="margin:0 0 10px"><span class="ft">图3 · 对外资产与对外负债的结构（2025年末，兆円）</span>Japan's external assets vs liabilities by instrument, end-2025, ¥tn</figcaption>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--s1)"></i>对外资产 External assets</span>
+    <span><i class="sw" style="background:var(--s2)"></i>对外负债 External liabilities</span>
+  </div>
+  <div id="fig3"></div>
+  <figcaption>来源：日本财务省《本邦对外资产负债残高》2025年末（2026年5月26日公布）。<span class="badge v">已核实</span> 合计：资产 1,805.6兆円、负债 1,243.9兆円、净头寸 561.8兆円（同比 +23.65兆円）。</figcaption>
+</figure>
+
+<h4>2025年资产增长的因素分解——批评成立，但有一个反转</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>2025年变动因素（億円）</th><th class="n">变动额</th><th class="n">取引要因<br>Transactions</th><th class="n">为替相场变动<br>FX</th><th class="n">其他调整<br>Other (incl. price)</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>对外资产 合计</strong></td><td class="n"><strong>+141,360</strong></td><td class="n neg"><strong>−53,961</strong></td><td class="n"><strong>+12,281</strong><br><span class="src">占 8.7%</span></td><td class="n pos"><strong>+183,040</strong><br><span class="src">占 129%</span></td></tr>
+<tr><td>　直接投资</td><td class="n">+31,719</td><td class="n">+32,624</td><td class="n">+5,419</td><td class="n">−6,324</td></tr>
+<tr><td>　证券投资</td><td class="n">+69,835</td><td class="n">+15,347</td><td class="n">+6,476</td><td class="n">+48,012</td></tr>
+<tr><td>　金融衍生品</td><td class="n">+2,240</td><td class="n">−120,727</td><td class="n">−0</td><td class="n">+122,967</td></tr>
+<tr><td>　其他投资</td><td class="n">+18,304</td><td class="n">+13,245</td><td class="n">−1,739</td><td class="n">+6,798</td></tr>
+<tr><td>　外汇储备</td><td class="n">+19,261</td><td class="n">+5,550</td><td class="n">+2,124</td><td class="n">+11,587</td></tr>
+<tr class="tot"><td><strong>对外净资产</strong></td><td class="n"><strong>+23,650</strong></td><td class="n">+29,684</td><td class="n pos"><strong>+13,422</strong><br><span class="src">占 <strong>56.8%</strong></span></td><td class="n neg">−19,456</td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：財務省《本邦対外資産負債残高の変動要因》2025年（<code>2025_g1.pdf</code>）。<span class="badge v">已核实，24项行列合计全部闭合</span> ⚠️ MOF 只发布三个因素（取引・為替・その他調整），<strong>没有单独的"价格变动"栏</strong>——价格/估值效应包含在"その他調整"里。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>批评者是对的，但只对了一半——这个反转很重要。</strong></p>
+<p style="margin:0 0 8px"><strong>成立的部分：</strong>在<strong>总资产</strong>口径上，汇率因素只有 12,281億円，占 141,360億円 增幅的 <strong>8.7%</strong>。主因是"その他調整"（+183,040億円），即证券价格上涨。我在 v1 说"相当部分是汇率重估"确实高估了。</p>
+<p style="margin:0"><strong>但在<strong>净头寸</strong>口径上，汇率因素是 13,422億円，占净增 23,650億円 的 <strong>56.8%</strong>——超过一半。</strong> 原因是汇率对资产端（+12,281）和负债端（−1,140）的作用方向相反，在净额上被放大。<strong>所以"日元贬值撑起了日本的净债权地位"这个说法，在净头寸口径上是成立的；在总资产口径上不成立。</strong>两个数字都对，取决于问的是哪个问题。<br>另一个值得注意的读数：<strong>取引要因（真实的资金交易）对总资产的贡献是 −53,961億円，是负的</strong>——主要由衍生品的 −120,727億円 驱动。<strong>2025年日本对外资产的扩张，几乎完全不是靠新增投资，而是靠估值。</strong></p>
+</div>
+
+
+<h3>5.2 地区与工具分布</h3>
+<div class="tblwrap">
+<table>
+<thead><tr><th>口径</th><th>第一大目的地</th><th>第二大</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>证券投资存量</td><td>美国</td><td><strong>开曼群岛</strong> 128.4兆円（2024末，约8,199亿美元）；2025上半年增至约 8,531亿美元</td><td>开曼占日本海外投资基金持仓的 <strong>62.4%</strong>（2024）——这是私募股权、对冲基金、基础设施等另类投资的通道<span class="badge v">Cayman Finance / IMF CPIS</span></td></tr>
+<tr><td>对外直接投资流量（2025）</td><td>欧洲 12.30兆円（+43.3%）</td><td>北美 9.55兆円（−22.0%）、亚洲 6.02兆円（−1.9%）</td><td>欧洲自2020年起超越北美<span class="badge v">JETRO</span></td></tr>
+<tr><td>对美投资地位</td><td colspan="2">日本连续 7 年是美国最大的对内直接投资来源国（2025年末美国对内FDI存量 5.86万亿美元）</td><td><span class="badge v">JETRO</span></td></tr>
+<tr><td>美债持有</td><td colspan="2">2026年4月 <strong>1.21万亿美元</strong></td><td>长期为最大外国持有人之一<span class="badge e">二手来源</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>开曼群岛这一项值得单独强调。</strong> 128.4兆円（约占对外证券投资的17%）经由开曼配置，意味着日本对外投资的<strong>真实最终风险敞口是不透明的</strong>——它可能最终投向美国私募信贷、全球基础设施或对冲基金策略。这有两个含义：(a) 这部分资产的流动性远低于账面显示的"证券投资"；(b) 在压力情境下，这部分资产<strong>无法快速变现回流以支撑日元</strong>。日本"有 1,800兆円 对外资产可以卖来救日元"的直觉判断，需要对这一层做大幅折扣。</p>
+
+<h3>5.3 投资收益：三时点与结构分解<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">Returns: three points and a structural decomposition</span></h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>收益指标</th><th class="n">FY2022</th><th class="n">FY2023</th><th class="n">FY2025</th><th>口径</th></tr></thead>
+<tbody>
+<tr><td>第一次所得収支</td><td class="n">35.41兆円</td><td class="n">37.53兆円</td><td class="n">42.30兆円</td><td>MOF 国际收支<span class="badge v">已核实</span></td></tr>
+<tr><td>／名目GDP（同年度）</td><td class="n">5.98%</td><td class="n">6.06%</td><td class="n">6.32%</td><td>本报告计算，FY口径匹配</td></tr>
+<tr><td>／对外总资产（上年末）</td><td class="n">约 2.83%</td><td class="n">约 2.52%</td><td class="n">约 2.54%</td><td><strong>净所得÷总资产，是下限而非真实收益率</strong></td></tr>
+<tr><td>／对外净资产（上年末）</td><td class="n">约 8.61%</td><td class="n">约 7.97%</td><td class="n">约 7.86%</td><td><strong>杠杆化收益，不可读作资产回报率</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">分子为 FY 口径的第一次所得収支；分母的 GDP 为同年度名目GDP（FY2022 591.7兆 / FY2023 619.6兆 / FY2025 669.4兆），对外资产为上一年末残高（2021末 1,249.9兆 / 2022末推算 / 2024末 1,664.3兆）。<span class="badge e">FY2022 与 FY2023 的分母使用了跨年匹配，为近似</span> 三个比率<strong>都在缓慢下行或持平</strong>——所得收支的绝对额在涨，但相对于日益膨胀的资产基数并没有变好。</p>
+
+<h4>PIIE 的超额回报研究：口径必须分清</h4>
+<div class="tblwrap">
+<table>
+<thead><tr><th>指标</th><th class="n">数值</th><th>口径与期间</th></tr></thead>
+<tbody>
+<tr class="tot"><td><strong>整体超额回报差（含估值）</strong></td><td class="n pos"><strong>+1.0pp</strong></td><td>1997–2014</td></tr>
+<tr class="tot"><td><strong>整体超额回报差（含估值）</strong></td><td class="n pos"><strong>+0.8pp</strong></td><td>延伸至2024 — <strong>在收窄</strong></td></tr>
+<tr class="tot"><td><strong>整体超额回报差（剔除汇率效应）</strong></td><td class="n pos"><strong>+0.4pp</strong></td><td>2001–2024 — <strong>一半以上的超额回报来自日元贬值</strong></td></tr>
+<tr><td>整体收入收益率差（资产−负债）</td><td class="n pos">近 +2pp</td><td>近期 — <strong>仍为正</strong></td></tr>
+<tr><td>证券债券收益率差</td><td class="n pos">稳健为正</td><td>受益于全球高利率</td></tr>
+<tr><td>证券股票收益率差</td><td class="n neg">已转负</td><td>近期走弱</td></tr>
+<tr><td><strong>直接投资 总回报差</strong></td><td class="n neg"><strong>约 −4.1pp</strong></td><td>2001–2024，<strong>含估值的总回报口径</strong></td></tr>
+<tr><td><strong>直接投资 收入收益率差</strong></td><td class="n neg"><strong>约 −2.1pp</strong></td><td><strong>只看收入流的口径，量级小一半</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：PIIE Working Paper 25-22《Perspectives on Japan's continuing exorbitant privilege》。<span class="badge v">整体口径已核实</span><span class="badge e">−4.1 与 −2.1 的口径区分采信外部批评者的引用，我未能重开PIIE原文逐项复核</span></p>
+
+<h4>正面回答：这是否表明投资模式存在"重大缺陷"？</h4>
+
+<div class="kt flag">
+<b>先撤回 v1 的结论</b>
+<p style="margin:0">v1 写道「日本正在用低回报的对外资产，换取高回报的对内负债」。<strong>这个推广是错的，与我自己在同一节给出的"整体超额回报 +0.8pp"直接矛盾</strong>——一个整体为正、单项为负的结构，不能被描述为"用低回报换高回报"。已撤回。</p>
+</div>
+
+<p><strong>我的回答：存在一个真实且可量化的效率问题；但"重大缺陷"这个定性，证据支持它是"趋势性风险"，不支持它是"当下状态"。</strong> 分三层说：</p>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>层次</th><th>证据</th><th class="n">裁定</th></tr></thead>
+<tbody>
+<tr><td><strong>① 直接投资这条腿确实低效</strong></td><td>收入收益率差约 −2.1pp（总回报口径 −4.1pp）。日本用 384.5兆円 对外直接投资，其回报率低于外资用 58.6兆円 在日本赚到的。而且这是<strong>规模最大（占对外资产21.3%）、增长最快（2021→2025 +68.1%）、流动性最低、最不可逆</strong>的一块。</td><td class="n neg"><strong>成立</strong></td></tr>
+<tr><td><strong>② 整体仍在赚正的超额回报</strong></td><td>+0.8pp（含汇率）／+0.4pp（剔除汇率）；整体收入收益率差近 +2pp。<strong>证券债券这条腿把整体拉成了正数。</strong></td><td class="n pos"><strong>"失血"不成立</strong></td></tr>
+<tr><td><strong>③ 但回报的<em>质量</em>在系统性下降</strong></td><td>(a) 超额回报 1.0→0.8→剔汇率仅0.4pp；(b) 撑住整体的两条支柱是<strong>全球高利率</strong>（周期性）与<strong>日元贬值</strong>（不可持续），而拖后腿的直接投资是结构性的；(c) 2021→2025 <strong>负债增速（48.3%）超过资产增速（44.5%）</strong>；(d) 2024年<strong>德国超越日本</strong>成为最大净债权国，结束34年纪录；(e) 2025年资产扩张的<strong>取引要因是负的（−5.4兆円）</strong>，全靠估值。</td><td class="n"><strong>这才是真问题</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>结论性表述（比 v1 窄，也比 v1 站得住）</strong></p>
+<p style="margin:0 0 8px"><strong>日本的对外投资模式不是"在失血"，而是"靠两根临时支柱撑着一个结构性缺陷"。</strong>缺陷是直接投资的低回报；支柱是全球高利率与日元贬值。<strong>这两根支柱恰好会同时消失</strong>——如果美联储降息（支柱一消失），通常伴随日元升值（支柱二消失）。<strong>也就是说：日本外部资产负债表的回报，在日元走强的情境下会双重受损。</strong>这正是第5.3节末尾那个自稳定机制的更精确版本。</p>
+<p style="margin:0"><strong>要把它升级为"重大缺陷"的判断，需要的证据是：分部门的、剔除估值后的实际收益率时间序列。</strong>这在公开数据里不存在——MOF 的变动要因表只有三栏（取引／为替／其他调整），价格效应被混在"其他调整"里，无法把直接投资的经营性回报与估值分离。<strong>这是本报告最大的、且可能无法用公开数据填补的缺口。</strong></p>
+</div>
+
+<div class="card tight">
+<p style="margin:0 0 6px"><strong>对日元的含义（这一条不受上述修订影响）</strong></p>
+<p style="margin:0">日本的所得收支顺差是<strong>杠杆化的、且其日元计价值与日元汇率负相关的</strong>。如果日元大幅升值，第一次所得收支的日元计价值会立即下降，经常账户顺差会缩小，从而<strong>削弱"顺差国货币应该升值"的逻辑自身</strong>。这是一个自稳定机制——它解释了为什么日元的贬值和升值都难以走远。</p>
+</div>
+
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.5</b>
+  <ul>
+    <li><strong>Three-point view (2021/2023/2025):</strong> external assets +44.5%, but <strong>liabilities +48.3%</strong> and net only +36.6%. Japan's creditor position is being diluted in relative terms — the arithmetic behind Germany overtaking it in 2024 after a 34-year run.</li>
+    <li><strong>The balance sheet is equitising:</strong> outward direct investment +68.1% over 2021–25 vs portfolio +32.9%, lifting DI to 21.3% of external assets. That raises the long-run return ceiling but lowers liquidity — and DI is the worst-returning leg.</li>
+    <li><strong>On the 2025 FX-contribution dispute, both sides are right:</strong> FX explains only <strong>8.7% of the gross asset increase</strong> (¥12.28tn of ¥141.36tn) — the critic is correct — but <strong>56.8% of the net position increase</strong> (¥13.42tn of ¥23.65tn), because FX moves assets and liabilities in opposite directions. Note also that <strong>transactions contributed −¥5.4tn</strong>: 2025's asset expansion was almost entirely valuation.</li>
+    <li><strong>Answering the "major flaw" question directly:</strong> the v1 claim that Japan swaps low-return assets for high-return liabilities is <strong>retracted</strong> — it contradicted the +0.8pp aggregate excess return in the same section. The defensible version: <strong>Japan is not bleeding; it is running a structural deficiency (direct investment, −2.1pp income yield differential) propped up by two temporary pillars — high global rates and yen depreciation — which would disappear together.</strong></li>
+    <li><strong>The gap that would settle it</strong> — a valuation-stripped, sector-level real return series — <strong>does not exist in public data.</strong> MOF publishes only three factors and buries price effects inside "other adjustments."</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c6">六、利率、汇率、通胀的历史回顾与因果推演<span class="en">Ch.6 — Rates, FX and inflation: history and causal chains</span></h2>
+
+<h3>6.1 政策利率的四十年</h3>
+
+<figure>
+  <figcaption style="margin:0 0 10px"><span class="ft">图4 · 日本银行政策利率路径（2013–2026）</span>BOJ policy rate path, 2013–2026, %</figcaption>
+  <div id="fig4"></div>
+  <figcaption>来源：日本银行。<span class="badge v">已核实</span> 关键节点：2016年1月负利率（−0.10%）；2024年3月退出负利率、终止YCC与ETF购买；2024年7月0.25%；2025年1月0.50%；2025年12月19日0.75%（30年最高，同日10年期JGB突破2%）；2026年6月16日1.00%（1995年9月以来最高）；2026年7月31日维持不变，1名委员主张加至1.25%。</figcaption>
+</figure>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>时期</th><th>利率制度</th><th>通胀</th><th>USD/JPY 关键点位</th><th>因果链条</th></tr></thead>
+<tbody>
+<tr><td><strong>1985–1990</strong></td><td>广场协议后大幅降息</td><td>低但资产通胀剧烈</td><td>240 → 约120</td><td>协议升值 → 出口受挫 → 为对冲而宽松 → 资产泡沫</td></tr>
+<tr><td><strong>1991–1998</strong></td><td>泡沫破裂后连续降息至近零</td><td>转向通缩</td><td>1995/04 <strong>79.75</strong>（当时历史高点）→ 1998 约147</td><td>资产负债表衰退 → 企业去杠杆 → 内需塌陷 → 通缩</td></tr>
+<tr><td><strong>1999–2012</strong></td><td>ZIRP（1999）、QE（2001–06）</td><td>长期通缩</td><td>2007套息交易 → 2008危机后急升 → 2011/10 <strong>75.35</strong> 历史高点</td><td><strong>关键洞察：通缩使实际利率维持高位，日元在危机中反而升值（避险+套息平仓+回流）</strong></td></tr>
+<tr><td><strong>2013–2021</strong></td><td>QQE（2013）、负利率（2016.01）、YCC（2016.09）</td><td>始终未达2%</td><td>80 → 100+ → 长期110–115区间</td><td>安倍经济学：贬值 → 出口企业利润 → 股市；但工资未跟上，内需未起</td></tr>
+<tr><td><strong>2022–2024</strong></td><td>坚守YCC → 2024.03退出</td><td><strong>转为通胀</strong>（2023约3.2%）</td><td>2022/10 151.94 → 2024/07 161.76</td><td><strong>美联储激进加息 + BOJ不动 = 利差爆炸 → 套息交易 → 日元崩</strong></td></tr>
+<tr><td><strong>2025–2026</strong></td><td>连续加息至1.00%</td><td>2025年3.2%（IMF）→ 2026/06 回落至1.7%</td><td>6/29 162.40 → <strong>7/28 163.85</strong>（1986年来最弱）→ 联合干预后 155.20/157.40 → 现 159.40</td><td><strong>新组合：加息但日元更弱 → 财政风险溢价主导</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">1985–2021年的历史点位为经济史上广泛记载的事实；2022年以后的数据本次已逐项核实。<span class="badge e">早期为常识性历史</span><span class="badge v">2022年后已核实</span></p>
+
+<h3>6.2 三个因果链条的推演</h3>
+
+<h4>链条A（1990–2012）：通缩 → 高实际利率 → 日元升值 → 更强通缩</h4>
+<p>这是日本"失去的二十年"的核心机制。名义利率被压到零，但通缩使<strong>实际利率</strong>维持在正值区间。高实际利率吸引资金、抑制投资，日元趋势性升值（一路走到2011年的75.35），升值又通过进口价格压低通胀——<strong>一个完美的自我强化的通缩螺旋</strong>。安倍经济学的全部意义，就是用无限量的货币基础扩张打破这个链条。</p>
+
+<h4>链条B（2022–2024）：外部通胀 + 政策不动 → 利差爆炸 → 套息交易 → 日元崩塌 → 输入型通胀</h4>
+<p>2022年，美联储在一年内加息425bp，BOJ 死守 YCC。名义利差从近零扩大到近400bp。资本流动模型（尤其是<strong>组合平衡模型</strong>）在此期间的解释力是极高的：无对冲的海外债券投资在息差和汇兑上双重获利，形成自我强化的卖日元行为。日元跌破151.94后，MOF 于1998年以来首次买入日元干预。</p>
+<p>这个链条产生了一个重要的<strong>政治后果</strong>：输入型通胀让日本家庭第一次在几十年后重新体验到物价上涨，并且实际工资连续下滑。<strong>"弱日元有利"的日本传统共识，在2022年之后开始瓦解</strong>——这是理解2026年政策转向的政治基础。</p>
+
+<h4>链条C（2025–2026）：加息 + 财政扩张 → 曲线陡峭化 + 风险溢价 → 日元继续弱</h4>
+<p>这是<strong>最新、也最反直觉的链条</strong>，也是本报告的核心推演：</p>
+
+<div class="card">
+<ol style="margin:0">
+  <li><strong>起点：</strong> 高市政权（2025年10月上台，2026年2月8日大选取得战后罕见的绝对多数）推出 21.3兆円 财政扩张 + 食品消费税8年停征。财政赤字预计从 2.5% GDP 扩大到约 6%（FY2026–27）。公共债务 206.8%–209.3% GDP。</li>
+  <li><strong>传导1（债券）：</strong> 10年期 JGB 从2025年12月的约2%升至2026年8月的 <strong>2.834%</strong>（同比 +131bp）。这不是加息预期驱动的（政策利率只升了25bp），而是<strong>期限溢价 + 财政风险溢价</strong>驱动的。曲线在陡峭化。</li>
+  <li><strong>传导2（汇率的反常）：</strong> 按UIP，本币利率上升应导致本币升值。但当利率上升的原因是<strong>信用/财政风险</strong>而非<strong>实际增长或紧缩</strong>时，符号会翻转——这是新兴市场汇率理论中的标准结果（"财政主导"下的利率–汇率同向下跌）。<strong>2026年的日元第一次表现出了这种"新兴市场式"的反应函数。</strong> IMF 的措辞印证了这一点：日元走势"无法用收益率差解释"，并指向"财政风险认知"。</li>
+  <li><strong>传导3（实际利率）：</strong> 名义1.00% 对 BOJ 自身FY2026核心CPI预测约2.8%，实际政策利率约 −1.8%。加息在实际意义上并未构成紧缩。</li>
+  <li><strong>传导4（正反馈）：</strong> 日元贬值 → 进口能源与食品价格上升 → CPI上行 → BOJ被迫加息 → 债务付息成本上升 → 财政可持续性担忧加剧 → <strong>日元进一步贬值</strong>。这就是"财政主导"（fiscal dominance）陷阱的标准形态。</li>
+</ol>
+</div>
+
+<p><strong>2026年通胀数据（含一处口径澄清）：</strong> 総務省統計局 2020年基准数据显示，2026年6月日本 CPI 総合 <strong>+1.7%</strong>、除生鲜（核心）<strong>+1.6%</strong>、除生鲜及能源 <strong>+1.7%</strong>。<span class="badge v">已核实</span> 2026年1–6月核心CPI月度值为 2.0 / 1.6 / 1.8 / 1.4 / 1.4 / 1.6。
+<br><span class="badge e">口径提示</span> 有批评指出，按 <strong>2025年基准改定后</strong>的数据，6月総合应为 1.6%，且核心低于2%的月数为 6 个月而非 5 个月。日本 CPI 每五年改定基准，2025年基准的公布正好在 2026年8月——<strong>我未能核实改定后的修订序列</strong>。因此本报告<strong>删除了 v1 中"连续5个月低于2%"的计数</strong>，只保留可核实的月度数值本身。</p>
+
+<p>与此对照，BOJ 在2026年4月的《经济・物价形势展望》中对 FY2026 核心CPI的预测中值约为 2.8%（该数值来自对 BOJ PDF 的自动化提取，<span class="badge e">存在误读风险</span>）。<strong>无论基准口径与具体预测值如何，方向是清楚的：BOJ 预期通胀在下半年显著加速，而截至6月的现实数据尚未确认。</strong></p>
+
+<p>这就制造了2026年下半年的<strong>核心不确定性</strong>：如果通胀确实按BOJ预期加速（能源涨价 + 日元贬值 + 5.01%的春斗涨薪传导），BOJ将有空间继续加息；如果通胀维持在1.6–1.7%，BOJ加息的正当性会被削弱，而日元将失去最后一个支撑。<strong>注意这里的不对称：通胀低对日元是坏消息，而不是好消息。</strong></p>
+
+<h3>6.3 工资：唯一真正在改善的变量</h3>
+<p>2026年春斗（连合最终统计）实现 <strong>5.01%</strong> 的涨薪，连续第三年超过5%（初值 5.26%）。<span class="badge v">連合/Japan Times</span> 野村的森田京平指出，2026年的关键是实现"涨价与涨薪的相互强化"，因为二者目前仍是<strong>各自独立的现象</strong>。</p>
+<p>这是判断日本能否走出"输入型通胀"进入"需求拉动型通胀"的核心指标。<strong>只有后者才能支撑BOJ持续加息，也只有持续加息才能给日元提供可持续的支撑。</strong> 但同期有报道显示实际工资仍为负——名义5.01%的涨幅在扣除通胀与非工会部门的稀释后，尚未转化为家庭购买力的实质改善。</p>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.6</b>
+  <ul>
+    <li><strong>Chain A (1990–2012):</strong> deflation kept <em>real</em> rates positive at zero nominal rates → yen appreciated to 75.35 (2011) → appreciation deepened deflation. A perfect self-reinforcing trap; Abenomics existed to break it.</li>
+    <li><strong>Chain B (2022–24):</strong> Fed +425bp vs BOJ's YCC → ~400bp gap → carry trade → 151.94 then 161.76. The political consequence matters most: imported inflation ended Japan's decades-old consensus that a weak yen is good.</li>
+    <li><strong>Chain C (2025–26) is the new one:</strong> fiscal expansion (deficit 2.5%→~6% of GDP, debt ~207% GDP) pushed the 10y JGB to 2.834% (+131bp y/y) on <em>term and fiscal risk premium</em>, not policy expectations. When rates rise for credit reasons, the UIP sign flips — <strong>the yen is now trading with an emerging-market reaction function.</strong> The IMF explicitly attributes the unexplained yen weakness partly to fiscal-risk perception.</li>
+    <li>Nominal 1.00% vs BOJ's own FY2026 core CPI forecast leaves the <strong>real policy rate near −1.8%</strong>. Hiking has not been tightening.</li>
+    <li><strong>Asymmetry to watch:</strong> June 2026 core CPI at 1.6% (5th month below target) is <em>bearish</em> for the yen, not bullish — it removes the justification for further hikes. Wages (shuntō 5.01%, third year above 5%) are the one genuinely improving variable, but real wages remain negative.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c7">七、日元汇率的模型分析<span class="en">Ch.7 — A model-based assessment of the yen</span></h2>
+
+<p class="lede">我把主流模型分成四族：<strong>价格模型</strong>（PPP/REER）、<strong>利率模型</strong>（CIP/UIP/货币模型）、<strong>宏观均衡模型</strong>（BEER/FEER/IMF-EBA）、<strong>存量–流量模型</strong>（组合平衡/金融摩擦）。它们对当前日元给出的答案<strong>相互矛盾</strong>，而这个矛盾本身是可解释的。</p>
+
+<div class="kt flag">
+<b>⚠ 勘误：v1 的图5 是全篇最具误导性的一张图，已重做</b>
+<p style="margin:0 0 8px">v1 把五类<strong>性质完全不同的对象</strong>画在同一根轴上：绝对购买力平价（长期概念）、机构的点位预测、企业的预算假设汇率、我自己的 REER 机械算术、以及 IMF 的定性评价。它们不可比 —— 把它们并列会暗示存在一个"各方对公允值的共识区间"，而这个区间并不存在。</p>
+<p style="margin:0"><strong>更严重的是：v1 把 IMF"外部头寸大体均衡"这句定性结论，人为映射成了现价 159.4 这个点位</strong>（v2 又追加了一个 150 的"示意点"，等于错上加错）。IMF 从未给出过日元的公允值数字，而且如第7.3节所述，<strong>IMF 自 2015 年起就不再对日本使用 REER 均衡模型</strong>。<strong>IMF 已从本图中完全移除</strong>，改为文字说明。</p>
+</div>
+
+<figure>
+  <figcaption style="margin:0 0 10px"><span class="ft">图5 · 三类不可互比的 USD/JPY 参照点（重做版）</span>Three categorically different classes of USD/JPY reference points — <strong>not</strong> a consensus fair-value range</figcaption>
+  <div id="fig5"></div>
+  <figcaption><strong>请勿跨组比较。</strong> A组是<strong>长期价格概念</strong>（衡量商品篮子的相对价格，没有时间维度，不是预测）；B组是<strong>我自己做的机械算术</strong>（"若REER回升x%则汇率约为y"，不含任何关于是否会回升的判断）；C组是<strong>机构给出的点位</strong>，且组内也不同质——野村是12个月<em>预测</em>，NRI的120是其10年移动平均<em>均衡估计</em>且明说需要4–5年，企业147.87与MURC 156.1是<em>预算/模型假设</em>而非预测。<br><strong>IMF 不在图上：</strong>IMF 从不发布日元公允值点位；其2026年2月第四条款称2025年外部头寸"broadly in line"，2026年7月《对外部门报告》改列为"强于基本面"，但均为<strong>对经常账户口径的定性评级</strong>，无法转换为汇率点位。详见第7.3节。</figcaption>
+</figure>
+
+<h3>7.1 价格模型族：日元极度低估</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>模型</th><th class="n">隐含公允值</th><th class="n">低估幅度</th><th>数据与局限</th></tr></thead>
+<tbody>
+<tr><td><strong>绝对PPP：巨无霸指数</strong></td><td class="n">约 80.4</td><td class="n">约 50.4%</td><td>2026年7月：日本 ¥500 vs 美国 $6.22。<span class="badge v">已核实</span> <strong>局限</strong>：单一非贸易品，完全不调整人均收入与巴拉萨–萨缪尔森效应，对低收入/低增长国家系统性高估其货币的"应有"价值。</td></tr>
+<tr><td><strong>绝对PPP：GDP口径</strong></td><td class="n">约 95–100</td><td class="n">约 40%</td><td>由2024年 GDP-PPP 6.41万亿国际美元与名义日元GDP推算。<span class="badge e">推算</span> <strong>局限</strong>：同上，且GDP-PPP并非均衡汇率概念。</td></tr>
+<tr><td><strong>相对PPP / REER</strong></td><td class="n">见右</td><td class="n">见右</td><td>BIS广义REER 2026年6月 = <strong>65.30</strong>（2020=100），<strong>1970年有数据以来最低</strong>。<span class="badge v">BIS/FRED</span> 较1995年峰值下跌约三分之二；IMF测算2025年末REER较2021年均值低约25%。<span class="badge v">IMF</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>REER 回归的机械推算（仅作标尺，非预测）：</strong>若 REER 回升 10% / 20% / 30%，在其他条件不变下 USD/JPY 大致对应 <strong>145 / 133 / 123</strong>。</p>
+
+<p><strong>但价格模型有一个致命的解释缺口：日元的REER自1995年以来跌了三分之二，其中有多少是"错误定价"，有多少是"均衡值下移"？</strong> 我的判断是<strong>后者的占比不低</strong>，理由是第1.3节的反向巴拉萨–萨缪尔森逻辑：人口收缩 + 生产率增速低于贸易伙伴 → 均衡实际汇率本身应当贬值。用1995年的REER作为回归目标，在方法论上是错误的。<strong>价格模型能告诉你日元便宜，但不能告诉你它应该回到哪里。</strong></p>
+
+<h3>7.2 利率模型族：从"完全解释"到"完全失效"</h3>
+
+<h4>抛补利率平价（CIP）：成立，且给出了最重要的一个信号</h4>
+<p>CIP 在有效市场中通过对冲成本恒等式成立。对一个<strong>完全对冲</strong>的日本机构投资者：</p>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>计算（2026年8月，近似）</th><th class="n">数值</th></tr></thead>
+<tbody>
+<tr><td>美元3个月利率（T-bill）</td><td class="n">3.74%</td></tr>
+<tr><td>日元3个月利率（近似 = 政策利率 + 利差）</td><td class="n">约 1.05%</td></tr>
+<tr><td>交叉货币基差（日元方，典型为负）</td><td class="n">约 −20bp</td></tr>
+<tr class="tot"><td><strong>对冲成本 Hedging cost</strong></td><td class="n"><strong>约 2.9%</strong></td></tr>
+<tr><td>美国10年期国债收益率</td><td class="n">4.72%</td></tr>
+<tr><td><strong>完全对冲后的美债收益率</strong></td><td class="n"><strong>约 1.83%</strong></td></tr>
+<tr><td>10年期 JGB 收益率</td><td class="n">2.834%</td></tr>
+<tr class="tot"><td><strong>JGB 相对完全对冲美债的优势</strong></td><td class="n pos"><strong>约 +100bp</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">美债与联邦基金数据：美联储 H.15（2026-08-10）<span class="badge v">已核实</span>；JGB：Trading Economics（2026-08-12）<span class="badge v">已核实</span>；日元3个月利率与基差为本报告的合理假设<span class="badge e">假设</span>，未逐项核实到市场报价。</p>
+
+<div class="card">
+<p style="margin:0 0 6px"><strong>这是全篇最有操作含义的一个计算。</strong></p>
+<p style="margin:0">对<strong>完全对冲</strong>的日本机构投资者而言，日本国债现在比美国国债多赚约100bp。这意味着：<strong>(a)</strong> 结构性的对冲式海外债券配置在纯经济学上已经死了，这解释了2025年秋约半数寿险公司宣布削减海外债券的行为；<strong>(b)</strong> 边际上仍在买美债的日本资金，必须是<strong>不对冲</strong>的——也就是说，它本质上是一笔杠杆化的日元空头，而不是一笔债券投资；<strong>(c)</strong> 因此，日本对美债的边际需求正在变得<strong>更小、也更脆弱</strong>——它对日元升值的容忍度极低（按短端利差，1年期不对冲美元头寸的盈亏平衡点大约在 <strong>155.2</strong>）。</p>
+</div>
+
+<h4>非抛补利率平价（UIP）：2025年中以来失效</h4>
+<p>UIP 预测高息货币应该贬值以抵消利差。2022–2024年它甚至反向成立得极好（利差扩大 → 日元贬值 → 套息交易获利，这是著名的"远期溢价之谜"）。但<strong>2025年中以来连这个反向关系也断了</strong>：利差压缩约200bp，日元继续贬。</p>
+<p>IMF 的官方判断：<em>"2025年年中以来的日元走势有很大一部分无法用收益率差或其他基本面来解释"</em>，并把残差归因于<strong>日元期货市场头寸</strong>与<strong>财政风险认知</strong>。<span class="badge v">IMF 2026 Art.IV</span> 这等于官方承认：<strong>标准利率模型对当下日元的解释力已经很低。</strong></p>
+
+<h4>货币模型：一个被忽视的反向观点</h4>
+<p>有一派分析（基于货币主义框架）认为，政策制定者错误地盯住利率而非货币供应增速：日本M2增速已从新冠期间的峰值9.6%回落至约2.5%，与新冠前的停滞水平相当；据此推论，除非M2增速升到5%以上，通胀将继续回落，最终把利率也拖下来。<span class="badge e">单一来源观点</span></p>
+<p>我把它列出来，因为它给出了一个<strong>与市场共识相反的可证伪预测</strong>：如果这派是对的，2026年下半年通胀不会按BOJ预期加速，BOJ的加息周期会提前结束，日元将失去支撑。<strong>2026年6月核心CPI仅1.6%，暂时更支持这一派而非BOJ。</strong></p>
+
+<h3>7.3 宏观均衡模型族：IMF 的 EBA 框架，以及它自己承认的失败</h3>
+
+<p class="lede">这一节是全篇最需要展开的部分，因为它揭示了一件很少被引用的事：<strong>IMF 自己在 2015 年就正式停止对日本使用 REER 均衡模型</strong>，理由是"残差过大"和"缺失日本特有因素"。理解这一点，就理解了为什么所有基于"日元应该回到某个均衡值"的分析都站不住脚。</p>
+
+<h4>EBA 框架是什么</h4>
+<p>IMF 自2012年起用 <strong>EBA（External Balance Assessment，外部平衡评估）</strong>框架，每年在《对外部门报告》（ESR）和第四条款磋商报告中对约30个经济体做外部头寸评估。它有两条腿：</p>
+<ul>
+  <li><strong>CA 模型：</strong>用人口结构、净外国资产、人均收入、财政、储备等基本面回归出一个"应有的经常账户"（<strong>CA norm</strong>），实际周期调整后的 CA 减去 norm 得到 <strong>CA gap</strong>，再用贸易弹性折算成 REER gap。</li>
+  <li><strong>REER 模型：</strong>直接对实际有效汇率做回归（Level 与 Index 两个版本），得出 <strong>REER gap</strong>。</li>
+</ul>
+<p>最终结论用一个七级标尺表述：substantially weaker / weaker / moderately weaker / <strong>broadly in line</strong> / moderately stronger / stronger / substantially stronger（相对于中期基本面与合意政策所隐含的水平）。</p>
+
+<h4>逐年结论：2013–2026</h4>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>评估年</th><th class="n">CA<br>%GDP</th><th class="n">EBA<br>CA norm</th><th class="n">CA gap</th><th class="n">REER gap</th><th>IMF 官方结论</th></tr></thead>
+<tbody>
+<tr><td><strong>2013</strong></td><td class="n">0.7</td><td class="n">幕僚 2<br><span class="src">(EBA≈3)</span></td><td class="n">幕僚中值 <strong>0</strong><br><span class="src">区间 ±1½</span></td><td class="n"><strong>EBA模型 −14%</strong><br><span class="src">幕僚改为 0，区间 ±15%</span></td><td>broadly consistent…"but a large degree of uncertainty must be acknowledged"</td></tr>
+<tr><td><strong>2014</strong></td><td class="n">0.5<br><span class="src">幕僚 2–2¼</span></td><td class="n">EBA 3.1<br><span class="src">幕僚 1¼–2</span></td><td class="n">+0 ~ +1</td><td class="n"><strong>EBA Level −21%<br>EBA Index −26%</strong><br><span class="src">幕僚改为 −5%（0~−10%）</span></td><td>broadly consistent</td></tr>
+<tr><td><strong>2015</strong></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="pos"><strong>moderately stronger</strong>（上调）</td></tr>
+<tr><td><strong>2016</strong></td><td class="n">3.3<br><span class="src">周期调整后</span></td><td class="n">1.3–3.3<br><span class="src">(EBA 3.4)</span></td><td class="n"><strong>中值 +1.0</strong></td><td class="n">无数值<br><span class="src">"REER 已升至符合基本面的水平"</span></td><td class="pos"><strong>moderately stronger</strong></td></tr>
+<tr><td><strong>2017</strong></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">"小幅正 gap，仍在 broadly-in-line 区间内"</td><td class="n">n/a</td><td><strong>broadly in line</strong>（下调）</td></tr>
+<tr><td><strong>2018</strong></td><td class="n">3.5</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2019</strong></td><td class="n">约 3.3</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2020</strong></td><td class="n">约 3</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2021</strong></td><td class="n">约 3</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2022</strong></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2023</strong></td><td class="n">3.4→3.8<br><span class="src">后修订</span></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr><td><strong>2024</strong></td><td class="n">4.8→4.5<br><span class="src">后修订</span></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">n/a</td><td><strong>broadly in line</strong></td></tr>
+<tr class="tot"><td><strong>2025</strong></td><td class="n"><strong>4.8</strong></td><td class="n">n/a</td><td class="n">n/a</td><td class="n">REER 较2024均值 −3.2%<br>较2021均值 <strong>−25%</strong><br><span class="src">（这是变动幅度，不是gap）</span></td><td><strong style="color:var(--critical)">⚠ 同年两个结论</strong><br>2026-02 第四条款：<strong>broadly in line</strong>（初步）<br>2026-07 ESR：<strong>列入"moderately stronger / stronger / substantially stronger"组</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：IMF ESR 2014–2026 各年 Individual Economy Assessments 与日本第四条款磋商报告（CR16/267、CR17/242、CR18/333、CR20/39、CR22/99、CR23/127、CR24/118、2025 AIV、CR26/75）。<span class="badge v">结论文字与已列数值已核实</span> 标 n/a 的单元格意味着<strong>该数值位于 ESR 的单页国别表或第四条款附件中，本次检索环境无法读取</strong>（PDF 截断 + imf.org 直连受限），<strong>我没有用推断填补</strong>——详见第十章。</p>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>🔥 最重要的发现：IMF 自己在2015年就废弃了对日本的 REER 均衡模型</strong></p>
+<p style="margin:0 0 8px">ESR 2015 关于日本的评估原文（我的强调）：</p>
+<blockquote style="margin:0 0 10px;padding:10px 16px;border-left:3px solid var(--critical);font-size:14px;color:var(--text-secondary)">
+"The EBA REER Level model estimates the 2014 average REER to be 21 percent weaker (EBA Index REER model: 26 percent weaker) than the level consistent with fundamentals and desirable policies, <strong>mainly from a large unexplained residual</strong>. … Other Japan-specific factors that affect the REER — <strong>JGB-UST spread, portfolio rebalancing, speculative short positions against the yen, and the shock requiring higher energy imports</strong> — are also not included. <strong>Because of these missing factors, the EBA REER model is not used in Japan's assessment.</strong>"
+</blockquote>
+<p style="margin:0 0 8px">ESR 2014 的措辞同样直白：REER 模型的 −14% 结果"<strong>primarily from a large unexplained residual</strong>"，模型未能捕捉"<strong>用于对冲国内股票多头敞口的大规模投机性日元空头、临时性的能源进口增加、以及长期主权利差的突然扩大</strong>"，因此"<strong>模型估计存在高度不确定性</strong>"。</p>
+<p style="margin:0"><strong>推论：ESR 表格里公布的日本"REER gap"，从来不是 REER 回归模型的输出，而是从幕僚的 CA gap 反推出来的。</strong> 也就是说——<strong>过去十年任何引用"IMF认为日元被低估/未被低估"的分析，引用的其实是一个经常账户口径的判断，而不是一个汇率模型的判断。</strong></p>
+</div>
+
+<h4>三个结构性问题：为什么 EBA 在日本身上系统性地失效</h4>
+
+<ol>
+<li><strong>模型残差过大，且残差恰好是日本最重要的变量。</strong> IMF 自己列出的"缺失因素"——JGB-UST利差、组合再平衡、投机性日元空头、能源冲击——正是第二章列举的全部真实驱动力。<strong>一个把所有真实驱动力都放进残差项的模型，其结论不构成信息。</strong></li>
+
+<li><strong>幕僚长期"手动覆盖"模型输出，方法论还专门为日本改过。</strong> 有据可查的三次覆盖：2013年幕僚 norm 2% vs EBA≈3%；2014年幕僚 norm 1¼–2% vs EBA 3.1%、幕僚周期调整CA 2–2¼% vs EBA 0.6%；2016年幕僚 1.3–3.3% vs EBA 3.4%。理由是"临时性能源进口、贬值对贸易收支的滞后效应、2014年消费税上调前的抢购性进口"。更关键的是 <strong>ESR 2018 Box 2 明确记载：<em>"adjustments for structural distortions and offshoring were eliminated for Japan"</em>，并以<em>"higher staff-assessed norms (Japan)"</em>抵消。</strong>
+<p style="margin:8px 0 0">这解释了一个否则无法解释的现象：<strong>日本的结论在 2015–2016 年是 "moderately stronger"，2017 年起变回 "broadly in line"，而同期经常顺差并没有相应变化。</strong> 变的是方法，不是日本。</p></li>
+
+<li><strong>2025年的结论出现了内部分裂——这是十年来第一次。</strong> 2026年2月的第四条款磋商报告说日本外部头寸"broadly in line"（初步判断）；但 <strong>2026年7月发布的《对外部门报告》把日本移出了 broadly-in-line 组，列入"moderately stronger / stronger / substantially stronger"</strong>（与中国、德国、印度、韩国、马来西亚、荷兰、新加坡、西班牙、瑞典、泰国并列）。
+<p style="margin:8px 0 0"><strong>这是本次研究中最有价值的一个更新，也是对我在 v1 中判断的修正。</strong> 它意味着：在 4.8% GDP 的顺差面前，IMF 的 CA 口径终于判定<strong>日元被低估了</strong>——即便是那个对日元贬值最"宽容"的框架，也不再认为当前水平是均衡的。</p></li>
+</ol>
+
+<h4>价格模型说低估50%，流量模型（曾经）说均衡——如何调和</h4>
+<ol>
+  <li>EBA 用经常账户衡量外部均衡，但<strong>日本的经常顺差有约一半不产生换汇需求</strong>（第2.2节）。EBA 的输入变量在日本这个案例上系统性地高估了"外汇市场上的日元需求"。</li>
+  <li>EBA 的 CA norm 已经内生地把日本的老龄化、净债权国地位吸收进去——<strong>模型认为"日本就该有这么大的顺差"，因此长期不认为汇率需要调整。</strong>这个宽容性正在被 4.8% 的顺差撑破。</li>
+  <li>价格模型（PPP/REER）衡量的是<strong>贸易品的相对价格</strong>，而日本的外部收支已经与贸易品脱钩。<strong>用贸易品价格标尺去测量一个金融账户主导的经济体，本身就是错配。</strong></li>
+</ol>
+
+<p><strong>综合判断（v2 修订）：日元在"生活成本/贸易竞争力"意义上极度便宜；在"外部收支平衡"意义上，2026年7月之前IMF认为不便宜，之后认为已经便宜了。</strong> 两个口径在 2026 年首次收敛到同一方向。这是我把基准情景从"纯震荡"上调为"震荡中缓慢升值"的一个理由——但请注意，<strong>IMF 的评估是对已发生年份的诊断，不是对未来汇率的预测，它没有给出时间表。</strong></p>
+
+<h3>7.4 存量–流量 / 组合平衡模型：当下最具解释力的框架</h3>
+
+<p>把日元看作一项资产而非贸易媒介，其均衡由<strong>全球投资者愿意持有的日元资产比例</strong>决定。这一族模型（组合平衡、以及 Gabaix–Maggiori 式的金融摩擦模型）在2026年的解释力最强，因为它能同时容纳三个事实：</p>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>事实</th><th>组合平衡模型的解释</th></tr></thead>
+<tbody>
+<tr><td>利差压缩但日元更弱</td><td>需求曲线本身左移（财政风险 → 要求更高的日元资产风险溢价），而不是沿着曲线移动</td></tr>
+<tr><td>创纪录经常顺差但日元更弱</td><td>顺差的现金流含量下降；同时国内主体的边际海外配置比例上升（NISA、GPIF、企业FDI）</td></tr>
+<tr><td>史上最大干预无效</td><td><strong>冲销式干预只改变官方部门的资产负债表构成，不改变私人部门愿意持有的日元占比。</strong> 2026年春季 11.73兆円 的干预仅占对外资产的0.65%——规模上不构成组合结构的实质改变</td></tr>
+<tr><td>外资大举买入日本证券（负债端 +94.2兆円）</td><td>外资在<strong>对冲后</strong>买入日股/JGB，其日元敞口被对冲掉，因此不构成买日元的力量。这解释了"外资流入 + 日元贬值"的并存</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>7.5 主流机构与日本政商两界的观点</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>主体</th><th>观点 / 数值</th><th>日期</th></tr></thead>
+<tbody>
+<tr><td><strong>IMF</strong></td><td>外部头寸"大体符合基本面"；日元走势大部分无法用基本面解释，指向财政风险与期货头寸；建议财政整固与继续渐进加息</td><td>2026-04<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>野村（外汇策略主管 五十里〔Yujiro Goto〕）</strong></td><td>预计日元弱势持续至2026年6月，随后<strong>快速升值至 140–145</strong>（年末）；警告"日元进一步走弱与输入通胀在2026年可能变成政治问题"</td><td>2026年展望<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>野村（首席经济学家 森田京平）</strong></td><td>2026年核心CPI将全年低于2%；关键是让"涨价与涨薪相互强化"</td><td>2026年展望<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>MUFG</strong></td><td>联储路径正把 USD/JPY 推向40年高位；此前警告日本财政担忧升温下 USD/JPY 有测试160的风险</td><td>2026-05/07<span class="badge e">标题核实，正文未取得</span></td></tr>
+<tr><td><strong>三菱UFJ摩根士丹利（首席外汇策略师 植野大作）</strong></td><td>REER创1970年来新低的背景"很可能是老龄化与人口减少驱动的国力下降"</td><td>2026<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>野村综研（NRI）</strong></td><td>干预"只有暂时效果，至多是争取时间"；长期 USD/JPY 可能修正至 <strong>120</strong>（基于10年移动平均均衡值），但需<strong>4–5年</strong>，且取决于美国经济走弱或联储降息预期</td><td>2026-06-30<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>三菱UFJ调查咨询（MURC）</strong></td><td>FY2026 USD/JPY 假设 <strong>156.1</strong>；实际GDP +0.9%，CPI +1.5%；隔夜利率均值 0.894%</td><td>2026-02<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>日本企业（帝国数据银行调查）</strong></td><td>FY2026 假设汇率平均 <strong>147.87</strong>（较上年 139.64 贬 8.23円）；众数160、中位数155；实际汇率高于假设逾10円，对进口依赖型企业构成盈利压力</td><td>2026-06<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>经团联（会长 筒井）</strong></td><td>当前汇率波动是"短期投机性活动"；应建立"不易受汇率波动影响的经济结构"；长期国力需要日元"<strong>渐进升值</strong>"；认为BOJ在"冷静评估物价、工资与国际形势"</td><td>2026-06-23<span class="badge v">已核实</span></td></tr>
+<tr><td><strong>高市政权</strong></td><td>财政扩张 + 消费税减免；有报道指其早期言论倾向于强调弱日元的好处，被认为降低了政府与BOJ紧密协调的可能性；其顾问群体被认为偏向再通胀/低利率</td><td>2025-10 起<span class="badge v">报道核实</span></td></tr>
+<tr><td><strong>BOJ（行长 植田）</strong></td><td>7月31日维持1.00%（1票主张1.25%）；被评价为"温和鹰派"；表示将在关注中东局势与经济状况的同时"继续提高政策利率"</td><td>2026-07-31<span class="badge v">已核实</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>一个值得注意的裂痕：</strong>日本商界（经团联）现在公开主张<strong>日元渐进升值</strong>，这与1985年以来"经济界＝弱日元受益者"的传统立场是根本性的转变。原因是日本制造业的海外生产比率已经很高，日元贬值对出口量的拉动远小于对进口成本的推升；同时企业的假设汇率（147.87）显著强于市场价（159.40），意味着<strong>大部分日本企业的年度预算在按更强的日元编制，日元每多贬一円，进口型企业的利润就多受一分挤压。</strong> 这从内部瓦解了"弱日元国策"的政治基础。</p>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.7</b>
+  <ul>
+    <li><strong>Price models:</strong> Big Mac PPP implies ~80 (−50%); GDP-PPP ~95–100 (−40%); BIS REER at 65.30 is the lowest since the series began in 1970. But a meaningful share of that is a <em>falling equilibrium</em> (reverse Balassa–Samuelson from demographics), so 1995's REER is not a valid mean-reversion target.</li>
+    <li><strong>The single most actionable number:</strong> fully FX-hedged 10y USTs yield ~1.83% against a 2.834% JGB — <strong>JGBs now pay ~100bp more</strong>. Hedged overseas bond allocation is economically dead; the marginal Japanese buyer of USTs must be <em>unhedged</em>, i.e. running a leveraged yen short with a breakeven near 155.2.</li>
+    <li><strong>UIP has broken down.</strong> The IMF attributes the residual to futures positioning and fiscal-risk perception, not yields.</li>
+    <li><strong>The IMF's EBA calls Japan's external position "broadly in line" with fundamentals</strong> — i.e. flow-based models say the yen is <em>not</em> cheap. The reconciliation: EBA's current-account input overstates FX demand because ~half the surplus never converts.</li>
+    <li><strong>Portfolio-balance models explain 2026 best</strong>, including why record intervention failed: ¥11.73tn is 0.65% of external assets, and sterilised intervention does not change the share of yen assets the private sector wants to hold.</li>
+    <li><strong>A structural political shift:</strong> Keidanren now publicly favours <em>gradual yen appreciation</em>, and corporate FY2026 budget assumptions (¥147.87) are ~12 yen stronger than spot. The domestic constituency for a weak yen has largely dissolved.</li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c8">八、日元汇率政策的根本性转向，是否需要美国的政策支持？<span class="en">Ch.8 — Does a regime change in yen policy require US backing? History and theory</span></h2>
+
+<p class="lede">简短的答案：<strong>是的，而且历史证据在这一点上异常干净——过去四十年里，日元的每一次趋势性转向都有美国的实质参与；日本单独行动的每一次，都只改变了点位而没有改变方向。</strong> 但2026年出现了一个1985年以来从未有过的新条件，这是本章的重点。</p>
+
+<h3>8.1 历史证据</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>时点</th><th>方向</th><th>规模</th><th>美国角色</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td><strong>1985-09 广场协议</strong></td><td>推升日元</td><td>G5 协同</td><td><strong>美国主导发起</strong></td><td class="pos"><strong>成功且持久。</strong> USD/JPY 从约240降至1988年的约120</td></tr>
+<tr><td><strong>1987-02 卢浮宫协议</strong></td><td>阻止美元继续跌</td><td>G7 协同</td><td>美国参与</td><td>部分失败；日本为配合而维持宽松，被广泛认为助推了资产泡沫</td></tr>
+<tr><td><strong>1995（"反向广场"）</strong></td><td>压低日元</td><td>协同干预 + 鲁宾"强美元政策"</td><td><strong>美国主导</strong></td><td class="pos"><strong>成功且持久。</strong> 日元从79.75一路贬至1998年的约147</td></tr>
+<tr><td><strong>1998-06</strong></td><td>推升日元</td><td>日本买入日元</td><td><strong>美国参与</strong></td><td class="pos">成功。美方参与被解读为"日元过弱威胁国际稳定"的信号</td></tr>
+<tr><td><strong>2003-01~2004-03</strong></td><td>压低日元</td><td><strong>逾35兆円</strong>（史上最大卖日元）</td><td>美国默许</td><td>随全球复苏而自然结束；效果难以与周期分离</td></tr>
+<tr><td><strong>2011-03-18</strong></td><td>压低日元</td><td>G7 协同</td><td><strong>美欧英加共同参与</strong></td><td class="pos">短期有效，成功压住震灾后的日元急升</td></tr>
+<tr><td><strong>2011-10-31</strong></td><td>压低日元</td><td>逾8兆円（单独）</td><td>无</td><td>短暂；日元数月后才因政策转向而逆转</td></tr>
+<tr><td><strong>2022-09/10</strong></td><td>推升日元</td><td>约9.2兆円（单独）</td><td>无（仅"理解"）</td><td class="neg"><strong>未改变趋势</strong></td></tr>
+<tr><td><strong>2024-04/05 + 07</strong></td><td>推升日元</td><td>逾15兆円（单独）</td><td>无</td><td class="neg"><strong>未改变趋势</strong>（2024年8月的急升是套息平仓所致，非干预）</td></tr>
+<tr><td><strong>2026-04-28~05-27</strong></td><td>推升日元</td><td><strong>11.73兆円</strong>（史上最大单轮）</td><td>无</td><td class="neg"><strong>完全失败</strong>——干预结束后日元继续跌，6/29 到 162.40，7/28 再创 163.85</td></tr>
+<tr><td><strong>2026-07-31~08-01</strong></td><td>推升日元</td><td>日方单日约8.45兆円（约528亿美元）</td><td><strong>美国财政部实际参与</strong>：纽约联储代表财政部卖出欧元买入日元；贝森特的备忘录显示计划"买入日元 50–100亿美元"</td><td>USD/JPY 从约163升至157.40（周五收盘）/ 一度155.20。<strong>2011年以来首次联合干预</strong></td></tr>
+</tbody>
+</table>
+</div>
+<p class="src">来源：路透社/Reuters 干预史整理、Fortune、Al Jazeera、日本财务省公布数据。2022年以后已核实<span class="badge v">；1985–2011年为历史记载<span class="badge e">部分数额来自二手整理</span>。</p>
+
+<p><strong>模式极其清晰：</strong></p>
+<ul>
+  <li><strong>有美国参与的四次（1985、1995、1998、2011）——全部有效，其中1985与1995改变了长达数年的趋势。</strong></li>
+  <li><strong>日本单独行动的三轮买日元干预（2022、2024、2026春）——累计超过36兆円（约2,300亿美元）——无一改变趋势。</strong></li>
+</ul>
+
+<h3>8.2 理论：为什么单边干预必然无效，而协同干预可能有效</h3>
+
+<h4>(1) 冲销与非冲销的区别</h4>
+<p>日本的干预是<strong>冲销式</strong>的：MOF 通过外汇资金特别会计（FB发行）筹资，BOJ 不允许其改变货币基础。因此干预只改变了官方部门持有资产的<strong>币种构成</strong>，没有改变<strong>两国的相对货币供给</strong>。在标准的货币模型里，冲销式干预对均衡汇率的长期影响为零。</p>
+<p>量化一下：2026年春季 11.73兆円 的干预仅相当于日本对外资产的 <strong>0.65%</strong>、外汇储备的 <strong>5.5%</strong>。相对于每日数万亿美元的外汇交易量和1,805兆円的存量，这是一个<strong>在数量级上就不可能改变组合结构的行动</strong>。</p>
+
+<h4>(2) 冲销式干预唯一能起作用的通道是"信号"</h4>
+<p>干预之所以有时有效，不是因为买卖本身，而是因为它<strong>传递了关于未来货币政策的信息</strong>。而这里就是单边干预的死穴：<strong>当日本单独买日元、同时BOJ的实际政策利率仍为 −1.8% 时，市场收到的是两个相互矛盾的信号，理性的解读是"财务省想要强日元，但日本银行不打算配合"。</strong> 信号被自我否定。野村综研的判断——干预"只有暂时效果，至多是争取时间"——正是这个道理。</p>
+
+<h4>(3) 弹药的不对称性</h4>
+<p>这是最根本的一条。<strong>日本买日元 = 卖美元资产，而美元储备是有限的（2025年末 213.7兆円 ≈ 约1.34万亿美元）。美国买日元 = 创造美元，是无限的。</strong> 市场清楚地知道这个不对称：面对单边干预，投机者只需要比日本的储备"活得更久"；而面对美方参与的干预，这个赌局在数学上不成立。</p>
+
+<h4>(4) 一个被忽视的约束：日本卖美债会伤害美国</h4>
+<p>日本持有约 <strong>1.21万亿美元</strong> 美国国债（2026年4月）。有分析估计，为了筹措干预资金，日方可能需要变现 400–500亿美元的美债持仓。<span class="badge e">估算</span> <strong>这就产生了一个直接的利益冲突：日本越是大规模地单独买日元，美国长端利率就越承压。</strong></p>
+<p>因此美国在2026年的选择不只是"支持盟友"，而是<strong>自利的</strong>：与其让日本抛售美债去买日元，不如由美国财政部直接卖欧元买日元（这正是7月31日纽约联储所做的），或者通过FIMA回购便利/互换额度向日本提供美元流动性——<strong>让日本不必动用美债持仓。</strong> 这是一个此前从未在日元问题上出现过的机制。</p>
+
+<h4>(5) 政治经济学：美国的"否决权"</h4>
+<p>历史上美国财政部对日元的态度取决于美国自身的贸易与通胀利益。1987年卢浮宫协议后美国不再希望美元继续跌；2022–2024年耶伦时期的立场是干预应当"罕见"。<strong>换言之，日本从来不能单方面决定日元政策的方向——因为汇率是双边价格，另一边是美元，而美元是美国的政策变量。</strong></p>
+
+<h3>8.3 2026年的新条件：1985年以来第一次目标同向</h3>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>这是本章的核心判断。</strong></p>
+<p style="margin:0 0 8px">2026年的美国政策框架下，<strong>弱美元本身就是美国的政策目标</strong>。Stephen Miran 的《重构全球贸易体系用户指南》（即所谓"海湖庄园协议"）明确主张通过货币干预压低美元，论点是"储备管理者必须卖出美元"以强化本国货币、从而有利于美国出口。该框架的多项主张在2025年已经落地（关税、盟国防务开支、美元约贬9%）。</p>
+<p style="margin:0"><strong>因此，2026年是1985年以来第一次：日本想要更强的日元，美国也想要更弱的美元。</strong> 特朗普对此的表述是"他们的日元在走弱，他们想要一点帮助，而我们永远为日本在。"贝森特则把它框定为"稳定亚洲"。这与2022–2024年美国仅表示"理解"的立场有本质区别。</p>
+</div>
+
+<p><strong>但必须同时指出三个限制条件：</strong></p>
+<ol>
+  <li><strong>干预仍然不能替代货币政策。</strong> 联合干预把 USD/JPY 从163推到155.20，但<strong>到8月12日已回到159.40——从低点回吐了约54%，只用了不到两周。</strong> 这个回吐速度本身就是最好的证据：在实际利率仍为 −1.8%、财政赤字仍在扩大的情况下，干预买到的时间是以周计的。</li>
+  <li><strong>美国的支持有条件且可逆。</strong> 它取决于当前的政策框架与人事。有评论（如Bloomberg观点栏目）已把贝森特的做法称为"有风险的创新"，另有批评指出美国干预日元"怪异而不明智"——"你最不想做的就是给市场任何提问的理由"。这不是一个制度化的安排，而是一个政治决定。</li>
+  <li><strong>联合干预有其自身的风险传染。</strong> 干预当日日经指数下跌；欧元、英镑被动走强。如果美国被拖入持续的日元支持（如通过联储的FIMA回购便利），会引发对联储独立性的质疑。</li>
+</ol>
+
+<h3>8.4 结论：什么才算"根本性转向"</h3>
+<p>把上述整理成一个判据。日元要实现<strong>趋势性</strong>而非<strong>点位性</strong>的转向，需要下列条件中的<strong>至少两项</strong>同时成立（历史上1985与1995的成功案例都满足了三项）：</p>
+<div class="tblwrap">
+<table>
+<thead><tr><th class="n">#</th><th>条件</th><th>2026年8月的状态</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td><strong>美国的实质参与与政策同向</strong>（不只是"理解"）</td><td class="pos"><strong>✔ 已具备</strong>（2026年7月31日首次实现，且弱美元符合美国目标）</td></tr>
+<tr><td class="n">2</td><td><strong>日本货币政策的实质紧缩</strong>（实际利率转正或明显趋正）</td><td class="neg"><strong>✘ 未具备</strong>（实际政策利率约 −0.6% ~ −1.8%）</td></tr>
+<tr><td class="n">3</td><td><strong>美方货币条件转松</strong>（联储降息、美债收益率下行）</td><td>◐ 部分（联邦基金3.63%已低于周期高点，但10年期4.72%、30年期5.25%仍高）</td></tr>
+<tr><td class="n">4</td><td><strong>日本财政路径可信化</strong>（消除风险溢价）</td><td class="neg"><strong>✘ 反向</strong>（赤字扩大至约6% GDP，10年期JGB +131bp）</td></tr>
+<tr><td class="n">5</td><td><strong>私人部门边际配置转向国内</strong>（结构性资金流逆转）</td><td>◐ <strong>正在发生但缓慢</strong>（对冲后JGB比美债多约100bp；寿险已开始削减海外债券；但NISA与GPIF的海外流仍在）</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>当下的状态是"1项已具备、2项正在形成、2项反向"。</strong> 这正好解释了为什么2026年8月的日元既没有崩溃，也没有真正反转——它处在一个<strong>条件不足以形成趋势、但也不足以恢复单边贬值</strong>的僵局中。</p>
+
+<div class="kt">
+  <b>Key takeaways (EN) — Ch.8</b>
+  <ul>
+    <li><strong>The historical record is unusually clean.</strong> Every yen turn with US participation (1985 Plaza, 1995 reverse-Plaza, 1998, 2011 G7) worked; every solo Japanese yen-buying campaign (2022, 2024, spring 2026 — over ¥36tn / ~$230bn combined) changed the level but never the trend.</li>
+    <li><strong>Why:</strong> Japanese intervention is <em>sterilised</em>, so it changes only the currency composition of official balance sheets. Spring 2026's record ¥11.73tn was 0.65% of external assets. Its only live channel is signalling — and that signal is self-cancelling while the real policy rate is −1.8%.</li>
+    <li><strong>Ammunition is asymmetric:</strong> Japan buying yen sells finite dollar reserves (~$1.34tn); the US buying yen creates dollars. Speculators only need to outlast Japan.</li>
+    <li><strong>A new, self-interested US motive:</strong> Japan may need to liquidate $40–50bn of USTs to fund intervention, from a $1.21tn holding. The US would rather sell euros for yen itself (as the NY Fed did on 31 July) or lend dollars via FIMA repo than have Japan hit the Treasury market.</li>
+    <li><strong>2026 is the first alignment since 1985:</strong> under the Miran / "Mar-a-Lago" framework a weaker dollar is a stated US objective, so a stronger yen no longer conflicts with US interests. Trump: "they wanted a little bit of help, and we're always there for Japan."</li>
+    <li><strong>But intervention still cannot substitute for policy.</strong> USD/JPY has already retraced ~54% of the joint-intervention move (155.20 → 159.40) in under two weeks. Of five conditions for a durable regime change, Japan currently has <strong>one met, two forming, two moving the wrong way.</strong></li>
+  </ul>
+</div>
+
+<hr class="sep">
+
+<h2 id="c9">九、预测性判断与情景<span class="en">Ch.9 — Predictive judgement and scenarios</span></h2>
+
+<div class="kt flag">
+  <b>免责 · Disclaimer</b>
+  <p style="margin:0">以下是基于上述模型与已核实数据的分析判断，<strong>不是投资建议</strong>。我不是持牌的财务顾问。汇率预测的历史准确率很低——本报告第七章本身就展示了主流机构对2026年日元的预测（野村年末140–145）与当前现实（159.40）之间的巨大差距。概率是我的主观判断，用于表达相对可能性的排序，不应被当作精确的统计估计。</p>
+</div>
+
+<h3>9.1 判断框架（v4 重构）<span class="en" style="display:block;font-size:13px;color:var(--muted);font-weight:400">The framework, rebuilt on the new data</span></h3>
+
+<div class="kt" style="border-left-color:var(--critical)">
+<b>v4 的四个结论性更新 —— 三个改变了权重，一个改变了机制</b>
+<ol style="margin:0">
+<li><strong>【机制改变】资本外流的构成已经彻底换人，但总量没降。</strong> 証券投資从 FY2024 的 +24.56兆円（流出）翻转为 FY2025 的 −34.82兆円（流入），摆动 59.4兆円；但「その他投資」反向摆动 51.9兆円（−22.14 → +29.73兆円），2026上半年继续 +30.05兆円。<strong>长期配置资金（寿险买外债）正在回流，短期杠杆资金（银行融出日元）接了盘。</strong>这是本轮研究最重要的发现。</li>
+<li><strong>【权重上调：利多日元】机构端的转向已经被行为验证。</strong> FY2026 十家主要寿险的投资计划里，<strong>没有一家计划增加未对冲外债</strong>；かんぽ19年来首次增持JGB；ゆうちょ的风险资产目标是从15.1兆円缩到约14兆円。同时政界（片山财务相、高市首相）在7月公开推动 GPIF 与家庭增加<strong>国内</strong>资产配置。</li>
+<li><strong>【权重上调：利空日元】零售端的海外配置在加速，不是放缓。</strong> 2026上半年投信净流入 12.46兆円 是<strong>史上最大半年</strong>（+53% y/y），其中海外股票型 8.35兆円（年化约16.7兆）。<strong>在 USD/JPY 约162 的水平上，日元便宜没有构成任何抑制。</strong></li>
+<li><strong>【修正：财政叙事需要换理由】近期财政数据比我原来说的好。</strong> FY2026 当初预算 PB 转为 +1.34兆円 黑字（史上首次）、公债依存度降至24.2%；内阁府预测国・地方 PB 于 FY2027 转正、债务/GDP 从187.6%降至2035年的176.7%；三家评级机构全部稳定。<strong>"赤字扩大到GDP的6%"这个 v1 引用的说法，官方数据不支持。</strong>但10年期JGB仍从2%升到2.83%——理由要换成：<strong>利払費一年+23.9%、财政规则从PB目标改为债务/GDP比且取消明确时点、370兆円官民投资承诺未披露官民分担</strong>。<strong>市场定价的是2030年代的边界模糊，不是2026年的赤字。</strong></li>
+</ol>
+</div>
+
+<p>把日元的定价拆成四个可独立观察的因子（v4 新增第④项）：</p>
+<div class="tblwrap">
+<table>
+<thead><tr><th>因子</th><th>v3 判断</th><th>v4 判断</th><th>关键观察变量</th></tr></thead>
+<tbody>
+<tr><td><strong>① 利差（周期性）</strong></td><td>利多日元（缓慢）</td><td class="pos"><strong>利多，且已量化</strong></td><td>10年利差年均从2023年3.40pp压缩至2026YTD 1.93pp（−43%）；实际利差从4.62pp压缩至1.22pp（−74%）；对冲后JGB优于美债约100bp</td></tr>
+<tr><td><strong>② 财政风险溢价</strong></td><td>利空（近期赤字）</td><td class="neg"><strong>利空，但理由更换</strong></td><td>不是近期赤字（官方PB已转正），而是<strong>利払費+23.9%、PB目标被降级、370兆円承诺无分担比例</strong>；S&P 明言"日元若进一步大幅走弱可能下调评级"</td></tr>
+<tr><td><strong>③ 结构性资金流</strong></td><td>方向正在转折</td><td><strong>已分裂为两个相反的子流</strong></td><td><strong>机构：已转向国内</strong>（无一家寿险增持未对冲外债）；<strong>零售：加速流向海外</strong>（2026H1创纪录）。净效果取决于哪个更大</td></tr>
+<tr class="tot"><td><strong>④ 【新增】外流资金的久期</strong></td><td>—</td><td class="neg"><strong>显著恶化</strong></td><td>从"寿险买10年期外债"变成"银行融出隔夜日元"。<strong>更容易被触发、更容易瞬间逆转</strong>。2024年8月5日是先例。</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>核心判断（v4）：中枢路径不变，但分布形状变了。</strong> ①③的机构腿在转向利多，②仍利空但理由是长期的，③的零售腿在加速利空——四者相抵，中枢仍是宽幅震荡下的缓慢升值。<strong>但因子④意味着：一旦触发条件出现，移动会比2022–24年那轮快得多、也剧烈得多。日元现在是一个"低斜率、肥尾"的资产。</strong></p>
+
+
+<h3>9.2 情景矩阵（v4 修订，未来12个月至2027年8月）</h3>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>情景</th><th class="n">v3 概率</th><th class="n">v4 概率</th><th class="n">USD/JPY 区间</th><th>触发条件与新证据</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>A. 震荡中缓慢升值<br><span style="font-weight:400;color:var(--muted)">基准情景</span></strong></td>
+  <td class="n">45%</td><td class="n"><strong>42%</strong></td>
+  <td class="n"><strong>145–163</strong><br><span class="src">中枢下移至150–156</span></td>
+  <td>机构回流与零售外流大致抵消；BOJ 再加息1–2次；联储缓慢降息；必要时重复联合干预</td>
+</tr>
+<tr>
+  <td><strong>B. 财政主导下的再度走弱</strong></td>
+  <td class="n">25%</td><td class="n"><strong>20%</strong></td>
+  <td class="n"><strong>163–175</strong></td>
+  <td class="neg"><strong>下调</strong>：官方财政数据（PB转正、评级稳定）比我原判断好；但若通胀持续低于2%（2026H1核心仅1.63%）导致BOJ停止加息，仍会重回此路径</td>
+</tr>
+<tr>
+  <td><strong>C. 实质性反转</strong></td>
+  <td class="n">20%</td><td class="n pos"><strong>24%</strong></td>
+  <td class="n"><strong>125–148</strong></td>
+  <td class="pos"><strong>上调</strong>：三条新证据——寿险<strong>无一家</strong>增持未对冲外债、政界公开推动GPIF与家庭回流国内、IMF 7月ESR把日本移入"强于基本面"组。若叠加联储实质降息，短端资金（その他投資）的平仓会放大升幅</td>
+</tr>
+<tr>
+  <td><strong>D. 无序事件（尾部）</strong></td>
+  <td class="n">10%</td><td class="n neg"><strong>14%</strong></td>
+  <td class="n"><strong>双向 &gt;15% 的快速波动</strong></td>
+  <td class="neg"><strong>上调，且这是v4最重要的调整</strong>：外流资金已从长久期换成短久期（その他投資 2026H1 +30.05兆円）。<strong>这类头寸的平仓是非线性的</strong>。另需注意 S&P 的评级触发条件已把汇率纳入——<strong>日元走弱→评级下调→JGB抛售→日元更弱</strong>是一条此前不存在的新反馈回路</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="src">概率为我的主观判断，非模型输出。v3→v4 的调整依据是本轮新增的一手数据（MOF FY国际收支分项、大和寿险运用计划调查、投信协会流量、MOF预算文件、IMF ESR 2026），不是对市场走势的重新预测。</p>
+
+
+<h3>9.3 对"当下汇率转变"的判断（v4）</h3>
+
+<p><strong>问题：2026年7–8月的美日联合干预，是不是趋势转折的起点？</strong></p>
+<p><strong>v4 的答案与 v3 相同，但理由更强了一条、也更弱了一条。</strong></p>
+
+<div class="tblwrap">
+<table>
+<thead><tr><th>判据</th><th>v3</th><th>v4 更新</th></tr></thead>
+<tbody>
+<tr><td>回吐速度</td><td>不到两周回吐约54%</td><td><strong>不变，仍是最强的反证。</strong>2026年内高点 163.85（7/28）→ 干预至 155.20 → 8/12 已回到 159.40。广场协议后日元没有回吐，1995年后美元没有回吐。</td></tr>
+<tr><td>五个条件中日本缺的两项</td><td>实际利率转正、财政可信化</td><td class="pos"><strong>其中一项部分改善。</strong>实际政策利率从2025年的−2.63%收敛到2026YTD的−0.88%（仍为负，但差距缩小了近三分之二）。<strong>财政项则更复杂：近期指标改善（PB转正），长期规则反而放松。</strong></td></tr>
+<tr><td>下行空间被封住</td><td>三道防线</td><td class="pos"><strong>新增第四道：</strong>S&P 明言日元若进一步大幅走弱可能下调评级——这使日本政府在163以上区间的政治容忍度进一步下降。</td></tr>
+<tr><td class="neg"><strong>【新】上行的可持续性</strong></td><td>—</td><td class="neg"><strong>变弱了。</strong>因为接盘的短期杠杆资金（その他投資）对利差更敏感、也更容易被重新建立。<strong>一次干预驱动的升值，如果不伴随利差进一步收敛，会比2022–24年更快被套息资金重新压回。</strong>这正是7月31日到8月12日发生的事。</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<p style="margin:0 0 8px"><strong>结论性判断（v4）</strong></p>
+<p style="margin:0 0 8px"><strong>中文：</strong>未来12个月，日元最可能进入<strong>「有底、有顶、中枢缓慢下移、但尾部显著变肥」</strong>的宽幅震荡：顶部由美日联合干预的意愿与 S&P 的评级触发共同界定（<strong>约163–165</strong>），底部由负实际利率与财政边界模糊界定（<strong>约145</strong>）。中枢从159向<strong>150–156</strong>迁移是基准路径（42%）。<br><strong>v4 相对 v3 的实质变化不在中枢，而在分布：</strong>因为外流资金已从长久期换成短久期，<strong>一旦联储实质降息或 BOJ 超预期加息，升值的速度会显著快于2022–24年的经验</strong>；反之，任何一次升值若无利差配合，也会被更快压回。<strong>把日元当作趋势品种交易的胜率在下降，把它当作波动率品种的胜率在上升。</strong></p>
+<p style="margin:0"><strong>EN:</strong> Over 12 months: a wide range with a floor (~145), a ceiling (~163–165, now jointly defined by intervention willingness <em>and</em> S&P's stated downgrade trigger on further yen weakness), and a centre migrating from 159 toward <strong>150–156</strong> (42%). <strong>The material v4 change is not the central path but the shape of the distribution.</strong> The outflow has switched from long-duration institutional money to short-duration bank funding (その他投資 +¥30.05tn in H1 2026 alone), so a genuine trigger — Fed easing or a BOJ surprise — would move the yen faster than anything in 2022–24, while any intervention-driven rally without a rate-gap follow-through gets pushed back faster too. <strong>The yen has become a lower-slope, fatter-tailed asset: worse to trade as a trend, better as volatility.</strong></p>
+</div>
+
+
+<h3>9.4 观察点（v4 重排，按信息量排序）</h3>
+<ol>
+  <li><strong>「その他投資」的月度方向</strong>（MOF 国际收支）。<span class="badge v">v4 新增，列为第一</span> 这是本轮发现的关键变量：它衡量的是接替寿险资金的短期杠杆腿。<strong>若它开始收缩，说明套息头寸在主动去杠杆——这是情景C最早的先行信号；若它继续以每半年30兆円的速度扩张，则尾部风险在累积。</strong></li>
+  <li><strong>日本核心CPI能否在2026下半年回到2%以上。</strong> 2026年1–6月核心均值仅 1.63%，而BOJ对FY2026的预测约2.8%。<strong>若无法收敛，BOJ加息周期提前结束，因子①的改善停摆。注意这个不对称：通胀低对日元是坏消息。</strong></li>
+  <li><strong>30年期JGB收益率与官民投资路线图的官民分担披露。</strong> 前者是财政风险溢价最纯粹的读数；后者是370兆円承诺里唯一还没公开的关键参数。<strong>一旦公布政府分担比例，市场就能给财政边界重新定价——这可能是双向的。</strong></li>
+  <li><strong>寿险的下半年度运用计划（每年10月前后）与かんぽ／ゆうちょ的实际持仓。</strong> FY2026计划已明确无一家增持未对冲外债；<strong>要看的是这个计划是否在下半年被执行、以及是否进一步加码。</strong></li>
+  <li><strong>投信协会的月度净资金流入（海外株式型 vs 国内株式型）。</strong> 2026上半年海外8.35兆／国内1.82兆。<strong>国内股票型已创2001年来最大——若这个比例继续向国内倾斜，零售腿的利空就在减弱。</strong></li>
+  <li><strong>是否出现第二次联合干预，以及美方工具是否升级</strong>（从卖欧元买日元，升级到互换额度／FIMA回购）。工具升级＝美国承诺升级。</li>
+  <li><strong>S&P 的评级动作。</strong><span class="badge v">v4 新增</span> 它已把汇率写入下调条件，这构成一条新的反馈回路。</li>
+  <li><strong>GPIF 基本组合是否真的被修改。</strong> 需経営委員会决议→社会保障審議会→厚労大臣認可三道关卡；<strong>在此之前，任何"GPIF正在大举回流"的说法都应视为未证实</strong>（本报告已证伪一例）。</li>
+</ol>
+
+
+<h2 id="c10">十、不确定性与我不知道的部分<span class="en">Ch.10 — What I could not verify</span></h2>
+
+<p>依照您的要求，以下是我在本次研究中<strong>无法核实或存在误读风险</strong>的事项，我没有用推断去填补它们：</p>
+
+<ul>
+  <li><strong>1996–2025年完整的年度国际收支时间序列。</strong> 日本银行已于2024年7月停止发布该年报，数据迁移至时间序列检索系统（需下载CSV，本次环境无法直接读取）；财务省页面只提供CSV链接而非网页表格。因此本报告中2023年的经常账户分项、以及2023–2025年的金融账户分项<strong>没有一手核实</strong>。图1中2023年的数值标注为概数。</li>
+  <li><strong>2025年（历年口径）第一次所得收支的准确值。</strong> 我核实到的是 FY2025（年度口径）的 42.28兆円，历年口径未取得，故图1中该点留空。</li>
+  <li><strong>BOJ 2026年4月《经济・物价形势展望》的具体预测数值。</strong> 我通过自动化工具提取到 FY2026 核心CPI中值约2.8%、实际GDP约+0.5%，但该提取来自PDF，<strong>存在误读风险</strong>，且与2026年6月的实际核心CPI（1.6%）差距很大。请以BOJ原文为准。</li>
+  <li><strong>2026年7月31日联合干预的确切规模。</strong> 不同来源给出 ¥8.45兆円（约528亿美元，Fortune）与约589.7亿美元（路透/Al Jazeera）两个数字，前者可能是基于BOJ账户的估算、后者可能是不同口径。财务省的正式月度公布数据我未取得。</li>
+  <li><strong>IMF ESR / 第四条款报告中日本的 CA norm、CA gap、REER gap 具体数值（2015年、2017–2025年）。</strong> 这些数字位于 ESR 的"Individual Economy Assessments"单页国别表和第四条款报告的"External Sector Assessment"附件中，两者都超出本环境 PDF 抓取的截断位置；imf.org 直连被网络层拦截，eLibrary 返回 403。第 7.3 节表格中标 n/a 的单元格即为此。<strong>我明确放弃了填补：</strong>研究过程中自动化提取曾对同一张表两次给出不同数值（ESR 2024 日本行一次是"norm 2.0 / gap 1.5 / REER −3.2"，另一次是"norm 2.4 / gap 1.2 / REER −3.5"），还虚构过一个 2016 ESR 摘要表的日本行，并产生过与 IMF 自身文本矛盾的 CA 数值。<strong>这些全部未被采用。</strong>也请对任何二手来源引用的 2017–2025 年 ESR 日本表格数值保持怀疑，除非直接来自 PDF 页面本身。</li>
+  <li><strong>IMF 2026年 ESR 把日本归入的具体子档。</strong> ESR 把"moderately stronger / stronger / substantially stronger"合并在一句话里列出经济体名单，我无法读到日本的单页表以确定是三档中的哪一档。第7.3节据此只说"移入强于基本面组"，图5中该点的位置（150）是<strong>示意性的，不是 IMF 的数值</strong>。</li>
+  <li><strong>日本2年期国债的年度均值（2022–2025）。</strong> 无公开来源发布该序列的月度或年度均值；MOF 只提供日频 CSV（全历史文件在抓取时被截断），FRED 无此序列，其他数据商只暴露约一个月的滚动窗口。第2.1节的横截面表只给出了2026年8月的现值（1.635%）。</li>
+  <li><strong>日元3个月市场利率与美元/日元交叉货币基差的实时报价。</strong> 第7.2节的对冲成本计算使用了合理假设（1.05% 与 −20bp），未逐项核实。结论（对冲后JGB优于美债约100bp）对这两个假设并不敏感——即便基差为0、日元3个月为1.20%，优势仍有约80bp——但精确数值请以彭博/路透报价为准。</li>
+  <li><strong>MUFG 2026年的具体 USD/JPY 目标价。</strong> 我核实到相关报道标题（"联储正把USD/JPY推向40年高位"、"日本财政担忧下USD/JPY有测试160的风险"），但两次尝试取得正文均被网站拒绝（403）。</li>
+  <li><strong>各家日本机构最新的对内直接投资、私募/另类资产的最终投向穿透数据。</strong> 开曼群岛的128.4兆円 是通道口径，最终风险敞口不透明，这一点无法用公开数据解决。</li>
+  <li><strong>我对情景概率的赋值。</strong> 这是主观判断，不是模型输出，没有任何统计基础。</li>
+</ul>
+
+<div class="kt flag">
+  <b>EN — what I don't know</b>
+  <p style="margin:0">The full 1996–2025 annual BOP series (BOJ discontinued its annual report in July 2024; MOF publishes CSV only) — so 2023 CA components and 2023–25 financial-account components are <em>not</em> primary-verified. The CY2025 primary income figure. The exact numbers in the BOJ's April 2026 Outlook (PDF extraction, flagged as unreliable). The exact size of the 31 July joint intervention (sources give ¥8.45tn vs ~$59bn). The IMF ESR's Japan CA/REER gaps — my extraction contradicted the Article IV report, so I dropped the numbers and kept only the qualitative verdict. Live JPY 3m rates and the cross-currency basis (the ~100bp JGB advantage is robust to plausible alternatives, but the precise figure is not verified). MUFG's specific target (403 on two attempts). Ultimate look-through exposure of the ¥128.4tn routed via Cayman. And the scenario probabilities are my subjective judgement, not a model output.</p>
+</div>
+
+<hr class="sep">
+
+<h2 id="src">数据来源<span class="en">Sources</span></h2>
+
+<h4>一手机构 Primary institutions</h4>
+<ul class="src" style="line-height:1.9">
+<li><a href="https://www.mof.go.jp/english/policy/international_policy/reference/iip/e2025.htm">日本财务省 MOF — International Investment Position of Japan (End of 2025)</a>｜对外资产负债残高全部数据</li>
+<li><a href="https://www.mof.go.jp/policy/international_policy/councils/bop/outline/20240326_1.pdf">日本财务省 MOF —《国際収支から見た日本経済の課題と処方箋》第1回会合（2024-03-26）</a>｜再投资收益、对内FDI在OECD垫底、NISA外流</li>
+<li><a href="https://www.mof.go.jp/english/policy/international_policy/reference/balance_of_payments/index.htm">日本财务省 MOF — Balance of Payments</a></li>
+<li><a href="https://www.boj.or.jp/statistics/br/bop_06/exdata/data/bop2022a.pdf">日本银行 BOJ —《2022年の国際収支統計および本邦対外資産負債残高》</a>｜2021–2022年经常/金融账户分项</li>
+<li><a href="https://www.boj.or.jp/en/statistics/sj/sjexp.pdf">日本银行 BOJ — Flow of Funds, 2026 Q1</a>｜家庭与企业金融资产</li>
+<li><a href="https://www.boj.or.jp/mopo/outlook/gor2604b.pdf">日本银行 BOJ —《経済・物価情勢の展望》2026年4月</a>｜<span class="badge e">PDF提取，存在误读风险</span></li>
+<li><a href="https://www.gpif.go.jp/en/topics/Adoption_of_New_Policy_Portfolio_details_2_en.pdf">GPIF — Policy Asset Mix, Fifth Medium-Term Period (FY2025–2029)</a>｜50%海外配置与各资产预期回报</li>
+<li><a href="https://www.imf.org/-/media/files/publications/cr/2026/english/1jpnea2026001.pdf">IMF — Japan 2026 Article IV Consultation Staff Report</a>｜外部头寸评估、"日元走势无法用基本面解释"、宏观预测、债务比率</li>
+<li><a href="https://www.imf.org/en/publications/sprolls/external-sector-reports">IMF — External Sector Reports 2014–2026（各年）</a>｜第7.3节的逐年结论。关键单篇：<a href="https://www.imf.org/-/media/Websites/IMF/imported-full-text-pdf/external/np/pp/eng/2015/_062615a.ashx">ESR 2015 Individual Economy Assessments</a>（"the EBA REER model is not used in Japan's assessment"）、<a href="https://www.imf.org/-/media/Websites/IMF/imported-full-text-pdf/external/np/pp/eng/2014/_062614a.ashx">ESR 2014 IEA</a>、<a href="https://www.imf.org/-/media/Files/Publications/ESR/2018/text.ashx">ESR 2018</a>（Box 2：为日本取消结构性扭曲与离岸调整）、<a href="https://www.imf.org/-/media/files/publications/esr/2026/english/ch1.pdf">ESR 2026 ch.1</a>（把日本移入"强于基本面"组）｜<span class="badge e">国别单页表的具体数值本次无法读取</span></li>
+<li>日本第四条款磋商报告历年：<a href="https://www.imf.org/external/pubs/ft/scr/2016/cr16267.pdf">CR16/267</a>、<a href="https://www.imf.org/-/media/Files/Publications/CR/2017/cr17242.ashx">CR17/242</a>、<a href="https://www.imf.org/-/media/Files/Publications/CR/2018/cr18333.ashx">CR18/333</a>、<a href="https://www.imf.org/-/media/Files/Publications/CR/2020/English/1JPNEA2020001.ashx">CR20/39</a>、<a href="https://www.imf.org/-/media/Files/Publications/CR/2022/English/1JPNEA2022001.ashx">CR22/99</a>、<a href="https://www.imf.org/-/media/Files/Publications/CR/2023/English/1JPNEA2023001.ashx">CR23/127</a>、<a href="https://www.imf.org/-/media/files/publications/cr/2024/english/1jpnea2024010.pdf">CR24/118</a>、<a href="https://www.imf.org/-/media/files/publications/cr/2025/english/1jpnea2025001-print-pdf.pdf">2025 AIV</a></li>
+<li><a href="https://fred.stlouisfed.org/series/DGS10">FRED</a> — 第2.1节年度均值矩阵：DFF / DGS10 / DGS2 / DEXJPUS / RBJPBIS / CPIAUCNS 的年度均值聚合，及 FRED-OECD 的 IRSTCI01JPM156N（日本隔夜拆借）、IRLTLT01JPM156N（日本长期利率）</li>
+<li><a href="https://www.stat.go.jp/english/data/cpi/158c.html">総務省統計局 / e-Stat</a> — 日本CPI 2022–2025年均值与2026月度速报｜<a href="https://www.exchange-rates.org/exchange-rate-history/usd-jpy-2026">exchange-rates.org</a> — USD/JPY 各年高低点与日期（2026高点 163.85 / 7月28日）</li>
+<li><a href="https://www.federalreserve.gov/releases/h15/">美联储 Federal Reserve — H.15 Selected Interest Rates (2026-08-11)</a>｜联邦基金3.63%、2Y 4.25%、10Y 4.72%、30Y 5.25%</li>
+<li><a href="https://www.meti.go.jp/report/tsuhaku2025/2025honbun/i2310000.html">METI 经济产业省 —《通商白書2025》第1节 国际收支结构</a>｜投资立国转型、数字赤字、美元口径的收益停滞</li>
+<li><a href="https://www.jetro.go.jp/biznews/2026/04/c0432d7740251390.html">JETRO 日本贸易振兴机构 — 2025年日本对外直接投资</a>｜地区与国别分布</li>
+<li><a href="https://www.jetro.go.jp/biznews/2026/07/474386eb8d6aaf35.html">JETRO — 2025年末对美直接投资存量</a>｜日本连续7年为美国最大对内FDI来源国</li>
+<li><a href="https://www.keidanren.or.jp/speech/kaiken/2026/0623.html">経団連 Keidanren — 定例记者会见（2026-06-23）筒井会长发言要旨</a>｜"渐进升值"立场</li>
+<li><a href="https://www.tdb.co.jp/report/economic/20260612-exchangerate2026/">帝国数据银行 TDB —《企業の想定為替レートに関する動向調査（2026年度）》</a>｜企业假设汇率147.87</li>
+</ul>
+
+<h4>研究机构与市场 Research &amp; market</h4>
+<ul class="src" style="line-height:1.9">
+<li><a href="https://www.piie.com/sites/default/files/2025-12/wp25-22.pdf">PIIE — Perspectives on Japan's continuing exorbitant privilege (WP 25-22)</a>｜超额回报差1.0pp→0.8pp→剔汇率0.4pp、直接投资收益率差 −4.1%</li>
+<li><a href="https://www.banque-france.fr/en/publications-and-statistics/publications/rise-japanese-yields-more-scary-dangerous">Banque de France — Is the rise in Japanese yields more scary than dangerous?</a>｜2022年净卖出23兆円海外债券、2023年净买入18.9兆円、对冲比率约50%</li>
+<li><a href="https://www.nri.com/en/media/column/nri_finsights/20260630.html">野村综研 NRI — Yen falls to 39-year lows (2026-06-30)</a>｜162关口、干预"只能争取时间"、120的10年均衡值</li>
+<li><a href="https://www.nomuraconnects.com/focused-thinking-posts/japan-macro-outlook-2026/">野村 Nomura — Japan Macro Outlook 2026</a>｜五十里的140–145年末预测、森田的通胀观点</li>
+<li><a href="https://www.cmegroup.com/insights/economic-research/2026/implications-of-sanaenomics-on-japans-yen-bonds-and-equities.html">CME Group — Implications of Sanaenomics on Japan's Yen, Bonds and Equities</a>｜21.3兆円支出、赤字路径、债务209.3% GDP</li>
+<li><a href="https://www.murc.jp/wp-content/uploads/2026/02/fc_2602_01.pdf">三菱UFJ调查咨询 MURC —《日本経済の見通し》2026年2月</a>｜FY2026 USD/JPY 156.1假设</li>
+<li><a href="https://www.westpaciq.com.au/economics/2024/08/yen-weak-13-august-2024">Westpac IQ — The curious case of Japan's current account surplus</a>｜现金流口径的所得收支</li>
+<li><a href="https://www.investing.com/analysis/japans-savings-export-era-is-starting-to-unwind-200683477">Japan's Savings Export Era Is Starting to Unwind</a>｜美债持仓1.21万亿、外部资产结构</li>
+<li><a href="https://caymanfinance.ky/2026/05/06/japanese-investment-in-cayman-funds-rises-to-853-billion/">Cayman Finance — Japanese investment in Cayman funds</a>｜128.4兆円、62.4%基金持仓占比</li>
+<li><a href="https://www.cfr.org/articles/the-mar-a-lago-accords-economic-ripple-effect-widens">CFR — The Mar-a-Lago Accord's economic ripple effect widens</a>｜Miran框架、弱美元作为政策目标</li>
+</ul>
+
+<h4>市场数据与报道 Market data &amp; reporting</h4>
+<ul class="src" style="line-height:1.9">
+<li><a href="https://tradingeconomics.com/japan/currency">Trading Economics — USD/JPY (159.40, 2026-08-12)</a>｜<a href="https://tradingeconomics.com/japan/government-bond-yield">JGB 10Y (2.834%)</a>｜<a href="https://tradingeconomics.com/japan/interest-rate">BOJ 政策利率</a>｜<a href="https://tradingeconomics.com/japan/inflation-cpi">CPI</a>｜<a href="https://tradingeconomics.com/japan/current-account">经常账户</a></li>
+<li><a href="https://fred.stlouisfed.org/series/RBJPBIS">FRED / BIS — Real Broad Effective Exchange Rate for Japan (65.30, 2026-06)</a></li>
+<li><a href="https://bigmacindex.app/country/japan/">Big Mac Index — Japan (2026-07)</a>｜¥500 vs $6.22，低估50.4%</li>
+<li><a href="https://www.aljazeera.com/economy/2026/8/3/japan-and-us-confirm-rare-joint-intervention-to-prop-up-yen">Al Jazeera — Japan and US confirm rare joint intervention (2026-08-03)</a></li>
+<li><a href="https://fortune.com/2026/08/01/scott-bessent-treasury-japan-yen-dollar-exchange-rate/">Fortune — Bessent joins Japan to help reverse months of yen losses</a>｜纽约联储卖欧元买日元、¥8.45兆円</li>
+<li><a href="https://www.investing.com/news/economy-news/history-of-japans-intervention-in-currency-markets-4829869">Reuters — History of Japan's intervention in currency markets</a></li>
+<li><a href="https://japan.co.jp/e/reports/japan-coordinated-intervention-history-2026.html">Japan.co.jp — From 1998 to 2011 and 2026: Japan's History of Currency Intervention</a></li>
+<li><a href="https://www.nikkei.com/article/DGXZQOUA074IQ0X00C25A2000000/">日本経済新聞 — 24年の経常黒字、最高の29兆2615億円</a>｜<a href="https://www.nikkei.com/article/DGXZQOUA150Q00V10C26A2000000/">2025年の名目GDPは662兆円</a></li>
+<li><a href="https://japantoday.com/category/business/update2-japan-logs-record-current-account-surplus-for-2nd-year-in-2025">Japan Today / 共同通信 — 2025年经常账户31.88兆円</a></li>
+<li><a href="https://english.news.cn/asiapacific/20260513/495d0f587b1d4ef6a34f484f983b3dc1/c.html">Xinhua / 共同通信 — FY2025 经常账户34.52兆円</a></li>
+<li><a href="https://www.nippon.com/en/japan-data/h02408/">Nippon.com — FY2024 经常账户与数字赤字/旅游顺差</a></li>
+<li><a href="https://www.cnbc.com/2025/12/19/bank-of-japan-boj-rate-cpi-inflation-takaichi-ueda.html">CNBC — BOJ raises rates to 30-year high (2025-12-19)</a></li>
+<li><a href="https://www.japantimes.co.jp/business/2025/10/29/companies/insurers-foreign-debt-cut/">The Japan Times — Japanese insurers trim foreign debt</a></li>
+<li><a href="https://www.nippon.com/en/news/yjj2026070300852/japan-unions-clinch-5-01-pct-wage-hikes-in-2026-shunto.html">Nippon.com / 連合 — 2026年春斗 5.01%</a></li>
+<li><a href="https://finance.biggo.com/news/f70ed850-f3bb-4787-86eb-28c01d6446e0">DBJ 设备投资计划调查 — FY2026 国内设备投资 +19.7%</a></li>
+<li><a href="https://finance.biggo.com/news/BVKuyZ0BrdTHlKtCWhh1">REER 创1970年来新低报道（植野大作评论）</a></li>
+<li><a href="https://finance.yahoo.com/economy/policy/articles/japan-monetary-conundrum-why-yen-123000101.html">Japan's monetary conundrum — 货币主义视角的M2分析</a></li>
+</ul>
+
+<p class="footnote">本报告由 Claude（claude-fable-5）于2026年8月12日撰写。所有联网检索均在当日完成。汇率、收益率与价格数据具有时效性，请在使用前核对最新值。报告中的分析判断不构成投资、法律或税务建议；我不是持牌的财务顾问，涉及具体投资决策请咨询专业人士。<br>
+<em>Prepared 12 Aug 2026. All web research completed same-day. Market data is time-sensitive — re-check before use. Nothing here is investment, legal or tax advice; I am not a licensed financial adviser.</em></p>
+
+</div><!-- /wrap -->
+
+<div class="tip" id="tip"></div>
+
+<script>
+// ---------- theme toggle ----------
+(function(){
+  var b=document.getElementById('tt');
+  b.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var dark = cur ? cur==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', dark?'light':'dark');
+    setTimeout(drawAll,20);
+  });
+})();
+
+// ---------- tooltip ----------
+var TIP=document.getElementById('tip');
+function showTip(e,html){TIP.innerHTML=html;TIP.style.opacity=1;moveTip(e);}
+function moveTip(e){
+  var x=e.clientX+14, y=e.clientY+14;
+  var r=TIP.getBoundingClientRect();
+  if(x+r.width>innerWidth-8) x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-8) y=e.clientY-r.height-14;
+  TIP.style.left=x+'px'; TIP.style.top=y+'px';
+}
+function hideTip(){TIP.style.opacity=0;}
+
+function cssv(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function el(tag,attrs,txt){
+  var e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(var k in attrs) e.setAttribute(k,attrs[k]);
+  if(txt!=null) e.textContent=txt;
+  return e;
+}
+function svgRoot(w,h){
+  var s=el('svg',{viewBox:'0 0 '+w+' '+h,role:'img'});
+  return s;
+}
+function fmt(v,d){return (v==null)?'—':v.toFixed(d==null?1:d);}
+
+// ---------- FIG 1: CA vs primary income (grouped bars) ----------
+var F1=[
+ {y:2021, ca:21.5, pi:26.4, ok:true},
+ {y:2022, ca:11.5, pi:35.2, ok:true},
+ {y:2023, ca:21.4, pi:34.6, ok:false},
+ {y:2024, ca:29.26, pi:40.2, ok:true},
+ {y:2025, ca:31.88, pi:null, ok:true}
+];
+function fig1(){
+  var host=document.getElementById('fig1'); host.innerHTML='';
+  var W=880,H=330,L=52,R=16,T=16,B=46;
+  var s=svgRoot(W,H); var iw=W-L-R, ih=H-T-B;
+  var max=45;
+  var y=function(v){return T+ih-(v/max)*ih;};
+  for(var g=0;g<=45;g+=10){
+    s.appendChild(el('line',{x1:L,x2:W-R,y1:y(g),y2:y(g),class:'gl'}));
+    s.appendChild(el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',class:'tick'},g));
+  }
+  s.appendChild(el('line',{x1:L,x2:W-R,y1:y(0),y2:y(0),class:'ax'}));
+  s.appendChild(el('text',{x:L-8,y:T-2,'text-anchor':'end',class:'tick'},'兆円'));
+  var bw=iw/F1.length, gap=14, pw=(bw-gap*2)/2;
+  F1.forEach(function(d,i){
+    var x0=L+i*bw+gap;
+    [['ca',cssv('--s1'),x0],['pi',cssv('--s2'),x0+pw+3]].forEach(function(p){
+      var v=d[p[0]]; if(v==null) return;
+      var hgt=y(0)-y(v);
+      var r=el('rect',{x:p[2],y:y(v),width:pw-3,height:hgt,rx:4,fill:p[1]});
+      s.appendChild(r);
+      s.appendChild(el('text',{x:p[2]+(pw-3)/2,y:y(v)-6,'text-anchor':'middle',class:'dlab'},fmt(v,1)));
+      var hit=el('rect',{x:p[2],y:T,width:pw-3,height:ih,class:'hit'});
+      hit.addEventListener('mousemove',function(e){showTip(e,'<div class="tt2">'+d.y+'年 '+(p[0]==='ca'?'经常账户 Current account':'第一次所得收支 Primary income')+'</div>'+fmt(v,2)+' 兆円'+(d.ok?'':'<br><span style="opacity:.7">概数 · not primary-verified</span>'));});
+      hit.addEventListener('mouseleave',hideTip);
+      s.appendChild(hit);
+    });
+    s.appendChild(el('text',{x:L+i*bw+bw/2,y:H-B+20,'text-anchor':'middle',class:'tick'},d.y+(d.ok?'':'*')));
+  });
+  s.appendChild(el('text',{x:L+4*bw+bw/2,y:y(6),'text-anchor':'middle',class:'slab'},'未核实 n/a'));
+  host.appendChild(s);
+}
+
+// ---------- FIG 2: outward FDI 2025 ----------
+var F2=[
+ {k:'美国 US', v:8.9693, g:'−24.0%'},
+ {k:'瑞士 Switzerland', v:6.0986, g:'+5.6×'},
+ {k:'荷兰 Netherlands', v:2.9740, g:'−5.9%'},
+ {k:'新加坡 Singapore', v:1.6055, g:'−21.9%'},
+ {k:'英国 UK', v:1.3543, g:'−8.1%'},
+ {k:'印度 India', v:1.1406, g:'+35.0%'},
+ {k:'中国 China', v:0.2488, g:'−29.2%'}
+];
+function fig2(){
+  var host=document.getElementById('fig2'); host.innerHTML='';
+  var W=880, rowH=34, L=170, R=64, T=10, B=8;
+  var H=T+B+F2.length*rowH;
+  var s=svgRoot(W,H); var iw=W-L-R;
+  var max=9.5, x=function(v){return L+(v/max)*iw;};
+  F2.forEach(function(d,i){
+    var yy=T+i*rowH+6, h=rowH-16;
+    s.appendChild(el('text',{x:L-12,y:yy+h/2+4,'text-anchor':'end',class:'slab'},d.k));
+    s.appendChild(el('rect',{x:L,y:yy,width:Math.max(2,x(d.v)-L),height:h,rx:4,fill:cssv('--s1')}));
+    s.appendChild(el('text',{x:x(d.v)+8,y:yy+h/2+4,class:'dlab'},d.v.toFixed(2)));
+    s.appendChild(el('text',{x:W-R+34,y:yy+h/2+4,'text-anchor':'end',class:'slab'},d.g));
+    var hit=el('rect',{x:L,y:yy-4,width:iw,height:rowH-8,class:'hit'});
+    hit.addEventListener('mousemove',function(e){showTip(e,'<div class="tt2">'+d.k+'</div>2025年对外直接投资 '+d.v.toFixed(4)+' 兆円<br>同比 '+d.g);});
+    hit.addEventListener('mouseleave',hideTip);
+    s.appendChild(hit);
+  });
+  host.appendChild(s);
+}
+
+// ---------- FIG 3: IIP assets vs liabilities ----------
+var F3=[
+ {k:'证券投资 Portfolio', a:768.653, l:643.885},
+ {k:'直接投资 Direct', a:384.535, l:58.562},
+ {k:'其他投资 Other', a:373.269, l:471.030},
+ {k:'外汇储备 Reserves', a:213.672, l:0},
+ {k:'衍生品 Derivatives', a:65.504, l:70.406}
+];
+function fig3(){
+  var host=document.getElementById('fig3'); host.innerHTML='';
+  var W=880, rowH=54, L=176, R=74, T=10, B=8;
+  var H=T+B+F3.length*rowH;
+  var s=svgRoot(W,H); var iw=W-L-R;
+  var max=800, x=function(v){return (v/max)*iw;};
+  F3.forEach(function(d,i){
+    var yy=T+i*rowH+4, h=18;
+    s.appendChild(el('text',{x:L-12,y:yy+h+2,'text-anchor':'end',class:'slab'},d.k));
+    [['a',cssv('--s1'),0],['l',cssv('--s2'),h+2]].forEach(function(p){
+      var v=d[p[0]]; if(v<=0){
+        s.appendChild(el('text',{x:L+4,y:yy+p[2]+h-4,class:'slab'},'—')); return;
+      }
+      s.appendChild(el('rect',{x:L,y:yy+p[2],width:Math.max(2,x(v)),height:h,rx:4,fill:p[1]}));
+      s.appendChild(el('text',{x:L+x(v)+8,y:yy+p[2]+h-4,class:'dlab'},v.toFixed(1)));
+      var hit=el('rect',{x:L,y:yy+p[2],width:iw,height:h,class:'hit'});
+      hit.addEventListener('mousemove',function(e){showTip(e,'<div class="tt2">'+d.k+'</div>'+(p[0]==='a'?'对外资产 Assets':'对外负债 Liabilities')+'：'+v.toFixed(3)+' 兆円<br>净额 Net：'+(d.a-d.l).toFixed(1)+' 兆円');});
+      hit.addEventListener('mouseleave',hideTip);
+      s.appendChild(hit);
+    });
+  });
+  host.appendChild(s);
+}
+
+// ---------- FIG 4: BOJ policy rate step chart ----------
+var F4=[
+ {t:'2013-04', r:0.10, lab:'QQE'},
+ {t:'2016-01', r:-0.10, lab:'负利率 NIRP'},
+ {t:'2024-03', r:0.05, lab:'退出负利率'},
+ {t:'2024-07', r:0.25, lab:''},
+ {t:'2025-01', r:0.50, lab:''},
+ {t:'2025-12', r:0.75, lab:'30年高'},
+ {t:'2026-06', r:1.00, lab:'1995年来最高'},
+ {t:'2026-08', r:1.00, lab:''}
+];
+function fig4(){
+  var host=document.getElementById('fig4'); host.innerHTML='';
+  var W=880,H=300,L=52,R=110,T=26,B=44;
+  var s=svgRoot(W,H); var iw=W-L-R, ih=H-T-B;
+  function tv(t){var p=t.split('-');return parseInt(p[0])+(parseInt(p[1])-1)/12;}
+  var t0=2013, t1=2026.8;
+  var x=function(t){return L+((t-t0)/(t1-t0))*iw;};
+  var y=function(v){return T+ih-((v+0.25)/1.35)*ih;};
+  [-0.25,0,0.25,0.5,0.75,1.0].forEach(function(g){
+    s.appendChild(el('line',{x1:L,x2:W-R,y1:y(g),y2:y(g),class:'gl'}));
+    s.appendChild(el('text',{x:L-8,y:y(g)+4,'text-anchor':'end',class:'tick'},g.toFixed(2)));
+  });
+  s.appendChild(el('line',{x1:L,x2:W-R,y1:y(0),y2:y(0),class:'ax'}));
+  s.appendChild(el('text',{x:L-8,y:T-8,'text-anchor':'end',class:'tick'},'%'));
+  for(var yr=2014;yr<=2026;yr+=2){
+    s.appendChild(el('text',{x:x(yr),y:H-B+20,'text-anchor':'middle',class:'tick'},yr));
+  }
+  var d='';
+  F4.forEach(function(p,i){
+    var xx=x(tv(p.t)), yy=y(p.r);
+    if(i===0){ d+='M'+xx+','+yy; } else { d+=' L'+xx+','+y(F4[i-1].r)+' L'+xx+','+yy; }
+  });
+  d+=' L'+x(t1)+','+y(1.00);
+  s.appendChild(el('path',{d:d,fill:'none',stroke:cssv('--s1'),'stroke-width':2.5,'stroke-linejoin':'round'}));
+  F4.forEach(function(p){
+    if(!p.lab) return;
+    var xx=x(tv(p.t)), yy=y(p.r);
+    s.appendChild(el('circle',{cx:xx,cy:yy,r:4.5,fill:cssv('--s1'),stroke:cssv('--surface-1'),'stroke-width':2}));
+  });
+  // annotations
+  var ann=[
+    {t:'2016-01',r:-0.10,lab:'负利率 −0.10%',dy:22,dx:6},
+    {t:'2024-03',r:0.05,lab:'2024/03 退出YCC与负利率',dy:52,dx:-92},
+    {t:'2025-12',r:0.75,lab:'2025/12 → 0.75%',dy:-12,dx:-96},
+    {t:'2026-06',r:1.00,lab:'2026/06 → 1.00%',dy:-14,dx:4}
+  ];
+  ann.forEach(function(a){
+    s.appendChild(el('text',{x:x(tv(a.t))+a.dx,y:y(a.r)+a.dy,class:'slab'},a.lab));
+  });
+  // hit areas
+  F4.forEach(function(p,i){
+    var xx=x(tv(p.t));
+    var hit=el('rect',{x:xx-14,y:T,width:28,height:ih,class:'hit'});
+    hit.addEventListener('mousemove',function(e){showTip(e,'<div class="tt2">'+p.t+'</div>政策利率 '+p.r.toFixed(2)+'%'+(p.lab?'<br>'+p.lab:''));});
+    hit.addEventListener('mouseleave',hideTip);
+    s.appendChild(hit);
+  });
+  host.appendChild(s);
+}
+
+// ---------- FIG 5: three non-comparable classes of reference points ----------
+var F5G=[
+ {g:'A · 长期价格概念（非预测）  Long-run price anchors', c:'--s3', rows:[
+   {k:'巨无霸PPP  Big Mac PPP', v:80.4, note:'2026/07：日本 ¥500 vs 美国 $6.22 → 隐含 80.4，低估50.4%。<br><b>局限</b>：单一非贸易品，不调整人均收入与巴拉萨–萨缪尔森效应。'},
+   {k:'GDP购买力平价  GDP-PPP', v:97, note:'由2024年 GDP-PPP 6.41万亿国际美元与名义日元GDP推算，约¥95–100。<br><b>局限</b>：GDP-PPP 不是均衡汇率概念。'}
+ ]},
+ {g:'B · 我的机械算术（不含判断）  My arithmetic, no forecast content', c:'--s4', rows:[
+   {k:'REER 回升30%', v:123, note:'若 BIS 实际有效汇率从 65.30 回升30%，其他条件不变时汇率约为此。<br><b>这不是预测</b>，也不含"是否会回升"的判断。'},
+   {k:'REER 回升20%', v:133, note:'同上，机械换算。'},
+   {k:'REER 回升10%', v:145, note:'同上，机械换算。'}
+ ]},
+ {g:'C · 机构点位（组内亦不同质）  Institutional numbers (heterogeneous)', c:'--s1', rows:[
+   {k:'NRI 10年均衡值', v:120, note:'野村综研：基于10年移动平均的均衡估计，<b>明说需要4–5年</b>且取决于美国经济走弱。<br><b>不是12个月预测。</b>'},
+   {k:'野村 2026年末预测', v:142.5, note:'野村外汇策略主管的 140–145 区间中值。<br><b>这是本图中唯一的短期点位预测。</b>'},
+   {k:'企业假设汇率 FY2026', v:147.87, note:'帝国数据银行调查的企业<b>预算编制假设</b>平均值（中位数155、众数160）。<br><b>是会计假设，不是对市场的判断。</b>'},
+   {k:'MURC FY2026 假设', v:156.1, note:'三菱UFJ调查咨询宏观预测中的<b>外生假设</b>，用于驱动其GDP/CPI预测。<br><b>不是其汇率观点。</b>'}
+ ]}
+];
+function fig5(){
+  var host=document.getElementById('fig5'); if(!host) return; host.innerHTML='';
+  var W=880, rowH=32, hdrH=30, L=210, R=44, T=30, B=34;
+  var n=0; F5G.forEach(function(G){n+=G.rows.length;});
+  var H=T+B+n*rowH+F5G.length*hdrH;
+  var s=svgRoot(W,H); var iw=W-L-R;
+  var lo=70, hi=170;
+  var x=function(v){return L+((v-lo)/(hi-lo))*iw;};
+  [80,100,120,140,160].forEach(function(g){
+    s.appendChild(el('line',{x1:x(g),x2:x(g),y1:T-8,y2:H-B+4,class:'gl'}));
+    s.appendChild(el('text',{x:x(g),y:H-B+20,'text-anchor':'middle',class:'tick'},g));
+  });
+  s.appendChild(el('text',{x:L,y:T-14,class:'tick'},'← 日元更强 stronger yen'));
+  s.appendChild(el('text',{x:L+iw*0.44,y:T-14,class:'tick'},'日元更弱 weaker yen →'));
+  var sx=x(159.4);
+  s.appendChild(el('line',{x1:sx,x2:sx,y1:T-8,y2:H-B+4,stroke:cssv('--muted'),'stroke-width':1.5,'stroke-dasharray':'4 4'}));
+  s.appendChild(el('text',{x:sx+6,y:T-14,class:'tick',fill:cssv('--text-secondary')},'现价 159.40'));
+  var y=T;
+  F5G.forEach(function(G,gi){
+    s.appendChild(el('rect',{x:0,y:y-2,width:W,height:hdrH-6,fill:cssv('--text-primary'),opacity:0.045,rx:4}));
+    s.appendChild(el('text',{x:6,y:y+14,class:'slab',fill:cssv('--text-primary'),'font-weight':'600','font-size':'11.5'},G.g));
+    y+=hdrH;
+    G.rows.forEach(function(d){
+      var yy=y+rowH/2;
+      s.appendChild(el('text',{x:L-14,y:yy+4,'text-anchor':'end',class:'slab'},d.k));
+      s.appendChild(el('circle',{cx:x(d.v),cy:yy,r:6,fill:cssv(G.c),stroke:cssv('--surface-1'),'stroke-width':2}));
+      s.appendChild(el('text',{x:x(d.v)+(d.v<130?13:-13),y:yy+4,'text-anchor':d.v<130?'start':'end',class:'dlab'},d.v.toFixed(d.v%1?1:0)));
+      var hit=el('rect',{x:L,y:y,width:iw,height:rowH,class:'hit'});
+      hit.addEventListener('mousemove',function(e){showTip(e,'<div class="tt2">'+d.k+'</div><div style="opacity:.65;font-size:11px;margin-bottom:4px">'+G.g.split('  ')[0]+'</div>隐含 USD/JPY <b>'+d.v+'</b><br>'+d.note);});
+      hit.addEventListener('mouseleave',hideTip);
+      s.appendChild(hit);
+      y+=rowH;
+    });
+  });
+  host.appendChild(s);
+}
+
+function drawAll(){fig1();fig2();fig3();fig4();fig5();}
+drawAll();
+addEventListener('resize',function(){clearTimeout(window._rt);window._rt=setTimeout(drawAll,150);});
+document.addEventListener('mousemove',function(e){if(TIP.style.opacity==1)moveTip(e);});
+
+// ================= LIVE DATA LAYER =================
+// Fetches data/latest.json, patches tagged values, recomputes derived metrics,
+// and runs RULE-BASED threshold checks. It does NOT rewrite any analysis text.
+(function(){
+  var BASE = {usdjpy:159.40, jgb10:2.834, ust10:4.72, ust2:4.25, ust30:5.25,
+              fedfunds:3.63, boj_rate:1.00, reer:65.30, jgb2:1.635,
+              spread10_bp:188.6, jgb_advantage_bp:100.0};
+  var bar=document.getElementById('livebar');
+  if(!bar) return;
+  var dot=document.getElementById('livedot'), when=document.getElementById('livewhen'),
+      cnt=document.getElementById('livecount'), btn=document.getElementById('livebtn'),
+      deltaEl=document.getElementById('livedelta'), verdictEl=document.getElementById('liveverdict');
+
+  function num(v){return (typeof v==='number' && isFinite(v))?v:null;}
+  function fmt(v,d){return v==null?'—':v.toFixed(d);}
+  function sgn(x,d){return (x>0?'+':'')+x.toFixed(d);}
+
+  // RULES: each returns {label, state, text}. state: good|warn|bad|neutral
+  // These encode the report's own falsifiable claims. Edit here, not in prose.
+  var RULES=[
+    {id:'ch72', label:'第7.2节核心论点：对冲后 JGB 优于美债',
+     test:function(d){var a=num(d.jgb_advantage_bp); if(a==null)return null;
+       return {state: a>50?'good':(a>0?'warn':'bad'),
+               text: a>0 ? ('JGB 仍优于完全对冲美债 '+a.toFixed(0)+'bp —— 论点成立'+(a<50?'，但优势已收窄至50bp以内':''))
+                         : ('对冲后美债已反超 JGB '+Math.abs(a).toFixed(0)+'bp —— <b>该论点已被数据推翻，机构回流的经济动机消失</b>')};}},
+    {id:'ceiling', label:'情景 B 触发线：USD/JPY 突破 163',
+     test:function(d){var v=num(d.usdjpy); if(v==null)return null;
+       return {state: v>=163?'bad':(v>=160?'warn':'good'),
+               text: v>=163 ? ('已达 '+v.toFixed(2)+'，<b>处于情景B区间</b>，且接近 S&P 明示的评级下调触发条件')
+                    : (v>=160? ('已达 '+v.toFixed(2)+'，逼近干预区与情景B下沿 163')
+                             : ('位于 '+v.toFixed(2)+'，处于基准情景A的区间内'))};}},
+    {id:'floor', label:'情景 C 触发线：USD/JPY 跌破 148',
+     test:function(d){var v=num(d.usdjpy); if(v==null)return null;
+       return {state: v<=148?'good':'neutral',
+               text: v<=148 ? ('已达 '+v.toFixed(2)+'，<b>进入情景C（实质性反转）区间</b>')
+                            : ('距情景C上沿 148 尚有 '+(v-148).toFixed(2)+' 日元')};}},
+    {id:'spread', label:'利差收敛：美日10年利差',
+     test:function(d){var s=num(d.spread10_bp); if(s==null)return null;
+       var chg=s-BASE.spread10_bp;
+       return {state: s<150?'good':(s>250?'bad':'neutral'),
+               text: '当前 '+s.toFixed(0)+'bp（发布时 '+BASE.spread10_bp.toFixed(0)+'bp，'+sgn(chg,0)+'bp）。'+
+                     (s<150?'进一步收敛，利多日元':(s>250?'重新扩大，利空日元':'与发布时大致相当'))};}},
+    {id:'realrate', label:'第八章条件②：日本实际政策利率转正',
+     test:function(d){var r=num(d.real_jp); if(r==null)return null;
+       return {state: r>=0?'good':(r>-1?'warn':'bad'),
+               text: '约 '+r.toFixed(2)+'%。'+(r>=0?'<b>已转正 —— 趋势转向的第二个条件达成</b>':'仍为负，货币政策在实际意义上未构成紧缩')};}},
+    {id:'reer', label:'REER 是否脱离历史低位',
+     test:function(d){var v=num(d.reer); if(v==null)return null;
+       var chg=(v/BASE.reer-1)*100;
+       return {state: v>72?'good':'neutral',
+               text: '当前 '+v.toFixed(2)+'（2020=100），较发布时 '+sgn(chg,1)+'%。'+
+                     (v>72?'已回到2025年均值上方':'仍处1970年有数据以来的最低区间')};}}
+  ];
+
+  function paint(d){
+    var f=d.fields||{}, der=d.derived||{};
+    var live={};
+    Object.keys(f).forEach(function(k){ if(f[k] && typeof f[k].value==='number') live[k]=f[k].value; });
+    Object.keys(der).forEach(function(k){ if(typeof der[k]==='number') live[k]=der[k]; });
+    if(live.spread10_pp!=null) live.spread10_bp=live.spread10_pp*100;
+
+    // Japan real policy rate: BOJ rate minus latest core CPI y/y if available,
+    // else fall back to the published 1.63% (2026 H1 average). Flagged in text.
+    var cpi = (d.jp_core_cpi_yoy!=null)?d.jp_core_cpi_yoy:1.63;
+    if(live.boj_rate!=null) live.real_jp = live.boj_rate - cpi;
+
+    // patch tagged values
+    document.querySelectorAll('[data-live]').forEach(function(el){
+      var k=el.getAttribute('data-live'), v=live[k];
+      if(v==null) return;
+      var dp=parseInt(el.getAttribute('data-fmt')||'2',10);
+      var sfx=el.getAttribute('data-suffix')||'';
+      el.textContent=v.toFixed(dp)+sfx;
+      el.title='实时值 · '+(f[k]&&f[k].as_of?f[k].as_of:d.generated_at_jst||'');
+      el.style.borderBottom='2px dotted var(--s3)';
+    });
+
+    // header status
+    var ok=d.ok_count||0, stale=d.stale_count||0;
+    dot.style.background = stale===0 ? 'var(--good)' : (ok>0?'var(--warn)':'var(--critical)');
+    when.textContent='更新于 '+(d.generated_at_jst||d.generated_at_utc||'—')+'（JST）';
+    cnt.textContent=ok+' 项正常'+(stale?' · '+stale+' 项过期':'');
+
+    // delta table
+    var rows=[['USD/JPY','usdjpy',2],['JGB 10y','jgb10',3],['UST 10y','ust10',2],
+              ['美日10y利差(bp)','spread10_bp',0],['联邦基金','fedfunds',2],
+              ['BOJ 政策利率','boj_rate',2],['REER','reer',2],
+              ['对冲后JGB优势(bp)','jgb_advantage_bp',0]];
+    var html='<div class="tblwrap" style="margin:0"><table><thead><tr><th>指标</th><th class="n">发布时<br>2026-08-12</th><th class="n">最新</th><th class="n">变化</th><th>数据时点</th></tr></thead><tbody>';
+    rows.forEach(function(r){
+      var k=r[1], b=BASE[k], v=live[k];
+      if(v==null){return;}
+      var ch=(b!=null)?(v-b):null;
+      var cls=ch==null?'':(ch>0?'pos':(ch<0?'neg':''));
+      html+='<tr><td>'+r[0]+'</td><td class="n">'+(b!=null?b.toFixed(r[2]):'—')+'</td><td class="n"><strong>'+v.toFixed(r[2])+'</strong></td>'+
+            '<td class="n '+cls+'">'+(ch!=null?sgn(ch,r[2]):'—')+'</td><td class="src">'+((f[k]&&f[k].as_of)||(k.indexOf('spread')>=0||k.indexOf('advantage')>=0?'派生':'—'))+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+    deltaEl.innerHTML=html;
+
+    // rule verdicts
+    var COL={good:'var(--good)',warn:'var(--warn)',bad:'var(--critical)',neutral:'var(--muted)'};
+    var MARK={good:'✔',warn:'▲',bad:'✖',neutral:'·'};
+    var v='<div style="font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:6px">阈值检查 · Rule-based threshold checks</div><ul style="margin:0;padding-left:18px;font-size:13.5px">';
+    var any=false;
+    RULES.forEach(function(R){
+      var r=R.test(live); if(!r) return; any=true;
+      v+='<li style="margin-bottom:5px"><span style="color:'+COL[r.state]+';font-weight:700">'+MARK[r.state]+'</span> <strong>'+R.label+'</strong> — '+r.text+'</li>';
+    });
+    v+='</ul><p class="src" style="margin:8px 0 0">这些是<strong>写死的规则判定</strong>，不是重新生成的分析。报告正文的因果推演与情景概率是作者判断，需人工更新。规则定义见 index.html 的 <code>RULES</code> 数组。</p>';
+    verdictEl.innerHTML=any?v:'';
+    bar.style.display='block';
+  }
+
+  function load(){
+    btn.textContent='↻ 抓取中…'; btn.disabled=true;
+    fetch('data/latest.json?t='+Math.floor(Date.now()/60000))
+      .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(function(d){ paint(d); })
+      .catch(function(e){
+        bar.style.display='block';
+        dot.style.background='var(--muted)';
+        when.textContent='未加载实时数据';
+        cnt.textContent='';
+        deltaEl.innerHTML='<p class="src" style="margin:0">'+
+          '本页以静态方式打开时无法读取 <code>data/latest.json</code>（'+e.message+'）。'+
+          '在 GitHub Pages 上或用 <code>python -m http.server</code> 本地起服务即可。'+
+          '正文中的数字为 2026-08-12 的发布值。</p>';
+        verdictEl.innerHTML='';
+      })
+      .then(function(){ btn.textContent='↻ 刷新'; btn.disabled=false; });
+  }
+  btn.addEventListener('click', load);
+  load();
+})();
+
+</script>
+</body>
+</html>

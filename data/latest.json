@@ -1,0 +1,97 @@
+{
+  "generated_at_utc": "2026-08-12T14:38:00+00:00",
+  "generated_at_jst": "2026-08-12T23:38:00+09:00",
+  "baseline": {
+    "note": "报告 v4 发布时的基准值",
+    "as_of": "2026-08-12",
+    "usdjpy": 159.4,
+    "jgb10": 2.834,
+    "ust10": 4.72,
+    "ust2": 4.25,
+    "ust30": 5.25,
+    "fedfunds": 3.63,
+    "boj_rate": 1.0,
+    "reer": 65.3,
+    "spread10_pp": 1.886,
+    "jgb_advantage_bp": 100.0
+  },
+  "fields": {
+    "usdjpy": {
+      "value": 159.4,
+      "as_of": "2026-08-12",
+      "source": "seed (Trading Economics)",
+      "status": "ok",
+      "note": "首次运行 Action 后由 FRED:DEXJPUS 覆盖"
+    },
+    "jgb10": {
+      "value": 2.834,
+      "as_of": "2026-08-12",
+      "source": "seed (Trading Economics)",
+      "status": "ok",
+      "note": "首次运行后由 MOF jgbcm.csv 覆盖"
+    },
+    "jgb2": {
+      "value": 1.635,
+      "as_of": "2026-08-12",
+      "source": "seed (Investing.com)",
+      "status": "ok",
+      "note": ""
+    },
+    "ust10": {
+      "value": 4.72,
+      "as_of": "2026-08-10",
+      "source": "seed (Fed H.15)",
+      "status": "ok",
+      "note": ""
+    },
+    "ust2": {
+      "value": 4.25,
+      "as_of": "2026-08-10",
+      "source": "seed (Fed H.15)",
+      "status": "ok",
+      "note": ""
+    },
+    "ust30": {
+      "value": 5.25,
+      "as_of": "2026-08-10",
+      "source": "seed (Fed H.15)",
+      "status": "ok",
+      "note": ""
+    },
+    "fedfunds": {
+      "value": 3.63,
+      "as_of": "2026-08-10",
+      "source": "seed (Fed H.15)",
+      "status": "ok",
+      "note": ""
+    },
+    "boj_rate": {
+      "value": 1.0,
+      "as_of": "2026-06-16",
+      "source": "seed (BOJ)",
+      "status": "ok",
+      "note": "FRED 的 OECD 序列为月均，可能与政策利率本身有差异"
+    },
+    "reer": {
+      "value": 65.3,
+      "as_of": "2026-06-01",
+      "source": "seed (BIS via FRED RBJPBIS)",
+      "status": "ok",
+      "note": ""
+    }
+  },
+  "derived": {
+    "spread10_pp": 1.886,
+    "spread2_pp": 2.615,
+    "spread_policy_pp": 2.63,
+    "hedge_cost_pp": 2.83,
+    "hedged_ust10_pct": 1.89,
+    "jgb_advantage_bp": 94.4,
+    "_hedge_note": "对冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.20pp。基差为假设值。"
+  },
+  "jp_core_cpi_yoy": 1.63,
+  "errors": [],
+  "ok_count": 9,
+  "stale_count": 0,
+  "_readme": "这是种子数据。首次运行 GitHub Action 后会被真实抓取值覆盖。"
+}
