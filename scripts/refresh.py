@@ -38,27 +38,56 @@ def get(url: str, encoding: str = "utf-8") -> str:
     return raw.decode("utf-8", "replace")
 
 
+# ------------------------------------------------- BOJ policy rate (ADMINISTERED)
+# A policy rate is a discrete decision by a committee, NOT a scrapeable series.
+# FRED's OECD series IRSTCI01JPM156N is a MONTHLY AVERAGE of the call rate: in a
+# month containing a rate change it blends both levels (June 2026 printed 0.84%
+# because the 0.75% -> 1.00% hike landed mid-month). Using it as "the policy rate"
+# silently corrupts every derived spread. So the policy rate is hard-coded here
+# from the BOJ's own decision, and the FRED series is kept only as a cross-check.
+#
+# ⚠️ UPDATE THIS AFTER EVERY BOJ MEETING THAT CHANGES THE RATE.
+#    Source: https://www.boj.or.jp/en/mopo/mpmdeci/index.htm
+BOJ_POLICY_RATE = 1.00          # %
+BOJ_POLICY_RATE_ASOF = "2026-06-16"
+BOJ_POLICY_RATE_SRC = "BOJ Monetary Policy Meeting decision, 16 Jun 2026"
+# Drift check, deliberately ASYMMETRIC. The monthly average LAGS the policy rate:
+# in the month of a hike it sits BELOW it (June 2026: avg 0.84 vs policy 1.00), so a
+# modest negative gap is normal and must not cry wolf. But the average sitting ABOVE
+# the recorded policy rate means the market is paying more than we think the policy
+# is — i.e. a hike we failed to record. That is the case worth shouting about.
+BOJ_DRIFT_WARN_UP_PP = 0.10     # avg above policy  -> probable missed HIKE
+BOJ_DRIFT_WARN_DOWN_PP = 0.40   # avg far below     -> probable missed CUT / stale constant
+
+
 # ---------------------------------------------------------------- FRED
 FRED_SERIES = {
-    "usdjpy":     ("DEXJPUS",  "USD/JPY spot"),
-    "ust10":      ("DGS10",    "US 10y Treasury CMT, %"),
-    "ust2":       ("DGS2",     "US 2y Treasury CMT, %"),
-    "ust30":      ("DGS30",    "US 30y Treasury CMT, %"),
-    "fedfunds":   ("DFF",      "Fed funds effective, %"),
-    "reer":       ("RBJPBIS",  "Japan BIS real broad EER, 2020=100"),
-    "boj_rate":   ("IRSTCI01JPM156N", "Japan immediate rate / call rate, %"),
-    "jp_cpi_yoy": ("JPNCPIALLMINMEI", "Japan CPI index (all items)"),
+    "usdjpy":   ("DEXJPUS", "USD/JPY spot"),
+    "ust10":    ("DGS10",   "US 10y Treasury CMT, %"),
+    "ust2":     ("DGS2",    "US 2y Treasury CMT, %"),
+    "ust30":    ("DGS30",   "US 30y Treasury CMT, %"),
+    "fedfunds": ("DFF",     "Fed funds effective, %"),
+    "reer":     ("RBJPBIS", "Japan BIS real broad EER, 2020=100"),
+}
+# Fetched but NOT used as the policy rate — cross-check only.
+FRED_CROSSCHECK = {
+    "jp_call_rate_monthly_avg": ("IRSTCI01JPM156N",
+                                 "Japan call money, OECD MONTHLY AVERAGE (not the policy rate)"),
+}
+# Index level -> we derive year-on-year ourselves.
+FRED_YOY = {
+    "jp_cpi_yoy": ("JPNCPIALLMINMEI", "Japan CPI all items, y/y % derived from index"),
+    "us_cpi_yoy": ("CPIAUCSL", "US CPI all items SA, y/y % derived from index"),
 }
 
 
-def fetch_fred(series_id: str):
-    """Return (value, date) of the last non-missing observation."""
+def fetch_fred_series(series_id: str):
+    """Return [(date_str, float), ...] of all non-missing observations."""
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-    txt = get(url)
-    rows = list(csv.reader(io.StringIO(txt)))
+    rows = list(csv.reader(io.StringIO(get(url))))
     if len(rows) < 2:
         raise ValueError("empty FRED csv")
-    last = None
+    out = []
     for r in rows[1:]:
         if len(r) < 2:
             continue
@@ -66,12 +95,46 @@ def fetch_fred(series_id: str):
         if v in (".", "", "NA"):
             continue
         try:
-            last = (float(v), d)
+            out.append((d, float(v)))
         except ValueError:
             continue
-    if last is None:
+    if not out:
         raise ValueError("no valid FRED observations")
-    return last
+    return out
+
+
+def fetch_fred(series_id: str):
+    """Last observation as (value, date)."""
+    obs = fetch_fred_series(series_id)
+    d, v = obs[-1]
+    return v, d
+
+
+def fetch_fred_yoy(series_id: str):
+    """Year-on-year % change of an index series, as (pct, date).
+
+    Monthly series: compare against the observation 12 prints back, but only
+    after confirming the dates really are ~12 months apart, so a gap in the
+    series cannot silently produce a nonsense growth rate.
+    """
+    obs = fetch_fred_series(series_id)
+    if len(obs) < 13:
+        raise ValueError("series too short for y/y")
+    d_now, v_now = obs[-1]
+    d_prev, v_prev = obs[-13]
+    try:
+        y1, m1 = int(d_now[:4]), int(d_now[5:7])
+        y0, m0 = int(d_prev[:4]), int(d_prev[5:7])
+        months = (y1 - y0) * 12 + (m1 - m0)
+        if months != 12:
+            raise ValueError(f"observations are {months} months apart, not 12 ({d_prev} -> {d_now})")
+    except (ValueError, IndexError) as e:
+        if "months apart" in str(e):
+            raise
+        raise ValueError(f"unparseable dates {d_prev!r} {d_now!r}")
+    if v_prev == 0:
+        raise ValueError("zero base")
+    return round((v_now / v_prev - 1) * 100, 2), d_now
 
 
 # ---------------------------------------------------------------- MOF JGB
@@ -227,7 +290,11 @@ def main():
             fields[key] = old
         errors.append(f"{key}: {why}")
 
-    # --- FRED ---
+    # --- BOJ policy rate: administered, not scraped ---
+    record("boj_rate", BOJ_POLICY_RATE, BOJ_POLICY_RATE_ASOF, BOJ_POLICY_RATE_SRC,
+           "手动维护：政策利率是央行决议的离散值，不是可抓取序列。每次议息后需更新脚本常量。")
+
+    # --- FRED market series ---
     for key, (sid, desc) in FRED_SERIES.items():
         try:
             v, d = fetch_fred(sid)
@@ -235,24 +302,41 @@ def main():
         except Exception as e:                                   # noqa: BLE001
             keep_stale(key, f"FRED {sid} failed: {e}")
 
-    # --- MOF JGB (authoritative; overrides nothing but adds tenors) ---
-    try:
-        vals, d = fetch_jgb()
-        for k, v in vals.items():
-            if v is not None:
-                record(k, v, d, "MOF 国債金利情報 jgbcm.csv", "財務省日次公表")
-    except Exception as e:                                       # noqa: BLE001
-        for k in ("jgb2", "jgb10", "jgb30", "jgb40"):
-            keep_stale(k, f"MOF JGB failed: {e}")
-
-    # --- MOF BOP (informational; period label + current account) ---
-    for key, url in (("bop_cy", MOF_BOP_CY), ("bop_fy", MOF_BOP_FY)):
+    # --- FRED cross-check series (never used in derivations) ---
+    for key, (sid, desc) in FRED_CROSSCHECK.items():
         try:
-            r = fetch_bop(url)
-            record(key, r["current_account_oku_yen"], r["period"],
-                   "MOF 国際収支状況", "単位:億円。列順序は目視確認済だが表頭が環境依存で化けるため参考値")
+            v, d = fetch_fred(sid)
+            record(key, v, d, f"FRED:{sid}", desc)
         except Exception as e:                                   # noqa: BLE001
-            keep_stale(key, f"MOF BOP failed: {e}")
+            keep_stale(key, f"FRED {sid} failed: {e}")
+
+    # --- year-on-year rates derived from index levels ---
+    for key, (sid, desc) in FRED_YOY.items():
+        try:
+            v, d = fetch_fred_yoy(sid)
+            record(key, v, d, f"FRED:{sid} (y/y derived)", desc)
+        except Exception as e:                                   # noqa: BLE001
+            keep_stale(key, f"FRED {sid} y/y failed: {e}")
+
+    # --- drift check: has the BOJ moved without the constant being updated? ---
+    cc = fields.get("jp_call_rate_monthly_avg")
+    if cc and isinstance(cc.get("value"), (int, float)):
+        drift = cc["value"] - BOJ_POLICY_RATE
+        why = None
+        if drift > BOJ_DRIFT_WARN_UP_PP:
+            why = "call rate is ABOVE the recorded policy rate — a HIKE was probably missed"
+        elif drift < -BOJ_DRIFT_WARN_DOWN_PP:
+            why = "call rate is far BELOW the recorded policy rate — a CUT was probably missed, or the constant is stale"
+        if why:
+            errors.append(
+                f"BOJ_POLICY_RATE={BOJ_POLICY_RATE}% (as of {BOJ_POLICY_RATE_ASOF}) vs call-rate "
+                f"monthly average {cc['value']}% ({cc['as_of']}), drift {drift:+.2f}pp: {why}. "
+                f"UPDATE BOJ_POLICY_RATE in scripts/refresh.py.")
+            fields["boj_rate"]["note"] += f"  ⚠️ 与月均值偏离 {drift:+.2f}pp，请核对政策利率。"
+        else:
+            fields["boj_rate"]["note"] += (
+                f"  交叉检查：月均值 {cc['value']}%（{cc['as_of']}），偏离 {drift:+.2f}pp，"
+                "在加息当月的正常混合范围内。")
 
     # --- derived ---
     def val(k):

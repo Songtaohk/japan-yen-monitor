@@ -1955,7 +1955,9 @@ document.addEventListener('mousemove',function(e){if(TIP.style.opacity==1)moveTi
     {id:'realrate', label:'第八章条件②：日本实际政策利率转正',
      test:function(d){var r=num(d.real_jp); if(r==null)return null;
        return {state: r>=0?'good':(r>-1?'warn':'bad'),
-               text: '约 '+r.toFixed(2)+'%。'+(r>=0?'<b>已转正 —— 趋势转向的第二个条件达成</b>':'仍为负，货币政策在实际意义上未构成紧缩')};}},
+               text: '约 '+r.toFixed(2)+'% ＝ 政策利率 '+(d.boj_rate!=null?d.boj_rate.toFixed(2):'—')+
+                     '% − CPI '+(d._cpi!=null?d._cpi.toFixed(2):'—')+'%（'+(d._cpi_src||'')+'）。'+
+                     (r>=0?'<b>已转正 —— 趋势转向的第二个条件达成</b>':'仍为负，货币政策在实际意义上未构成紧缩')};}},
     {id:'reer', label:'REER 是否脱离历史低位',
      test:function(d){var v=num(d.reer); if(v==null)return null;
        var chg=(v/BASE.reer-1)*100;
@@ -1971,9 +1973,14 @@ document.addEventListener('mousemove',function(e){if(TIP.style.opacity==1)moveTi
     Object.keys(der).forEach(function(k){ if(typeof der[k]==='number') live[k]=der[k]; });
     if(live.spread10_pp!=null) live.spread10_bp=live.spread10_pp*100;
 
-    // Japan real policy rate: BOJ rate minus latest core CPI y/y if available,
-    // else fall back to the published 1.63% (2026 H1 average). Flagged in text.
-    var cpi = (d.jp_core_cpi_yoy!=null)?d.jp_core_cpi_yoy:1.63;
+    // Japan real policy rate = policy rate - CPI y/y.
+    // Prefer the y/y derived by the fetcher from the FRED index; fall back to the
+    // report's own 2026 H1 core average (1.63%) and say so in the tooltip.
+    var cpi, cpiSrc;
+    if(typeof live.jp_cpi_yoy==='number'){ cpi=live.jp_cpi_yoy; cpiSrc='FRED 指数推导的总合CPI y/y'; }
+    else if(d.jp_core_cpi_yoy!=null){ cpi=d.jp_core_cpi_yoy; cpiSrc='data 文件内的核心CPI'; }
+    else { cpi=1.63; cpiSrc='报告发布值（2026上半年核心CPI均值，非实时）'; }
+    live._cpi_src=cpiSrc; live._cpi=cpi;
     if(live.boj_rate!=null) live.real_jp = live.boj_rate - cpi;
 
     // patch tagged values
@@ -1996,7 +2003,7 @@ document.addEventListener('mousemove',function(e){if(TIP.style.opacity==1)moveTi
     // delta table
     var rows=[['USD/JPY','usdjpy',2],['JGB 10y','jgb10',3],['UST 10y','ust10',2],
               ['美日10y利差(bp)','spread10_bp',0],['联邦基金','fedfunds',2],
-              ['BOJ 政策利率','boj_rate',2],['REER','reer',2],
+              ['BOJ 政策利率 *','boj_rate',2],['REER','reer',2],
               ['对冲后JGB优势(bp)','jgb_advantage_bp',0]];
     var html='<div class="tblwrap" style="margin:0"><table><thead><tr><th>指标</th><th class="n">发布时<br>2026-08-12</th><th class="n">最新</th><th class="n">变化</th><th>数据时点</th></tr></thead><tbody>';
     rows.forEach(function(r){
@@ -2008,6 +2015,9 @@ document.addEventListener('mousemove',function(e){if(TIP.style.opacity==1)moveTi
             '<td class="n '+cls+'">'+(ch!=null?sgn(ch,r[2]):'—')+'</td><td class="src">'+((f[k]&&f[k].as_of)||(k.indexOf('spread')>=0||k.indexOf('advantage')>=0?'派生':'—'))+'</td></tr>';
     });
     html+='</tbody></table></div>';
+    html+='<p class="src" style="margin:6px 0 0">* BOJ 政策利率是<strong>手动维护的常量</strong>'+
+          '（央行决议的离散值），不是抓取的月均序列——月均值在加息当月会混合新旧两个水平，'+
+          '用它会污染所有利差派生值。脚本另抓月均值做交叉检查，偏离异常时会在 Action 日志中告警。</p>';
     deltaEl.innerHTML=html;
 
     // rule verdicts
