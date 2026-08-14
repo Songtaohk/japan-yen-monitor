@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-08-14T02:11:42+00:00",
-  "generated_at_jst": "2026-08-14T11:11:42+09:00",
+  "generated_at_utc": "2026-08-14T02:20:29+00:00",
+  "generated_at_jst": "2026-08-14T11:20:29+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -78,14 +78,69 @@
       "source": "FRED:JPNCPIALLMINMEI (y/y derived)",
       "status": "ok",
       "note": "Japan CPI all items, y/y % derived from index"
+    },
+    "us_cpi_yoy": {
+      "value": 3.3,
+      "as_of": "2026-07-01",
+      "source": "FRED:CPIAUCSL (y/y derived)",
+      "status": "ok",
+      "note": "US CPI all items SA, y/y % derived from index"
+    },
+    "jgb2": {
+      "value": 1.651,
+      "as_of": "R8.8.13",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb10": {
+      "value": 2.873,
+      "as_of": "R8.8.13",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb30": {
+      "value": 4.002,
+      "as_of": "R8.8.13",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "jgb40": {
+      "value": 4.006,
+      "as_of": "R8.8.13",
+      "source": "MOF 国債金利情報 jgbcm.csv",
+      "status": "ok",
+      "note": "財務省日次公表"
+    },
+    "bop_cy": {
+      "value": 174292.0,
+      "as_of": "令和8年",
+      "source": "MOF 国際収支状況",
+      "status": "ok",
+      "note": "単位:億円。列位置解析のため参考値 / column-position parse, treat as indicative"
+    },
+    "bop_fy": {
+      "value": 169907.0,
+      "as_of": "下期",
+      "source": "MOF 国際収支状況",
+      "status": "ok",
+      "note": "単位:億円。列位置解析のため参考値 / column-position parse, treat as indicative"
     }
   },
   "derived": {
-    "spread_policy_pp": 2.63
+    "spread10_pp": 1.807,
+    "spread_policy_pp": 2.63,
+    "spread2_pp": 2.549,
+    "hedge_cost_pp": 2.83,
+    "hedged_ust10_pct": 1.85,
+    "jgb_advantage_bp": 102.3,
+    "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
-  "errors": [
-    "us_cpi_yoy: FRED CPIAUCSL y/y failed: observations are 13 months apart, not 12 (2025-06-01 -> 2026-07-01)"
-  ],
-  "ok_count": 9,
-  "stale_count": 0
+  "errors": [],
+  "ok_count": 16,
+  "stale_count": 0,
+  "expected_count": 16,
+  "never_attempted": []
 }
