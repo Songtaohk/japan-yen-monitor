@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-08-14T01:50:19+00:00",
-  "generated_at_jst": "2026-08-14T10:50:19+09:00",
+  "generated_at_utc": "2026-08-14T02:09:09+00:00",
+  "generated_at_jst": "2026-08-14T11:09:09+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -16,6 +16,13 @@
     "jgb_advantage_bp": 100.0
   },
   "fields": {
+    "boj_rate": {
+      "value": 1.0,
+      "as_of": "2026-06-16",
+      "source": "BOJ Monetary Policy Meeting decision, 16 Jun 2026",
+      "status": "ok",
+      "note": "手动维护：政策利率是央行决议的离散值，不是可抓取序列。每次议息后需更新脚本常量。  交叉检查：月均值 0.841%（2026-06-01），偏离 -0.16pp，在加息当月的正常混合范围内。"
+    },
     "usdjpy": {
       "value": 157.54,
       "as_of": "2026-08-07",
@@ -58,73 +65,27 @@
       "status": "ok",
       "note": "Japan BIS real broad EER, 2020=100"
     },
-    "boj_rate": {
+    "jp_call_rate_monthly_avg": {
       "value": 0.841,
       "as_of": "2026-06-01",
       "source": "FRED:IRSTCI01JPM156N",
       "status": "ok",
-      "note": "Japan immediate rate / call rate, %"
+      "note": "Japan call money, OECD MONTHLY AVERAGE (not the policy rate)"
     },
     "jp_cpi_yoy": {
-      "value": 101.298,
+      "value": -0.4,
       "as_of": "2021-06-01",
-      "source": "FRED:JPNCPIALLMINMEI",
+      "source": "FRED:JPNCPIALLMINMEI (y/y derived)",
       "status": "ok",
-      "note": "Japan CPI index (all items)"
-    },
-    "jgb2": {
-      "value": 1.651,
-      "as_of": "R8.8.13",
-      "source": "MOF 国債金利情報 jgbcm.csv",
-      "status": "ok",
-      "note": "財務省日次公表"
-    },
-    "jgb10": {
-      "value": 2.873,
-      "as_of": "R8.8.13",
-      "source": "MOF 国債金利情報 jgbcm.csv",
-      "status": "ok",
-      "note": "財務省日次公表"
-    },
-    "jgb30": {
-      "value": 4.002,
-      "as_of": "R8.8.13",
-      "source": "MOF 国債金利情報 jgbcm.csv",
-      "status": "ok",
-      "note": "財務省日次公表"
-    },
-    "jgb40": {
-      "value": 4.006,
-      "as_of": "R8.8.13",
-      "source": "MOF 国債金利情報 jgbcm.csv",
-      "status": "ok",
-      "note": "財務省日次公表"
-    },
-    "bop_cy": {
-      "value": 174292.0,
-      "as_of": "令和8年",
-      "source": "MOF 国際収支状況",
-      "status": "ok",
-      "note": "単位:億円。列順序は目視確認済だが表頭が環境依存で化けるため参考値"
-    },
-    "bop_fy": {
-      "value": 169907.0,
-      "as_of": "下期",
-      "source": "MOF 国際収支状況",
-      "status": "ok",
-      "note": "単位:億円。列順序は目視確認済だが表頭が環境依存で化けるため参考値"
+      "note": "Japan CPI all items, y/y % derived from index"
     }
   },
   "derived": {
-    "spread10_pp": 1.807,
-    "spread_policy_pp": 2.789,
-    "spread2_pp": 2.549,
-    "hedge_cost_pp": 2.989,
-    "hedged_ust10_pct": 1.691,
-    "jgb_advantage_bp": 118.2,
-    "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
+    "spread_policy_pp": 2.63
   },
-  "errors": [],
-  "ok_count": 14,
+  "errors": [
+    "us_cpi_yoy: FRED CPIAUCSL y/y failed: observations are 13 months apart, not 12 (2025-06-01 -> 2026-07-01)"
+  ],
+  "ok_count": 9,
   "stale_count": 0
 }
