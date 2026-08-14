@@ -133,24 +133,71 @@ MOF_BOP_FY = ("https://www.mof.go.jp/policy/international_policy/reference/"
               "balance_of_payments/bp_trend/bpnet/sbp/s-1/6s-1-2.csv")
 
 
+def _clean_num(c: str):
+    """Parse a Japanese-statistics numeric cell. Returns float or None."""
+    if c is None:
+        return None
+    c = c.strip().strip('"').strip("'")
+    # full-width space, thousands separators, and every minus-sign variant used by MOF
+    for a, b in (("\u3000", ""), (",", ""), ("\uFF0C", ""),
+                 ("\u25B2", "-"), ("\u25B3", "-"),   # ▲ △
+                 ("\u2212", "-"), ("\u2013", "-"), ("\u2014", "-"),  # − – —
+                 ("\uFF0D", "-"), ("\uFF0B", "+"),  # full-width -, +
+                 (" ", "")):
+        c = c.replace(a, b)
+    if c in ("", "-", "*", "...", "\u2026", "n.a.", "NA", "--"):
+        return None
+    try:
+        return float(c)
+    except ValueError:
+        return None
+
+
 def fetch_bop(url):
+    """Scan a MOF BOP CSV and return the last row that looks like data.
+
+    The header row is unreliable (encoding varies by environment), so instead of
+    trusting column names we look for the last row containing at least MIN_NUM
+    parseable numbers and take its first numeric cell as the current account.
+    That column position is verified against MOF's published table layout.
+    Raises with a diagnostic excerpt when nothing matches, so a future failure
+    shows what the endpoint actually returned instead of just "no rows".
+    """
+    MIN_NUM = 3
     txt = get(url, encoding="cp932")
-    rows = [r for r in csv.reader(io.StringIO(txt)) if r and any(c.strip() for c in r)]
-    numeric = []
+
+    head = txt[:300].lstrip().lower()
+    if head.startswith("<!doctype") or head.startswith("<html"):
+        raise ValueError(f"endpoint returned HTML, not CSV: {txt[:120]!r}")
+
+    # skipinitialspace: MOF sometimes emits `, "174,292"` — without this the
+    # quote is not honoured and the thousands separator becomes a delimiter.
+    rows = list(csv.reader(io.StringIO(txt), skipinitialspace=True))
+    best = None
     for r in rows:
-        nums = []
-        for c in r[1:]:
-            c = c.strip().replace(",", "").replace("▲", "-").replace("△", "-")
-            try:
-                nums.append(float(c))
-            except ValueError:
-                nums.append(None)
-        if nums and nums[0] is not None:
-            numeric.append((r[0].strip(), nums))
-    if not numeric:
-        raise ValueError("no numeric BOP rows")
-    label, nums = numeric[-1]
-    return {"period": label, "current_account_oku_yen": nums[0]}
+        if not r:
+            continue
+        nums = [(i, _clean_num(c)) for i, c in enumerate(r)]
+        nums = [(i, v) for i, v in nums if v is not None]
+        if len(nums) >= MIN_NUM:
+            # Drop a leading bare year cell (e.g. "2025") so the first numeric
+            # is the current account, not the period.
+            if len(nums) > MIN_NUM and 1900 <= nums[0][1] <= 2100 and nums[0][1].is_integer():
+                nums = nums[1:]
+            label = ""
+            for c in r:
+                c = c.strip()
+                if c and _clean_num(c) is None:
+                    label = c
+                    break
+            best = {"period": label or "(unlabelled)",
+                    "current_account_oku_yen": nums[0][1],
+                    "n_numeric": len(nums)}
+    if best is None:
+        sample = " | ".join(",".join(r)[:80] for r in rows[:6]) or "(empty response)"
+        raise ValueError(
+            f"no data row with >= {MIN_NUM} numbers; {len(rows)} rows seen; first rows: {sample}")
+    return best
 
 
 # ---------------------------------------------------------------- driver
