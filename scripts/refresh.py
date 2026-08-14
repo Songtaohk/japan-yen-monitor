@@ -120,18 +120,27 @@ def fetch_fred_yoy(series_id: str):
     obs = fetch_fred_series(series_id)
     if len(obs) < 13:
         raise ValueError("series too short for y/y")
+
+    def ym(ds):
+        return int(ds[:4]) * 12 + int(ds[5:7])
+
     d_now, v_now = obs[-1]
-    d_prev, v_prev = obs[-13]
-    try:
-        y1, m1 = int(d_now[:4]), int(d_now[5:7])
-        y0, m0 = int(d_prev[:4]), int(d_prev[5:7])
-        months = (y1 - y0) * 12 + (m1 - m0)
-        if months != 12:
-            raise ValueError(f"observations are {months} months apart, not 12 ({d_prev} -> {d_now})")
-    except (ValueError, IndexError) as e:
-        if "months apart" in str(e):
-            raise
-        raise ValueError(f"unparseable dates {d_prev!r} {d_now!r}")
+    target = ym(d_now) - 12
+    # Scan backwards for the observation whose month is exactly 12 before the
+    # latest. Position -13 is wrong whenever the series has a missing month —
+    # which is how the first US CPI attempt produced a 13-month comparison.
+    cand = None
+    for ds, v in reversed(obs[:-1]):
+        m = ym(ds)
+        if m == target:
+            cand = (ds, v)
+            break
+        if m < target:
+            break
+    if cand is None:
+        raise ValueError(
+            f"no observation exactly 12 months before {d_now}; series has a gap there")
+    d_prev, v_prev = cand
     if v_prev == 0:
         raise ValueError("zero base")
     return round((v_now / v_prev - 1) * 100, 2), d_now
@@ -264,6 +273,16 @@ def fetch_bop(url):
 
 
 # ---------------------------------------------------------------- driver
+# Every field this script is supposed to produce. Checked at the end of main():
+# if a whole source silently stops being called (e.g. an editing accident removes
+# its driver block), the run reports it loudly instead of just returning a smaller
+# ok_count that nobody notices. This exact regression happened once — the MOF JGB
+# and BOP blocks were deleted by a bad patch and the run still exited 0.
+EXPECTED_FIELDS = {
+    "usdjpy", "ust10", "ust2", "ust30", "fedfunds", "reer",
+    "boj_rate", "jp_call_rate_monthly_avg", "jp_cpi_yoy", "us_cpi_yoy",
+    "jgb2", "jgb10", "jgb30", "jgb40", "bop_cy", "bop_fy",
+}
 def load_previous():
     try:
         with open(OUT, encoding="utf-8") as f:
@@ -338,6 +357,25 @@ def main():
                 f"  交叉检查：月均值 {cc['value']}%（{cc['as_of']}），偏离 {drift:+.2f}pp，"
                 "在加息当月的正常混合范围内。")
 
+    # --- MOF JGB (authoritative daily source for Japanese government bond yields) ---
+    try:
+        vals, d = fetch_jgb()
+        for k, v in vals.items():
+            if v is not None:
+                record(k, v, d, "MOF 国債金利情報 jgbcm.csv", "財務省日次公表")
+    except Exception as e:                                       # noqa: BLE001
+        for k in ("jgb2", "jgb10", "jgb30", "jgb40"):
+            keep_stale(k, f"MOF JGB failed: {e}")
+
+    # --- MOF BOP (informational: period label + current account) ---
+    for key, url in (("bop_cy", MOF_BOP_CY), ("bop_fy", MOF_BOP_FY)):
+        try:
+            r = fetch_bop(url)
+            record(key, r["current_account_oku_yen"], r["period"], "MOF 国際収支状況",
+                   "単位:億円。列位置解析のため参考値 / column-position parse, treat as indicative")
+        except Exception as e:                                   # noqa: BLE001
+            keep_stale(key, f"MOF BOP failed: {e}")
+
     # --- derived ---
     def val(k):
         f = fields.get(k)
@@ -366,6 +404,12 @@ def main():
             f"対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 {BASIS_ASSUMPTION_PP}pp。"
             "基差为假设值，非抓取值 / basis is an assumption, not fetched.")
 
+    never_attempted = EXPECTED_FIELDS - set(fields)
+    if never_attempted:
+        errors.append(
+            "FIELDS NEVER ATTEMPTED (a source's driver block may have been removed): "
+            + ", ".join(sorted(never_attempted)))
+
     out = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "generated_at_jst": datetime.now(JST).isoformat(timespec="seconds"),
@@ -381,6 +425,8 @@ def main():
         "errors": errors,
         "ok_count": sum(1 for f in fields.values() if f.get("status") == "ok"),
         "stale_count": sum(1 for f in fields.values() if f.get("status") == "stale"),
+        "expected_count": len(EXPECTED_FIELDS),
+        "never_attempted": sorted(never_attempted),
     }
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -388,7 +434,10 @@ def main():
         json.dump(out, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
-    print(f"wrote {OUT}: ok={out['ok_count']} stale={out['stale_count']}")
+    print(f"wrote {OUT}: ok={out['ok_count']} stale={out['stale_count']} "
+          f"expected={out['expected_count']}")
+    if never_attempted:
+        print("  !! NEVER ATTEMPTED:", ", ".join(sorted(never_attempted)), file=sys.stderr)
     for e in errors:
         print("  WARN", e, file=sys.stderr)
     # Never fail the workflow on a single source outage — but do fail if
