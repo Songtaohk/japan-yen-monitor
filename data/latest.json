@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-08-20T08:04:17+00:00",
-  "generated_at_jst": "2026-08-20T17:04:17+09:00",
+  "generated_at_utc": "2026-08-20T21:55:18+00:00",
+  "generated_at_jst": "2026-08-21T06:55:18+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -31,36 +31,36 @@
       "note": "USD/JPY spot"
     },
     "ust10": {
-      "value": 4.71,
-      "as_of": "2026-08-18",
+      "value": 4.65,
+      "as_of": "2026-08-19",
       "source": "FRED:DGS10",
       "status": "ok",
       "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
       "value": 4.19,
-      "as_of": "2026-08-18",
+      "as_of": "2026-08-19",
       "source": "FRED:DGS2",
       "status": "ok",
       "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
-      "value": 5.28,
-      "as_of": "2026-08-18",
+      "value": 5.19,
+      "as_of": "2026-08-19",
       "source": "FRED:DGS30",
       "status": "ok",
       "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
       "value": 3.63,
-      "as_of": "2026-08-18",
+      "as_of": "2026-08-19",
       "source": "FRED:DFF",
       "status": "ok",
       "note": "Fed funds effective, %"
     },
     "reer": {
-      "value": 65.3,
-      "as_of": "2026-06-01",
+      "value": 65.04,
+      "as_of": "2026-07-01",
       "source": "FRED:RBJPBIS",
       "status": "ok",
       "note": "Japan BIS real broad EER, 2020=100"
@@ -130,12 +130,12 @@
     }
   },
   "derived": {
-    "spread10_pp": 1.816,
+    "spread10_pp": 1.756,
     "spread_policy_pp": 2.63,
     "spread2_pp": 2.509,
     "hedge_cost_pp": 2.83,
-    "hedged_ust10_pct": 1.88,
-    "jgb_advantage_bp": 101.4,
+    "hedged_ust10_pct": 1.82,
+    "jgb_advantage_bp": 107.4,
     "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
   "errors": [],
