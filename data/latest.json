@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-09-03T12:11:24+00:00",
-  "generated_at_jst": "2026-09-03T21:11:24+09:00",
+  "generated_at_utc": "2026-09-03T23:29:12+00:00",
+  "generated_at_jst": "2026-09-04T08:29:12+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -32,28 +32,28 @@
     },
     "ust10": {
       "value": 4.79,
-      "as_of": "2026-09-01",
+      "as_of": "2026-09-02",
       "source": "FRED:DGS10",
       "status": "ok",
       "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
       "value": 4.39,
-      "as_of": "2026-09-01",
+      "as_of": "2026-09-02",
       "source": "FRED:DGS2",
       "status": "ok",
       "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
       "value": 5.27,
-      "as_of": "2026-09-01",
+      "as_of": "2026-09-02",
       "source": "FRED:DGS30",
       "status": "ok",
       "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
       "value": 3.63,
-      "as_of": "2026-09-01",
+      "as_of": "2026-09-02",
       "source": "FRED:DFF",
       "status": "ok",
       "note": "Fed funds effective, %"
