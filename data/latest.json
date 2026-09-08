@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-09-08T12:13:33+00:00",
-  "generated_at_jst": "2026-09-08T21:13:33+09:00",
+  "generated_at_utc": "2026-09-08T23:35:38+00:00",
+  "generated_at_jst": "2026-09-09T08:35:38+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -24,36 +24,36 @@
       "note": "手动维护：政策利率是央行决议的离散值，不是可抓取序列。每次议息后需更新脚本常量。  交叉检查：月均值 0.841%（2026-06-01），偏离 -0.16pp，在加息当月的正常混合范围内。"
     },
     "usdjpy": {
-      "value": 159.97,
-      "as_of": "2026-08-28",
+      "value": 156.11,
+      "as_of": "2026-09-04",
       "source": "FRED:DEXJPUS",
       "status": "ok",
       "note": "USD/JPY spot"
     },
     "ust10": {
-      "value": 4.77,
-      "as_of": "2026-09-03",
+      "value": 4.78,
+      "as_of": "2026-09-04",
       "source": "FRED:DGS10",
       "status": "ok",
       "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
-      "value": 4.34,
-      "as_of": "2026-09-03",
+      "value": 4.37,
+      "as_of": "2026-09-04",
       "source": "FRED:DGS2",
       "status": "ok",
       "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
-      "value": 5.25,
-      "as_of": "2026-09-03",
+      "value": 5.24,
+      "as_of": "2026-09-04",
       "source": "FRED:DGS30",
       "status": "ok",
       "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
       "value": 3.63,
-      "as_of": "2026-09-03",
+      "as_of": "2026-09-07",
       "source": "FRED:DFF",
       "status": "ok",
       "note": "Fed funds effective, %"
@@ -130,12 +130,12 @@
     }
   },
   "derived": {
-    "spread10_pp": 1.835,
+    "spread10_pp": 1.845,
     "spread_policy_pp": 2.63,
-    "spread2_pp": 2.488,
+    "spread2_pp": 2.518,
     "hedge_cost_pp": 2.83,
-    "hedged_ust10_pct": 1.94,
-    "jgb_advantage_bp": 99.5,
+    "hedged_ust10_pct": 1.95,
+    "jgb_advantage_bp": 98.5,
     "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
   "errors": [],
