@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-10-21T13:02:47+00:00",
-  "generated_at_jst": "2026-10-21T22:02:47+09:00",
+  "generated_at_utc": "2026-10-22T00:08:47+00:00",
+  "generated_at_jst": "2026-10-22T09:08:47+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -21,53 +21,53 @@
       "as_of": "2026-06-16",
       "source": "BOJ Monetary Policy Meeting decision, 16 Jun 2026",
       "status": "ok",
-      "note": "手动维护：政策利率是央行决议的离散值，不是可抓取序列。每次议息后需更新脚本常量。  交叉检查：月均值 1.043%（2026-09-01），偏离 +0.04pp，在加息当月的正常混合范围内。"
+      "note": "手动维护：政策利率是央行决议的离散值，不是可抓取序列。每次议息后需更新脚本常量。  ⚠️ 与月均值偏离 +399.00pp，请核对政策利率。"
     },
     "usdjpy": {
-      "value": 158.0,
-      "as_of": "2026-10-16",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:DEXJPUS",
       "status": "ok",
       "note": "USD/JPY spot"
     },
     "ust10": {
-      "value": 5.15,
-      "as_of": "2026-10-19",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:DGS10",
       "status": "ok",
       "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
-      "value": 4.77,
-      "as_of": "2026-10-19",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:DGS2",
       "status": "ok",
       "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
-      "value": 5.48,
-      "as_of": "2026-10-19",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:DGS30",
       "status": "ok",
       "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
-      "value": 3.88,
-      "as_of": "2026-10-19",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:DFF",
       "status": "ok",
       "note": "Fed funds effective, %"
     },
     "reer": {
-      "value": 65.04,
-      "as_of": "2026-07-01",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:RBJPBIS",
       "status": "ok",
       "note": "Japan BIS real broad EER, 2020=100"
     },
     "jp_call_rate_monthly_avg": {
-      "value": 1.043,
-      "as_of": "2026-09-01",
+      "value": 400.0,
+      "as_of": "<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300",
       "source": "FRED:IRSTCI01JPM156N",
       "status": "ok",
       "note": "Japan call money, OECD MONTHLY AVERAGE (not the policy rate)"
@@ -76,15 +76,17 @@
       "value": -0.4,
       "as_of": "2021-06-01",
       "source": "FRED:JPNCPIALLMINMEI (y/y derived)",
-      "status": "ok",
-      "note": "Japan CPI all items, y/y % derived from index"
+      "status": "stale",
+      "note": "Japan CPI all items, y/y % derived from index",
+      "error": "FRED JPNCPIALLMINMEI y/y failed: series too short for y/y"
     },
     "us_cpi_yoy": {
       "value": 3.72,
       "as_of": "2026-09-01",
       "source": "FRED:CPIAUCSL (y/y derived)",
-      "status": "ok",
-      "note": "US CPI all items SA, y/y % derived from index"
+      "status": "stale",
+      "note": "US CPI all items SA, y/y % derived from index",
+      "error": "FRED CPIAUCSL y/y failed: series too short for y/y"
     },
     "jgb2": {
       "value": 1.909,
@@ -130,17 +132,21 @@
     }
   },
   "derived": {
-    "spread10_pp": 2.223,
-    "spread_policy_pp": 2.88,
-    "spread2_pp": 2.861,
-    "hedge_cost_pp": 3.08,
-    "hedged_ust10_pct": 2.07,
-    "jgb_advantage_bp": 85.7,
+    "spread10_pp": 397.073,
+    "spread_policy_pp": 399.0,
+    "spread2_pp": 398.091,
+    "hedge_cost_pp": 399.2,
+    "hedged_ust10_pct": 0.8,
+    "jgb_advantage_bp": 212.7,
     "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
-  "errors": [],
-  "ok_count": 16,
-  "stale_count": 0,
+  "errors": [
+    "jp_cpi_yoy: FRED JPNCPIALLMINMEI y/y failed: series too short for y/y",
+    "us_cpi_yoy: FRED CPIAUCSL y/y failed: series too short for y/y",
+    "BOJ_POLICY_RATE=1.0% (as of 2026-06-16) vs call-rate monthly average 400.0% (<link href=\"https://fonts.googleapis.com/css?family=Open+Sans:300), drift +399.00pp: call rate is ABOVE the recorded policy rate — a HIKE was probably missed. UPDATE BOJ_POLICY_RATE in scripts/refresh.py."
+  ],
+  "ok_count": 14,
+  "stale_count": 2,
   "expected_count": 16,
   "never_attempted": []
 }
