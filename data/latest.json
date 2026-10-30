@@ -1,6 +1,6 @@
 {
-  "generated_at_utc": "2026-10-29T14:33:07+00:00",
-  "generated_at_jst": "2026-10-29T23:33:07+09:00",
+  "generated_at_utc": "2026-10-30T01:17:43+00:00",
+  "generated_at_jst": "2026-10-30T10:17:43+09:00",
   "baseline": {
     "note": "报告 v4 撰写时的基准值，用于计算「自发布以来的变化」",
     "as_of": "2026-08-12",
@@ -31,29 +31,29 @@
       "note": "USD/JPY spot"
     },
     "ust10": {
-      "value": 4.99,
-      "as_of": "2026-10-27",
+      "value": 5.05,
+      "as_of": "2026-10-28",
       "source": "FRED:DGS10",
       "status": "ok",
       "note": "US 10y Treasury CMT, %"
     },
     "ust2": {
-      "value": 4.7,
-      "as_of": "2026-10-27",
+      "value": 4.67,
+      "as_of": "2026-10-28",
       "source": "FRED:DGS2",
       "status": "ok",
       "note": "US 2y Treasury CMT, %"
     },
     "ust30": {
-      "value": 5.3,
-      "as_of": "2026-10-27",
+      "value": 5.37,
+      "as_of": "2026-10-28",
       "source": "FRED:DGS30",
       "status": "ok",
       "note": "US 30y Treasury CMT, %"
     },
     "fedfunds": {
       "value": 3.88,
-      "as_of": "2026-10-27",
+      "as_of": "2026-10-28",
       "source": "FRED:DFF",
       "status": "ok",
       "note": "Fed funds effective, %"
@@ -87,29 +87,29 @@
       "note": "US CPI all items SA, y/y % derived from index"
     },
     "jgb2": {
-      "value": 1.915,
-      "as_of": "R8.10.28",
+      "value": 1.901,
+      "as_of": "R8.10.29",
       "source": "MOF 国債金利情報 jgbcm.csv",
       "status": "ok",
       "note": "財務省日次公表"
     },
     "jgb10": {
-      "value": 2.867,
-      "as_of": "R8.10.28",
+      "value": 2.876,
+      "as_of": "R8.10.29",
       "source": "MOF 国債金利情報 jgbcm.csv",
       "status": "ok",
       "note": "財務省日次公表"
     },
     "jgb30": {
-      "value": 3.941,
-      "as_of": "R8.10.28",
+      "value": 3.956,
+      "as_of": "R8.10.29",
       "source": "MOF 国債金利情報 jgbcm.csv",
       "status": "ok",
       "note": "財務省日次公表"
     },
     "jgb40": {
-      "value": 3.974,
-      "as_of": "R8.10.28",
+      "value": 3.984,
+      "as_of": "R8.10.29",
       "source": "MOF 国債金利情報 jgbcm.csv",
       "status": "ok",
       "note": "財務省日次公表"
@@ -130,12 +130,12 @@
     }
   },
   "derived": {
-    "spread10_pp": 2.123,
+    "spread10_pp": 2.174,
     "spread_policy_pp": 2.88,
-    "spread2_pp": 2.785,
+    "spread2_pp": 2.769,
     "hedge_cost_pp": 3.08,
-    "hedged_ust10_pct": 1.91,
-    "jgb_advantage_bp": 95.7,
+    "hedged_ust10_pct": 1.97,
+    "jgb_advantage_bp": 90.6,
     "_hedge_note": "対冲成本 = 联邦基金 − 日本隔夜 + 假设基差 0.2pp。基差为假设值，非抓取值 / basis is an assumption, not fetched."
   },
   "errors": [],
